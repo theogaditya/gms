@@ -1,0 +1,31 @@
+{
+  "name": "gms",
+  "private": true,
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "check-types": "turbo check-types"
+  },
+  "devDependencies": {
+    "prettier": "^3.5.3",
+    "prisma": "^6.8.2",
+    "turbo": "^2.5.3",
+    "typescript": "5.8.2"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "npm@11.3.0",
+  "workspaces": [
+    "apps/api/admin-be",
+    "apps/api/user-be",
+    "apps/web/admin-fe",
+    "apps/web/user-fe",
+    "packages/*"
+  ],
+  "dependencies": {
+    "@prisma/client": "^6.8.2"
+  }
+}
