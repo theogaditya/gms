@@ -2872,9 +2872,9 @@ export namespace Prisma {
     email: string
     name: string
     phoneNumber: string
-    dateOfBirth: Date | null
+    dateOfBirth: Date
     password: string
-    aadhaarId: string | null
+    aadhaarId: string
     preferredLanguage: string
     disability: string | null
     consentDataCollection: boolean
@@ -2993,9 +2993,9 @@ export namespace Prisma {
       email: string
       name: string
       phoneNumber: string
-      dateOfBirth: Date | null
+      dateOfBirth: Date
       password: string
-      aadhaarId: string | null
+      aadhaarId: string
       preferredLanguage: string
       disability: string | null
       consentDataCollection: boolean
@@ -4096,9 +4096,9 @@ export namespace Prisma {
     pin: string
     district: string
     city: string
-    locality: string | null
-    street: string | null
-    municipal: string | null
+    locality: string
+    street: string
+    municipal: string
     _count: UserLocationCountAggregateOutputType | null
     _min: UserLocationMinAggregateOutputType | null
     _max: UserLocationMaxAggregateOutputType | null
@@ -4187,9 +4187,9 @@ export namespace Prisma {
       pin: string
       district: string
       city: string
-      locality: string | null
-      street: string | null
-      municipal: string | null
+      locality: string
+      street: string
+      municipal: string
     }, ExtArgs["result"]["userLocation"]>
     composites: {}
   }
@@ -22851,9 +22851,9 @@ export namespace Prisma {
     email?: StringFilter<"User"> | string
     name?: StringFilter<"User"> | string
     phoneNumber?: StringFilter<"User"> | string
-    dateOfBirth?: DateTimeNullableFilter<"User"> | Date | string | null
+    dateOfBirth?: DateTimeFilter<"User"> | Date | string
     password?: StringFilter<"User"> | string
-    aadhaarId?: StringNullableFilter<"User"> | string | null
+    aadhaarId?: StringFilter<"User"> | string
     preferredLanguage?: StringFilter<"User"> | string
     disability?: StringNullableFilter<"User"> | string | null
     consentDataCollection?: BoolFilter<"User"> | boolean
@@ -22871,9 +22871,9 @@ export namespace Prisma {
     email?: SortOrder
     name?: SortOrder
     phoneNumber?: SortOrder
-    dateOfBirth?: SortOrderInput | SortOrder
+    dateOfBirth?: SortOrder
     password?: SortOrder
-    aadhaarId?: SortOrderInput | SortOrder
+    aadhaarId?: SortOrder
     preferredLanguage?: SortOrder
     disability?: SortOrderInput | SortOrder
     consentDataCollection?: SortOrder
@@ -22894,9 +22894,9 @@ export namespace Prisma {
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
     name?: StringFilter<"User"> | string
-    dateOfBirth?: DateTimeNullableFilter<"User"> | Date | string | null
+    dateOfBirth?: DateTimeFilter<"User"> | Date | string
     password?: StringFilter<"User"> | string
-    aadhaarId?: StringNullableFilter<"User"> | string | null
+    aadhaarId?: StringFilter<"User"> | string
     preferredLanguage?: StringFilter<"User"> | string
     disability?: StringNullableFilter<"User"> | string | null
     consentDataCollection?: BoolFilter<"User"> | boolean
@@ -22914,9 +22914,9 @@ export namespace Prisma {
     email?: SortOrder
     name?: SortOrder
     phoneNumber?: SortOrder
-    dateOfBirth?: SortOrderInput | SortOrder
+    dateOfBirth?: SortOrder
     password?: SortOrder
-    aadhaarId?: SortOrderInput | SortOrder
+    aadhaarId?: SortOrder
     preferredLanguage?: SortOrder
     disability?: SortOrderInput | SortOrder
     consentDataCollection?: SortOrder
@@ -22936,9 +22936,9 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"User"> | string
     name?: StringWithAggregatesFilter<"User"> | string
     phoneNumber?: StringWithAggregatesFilter<"User"> | string
-    dateOfBirth?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    dateOfBirth?: DateTimeWithAggregatesFilter<"User"> | Date | string
     password?: StringWithAggregatesFilter<"User"> | string
-    aadhaarId?: StringNullableWithAggregatesFilter<"User"> | string | null
+    aadhaarId?: StringWithAggregatesFilter<"User"> | string
     preferredLanguage?: StringWithAggregatesFilter<"User"> | string
     disability?: StringNullableWithAggregatesFilter<"User"> | string | null
     consentDataCollection?: BoolWithAggregatesFilter<"User"> | boolean
@@ -22956,9 +22956,9 @@ export namespace Prisma {
     pin?: StringFilter<"UserLocation"> | string
     district?: StringFilter<"UserLocation"> | string
     city?: StringFilter<"UserLocation"> | string
-    locality?: StringNullableFilter<"UserLocation"> | string | null
-    street?: StringNullableFilter<"UserLocation"> | string | null
-    municipal?: StringNullableFilter<"UserLocation"> | string | null
+    locality?: StringFilter<"UserLocation"> | string
+    street?: StringFilter<"UserLocation"> | string
+    municipal?: StringFilter<"UserLocation"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
@@ -22968,9 +22968,9 @@ export namespace Prisma {
     pin?: SortOrder
     district?: SortOrder
     city?: SortOrder
-    locality?: SortOrderInput | SortOrder
-    street?: SortOrderInput | SortOrder
-    municipal?: SortOrderInput | SortOrder
+    locality?: SortOrder
+    street?: SortOrder
+    municipal?: SortOrder
     user?: UserOrderByWithRelationInput
   }
 
@@ -22983,9 +22983,9 @@ export namespace Prisma {
     pin?: StringFilter<"UserLocation"> | string
     district?: StringFilter<"UserLocation"> | string
     city?: StringFilter<"UserLocation"> | string
-    locality?: StringNullableFilter<"UserLocation"> | string | null
-    street?: StringNullableFilter<"UserLocation"> | string | null
-    municipal?: StringNullableFilter<"UserLocation"> | string | null
+    locality?: StringFilter<"UserLocation"> | string
+    street?: StringFilter<"UserLocation"> | string
+    municipal?: StringFilter<"UserLocation"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id" | "userId">
 
@@ -22995,9 +22995,9 @@ export namespace Prisma {
     pin?: SortOrder
     district?: SortOrder
     city?: SortOrder
-    locality?: SortOrderInput | SortOrder
-    street?: SortOrderInput | SortOrder
-    municipal?: SortOrderInput | SortOrder
+    locality?: SortOrder
+    street?: SortOrder
+    municipal?: SortOrder
     _count?: UserLocationCountOrderByAggregateInput
     _max?: UserLocationMaxOrderByAggregateInput
     _min?: UserLocationMinOrderByAggregateInput
@@ -23012,9 +23012,9 @@ export namespace Prisma {
     pin?: StringWithAggregatesFilter<"UserLocation"> | string
     district?: StringWithAggregatesFilter<"UserLocation"> | string
     city?: StringWithAggregatesFilter<"UserLocation"> | string
-    locality?: StringNullableWithAggregatesFilter<"UserLocation"> | string | null
-    street?: StringNullableWithAggregatesFilter<"UserLocation"> | string | null
-    municipal?: StringNullableWithAggregatesFilter<"UserLocation"> | string | null
+    locality?: StringWithAggregatesFilter<"UserLocation"> | string
+    street?: StringWithAggregatesFilter<"UserLocation"> | string
+    municipal?: StringWithAggregatesFilter<"UserLocation"> | string
   }
 
   export type AgentWhereInput = {
@@ -24398,9 +24398,9 @@ export namespace Prisma {
     email: string
     name: string
     phoneNumber: string
-    dateOfBirth?: Date | string | null
+    dateOfBirth: Date | string
     password: string
-    aadhaarId?: string | null
+    aadhaarId: string
     preferredLanguage?: string
     disability?: string | null
     consentDataCollection?: boolean
@@ -24418,9 +24418,9 @@ export namespace Prisma {
     email: string
     name: string
     phoneNumber: string
-    dateOfBirth?: Date | string | null
+    dateOfBirth: Date | string
     password: string
-    aadhaarId?: string | null
+    aadhaarId: string
     preferredLanguage?: string
     disability?: string | null
     consentDataCollection?: boolean
@@ -24438,9 +24438,9 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dateOfBirth?: DateTimeFieldUpdateOperationsInput | Date | string
     password?: StringFieldUpdateOperationsInput | string
-    aadhaarId?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarId?: StringFieldUpdateOperationsInput | string
     preferredLanguage?: StringFieldUpdateOperationsInput | string
     disability?: NullableStringFieldUpdateOperationsInput | string | null
     consentDataCollection?: BoolFieldUpdateOperationsInput | boolean
@@ -24458,9 +24458,9 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dateOfBirth?: DateTimeFieldUpdateOperationsInput | Date | string
     password?: StringFieldUpdateOperationsInput | string
-    aadhaarId?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarId?: StringFieldUpdateOperationsInput | string
     preferredLanguage?: StringFieldUpdateOperationsInput | string
     disability?: NullableStringFieldUpdateOperationsInput | string | null
     consentDataCollection?: BoolFieldUpdateOperationsInput | boolean
@@ -24478,9 +24478,9 @@ export namespace Prisma {
     email: string
     name: string
     phoneNumber: string
-    dateOfBirth?: Date | string | null
+    dateOfBirth: Date | string
     password: string
-    aadhaarId?: string | null
+    aadhaarId: string
     preferredLanguage?: string
     disability?: string | null
     consentDataCollection?: boolean
@@ -24494,9 +24494,9 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dateOfBirth?: DateTimeFieldUpdateOperationsInput | Date | string
     password?: StringFieldUpdateOperationsInput | string
-    aadhaarId?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarId?: StringFieldUpdateOperationsInput | string
     preferredLanguage?: StringFieldUpdateOperationsInput | string
     disability?: NullableStringFieldUpdateOperationsInput | string | null
     consentDataCollection?: BoolFieldUpdateOperationsInput | boolean
@@ -24510,9 +24510,9 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dateOfBirth?: DateTimeFieldUpdateOperationsInput | Date | string
     password?: StringFieldUpdateOperationsInput | string
-    aadhaarId?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarId?: StringFieldUpdateOperationsInput | string
     preferredLanguage?: StringFieldUpdateOperationsInput | string
     disability?: NullableStringFieldUpdateOperationsInput | string | null
     consentDataCollection?: BoolFieldUpdateOperationsInput | boolean
@@ -24526,9 +24526,9 @@ export namespace Prisma {
     pin: string
     district: string
     city: string
-    locality?: string | null
-    street?: string | null
-    municipal?: string | null
+    locality: string
+    street: string
+    municipal: string
     user: UserCreateNestedOneWithoutLocationInput
   }
 
@@ -24538,9 +24538,9 @@ export namespace Prisma {
     pin: string
     district: string
     city: string
-    locality?: string | null
-    street?: string | null
-    municipal?: string | null
+    locality: string
+    street: string
+    municipal: string
   }
 
   export type UserLocationUpdateInput = {
@@ -24548,9 +24548,9 @@ export namespace Prisma {
     pin?: StringFieldUpdateOperationsInput | string
     district?: StringFieldUpdateOperationsInput | string
     city?: StringFieldUpdateOperationsInput | string
-    locality?: NullableStringFieldUpdateOperationsInput | string | null
-    street?: NullableStringFieldUpdateOperationsInput | string | null
-    municipal?: NullableStringFieldUpdateOperationsInput | string | null
+    locality?: StringFieldUpdateOperationsInput | string
+    street?: StringFieldUpdateOperationsInput | string
+    municipal?: StringFieldUpdateOperationsInput | string
     user?: UserUpdateOneRequiredWithoutLocationNestedInput
   }
 
@@ -24560,9 +24560,9 @@ export namespace Prisma {
     pin?: StringFieldUpdateOperationsInput | string
     district?: StringFieldUpdateOperationsInput | string
     city?: StringFieldUpdateOperationsInput | string
-    locality?: NullableStringFieldUpdateOperationsInput | string | null
-    street?: NullableStringFieldUpdateOperationsInput | string | null
-    municipal?: NullableStringFieldUpdateOperationsInput | string | null
+    locality?: StringFieldUpdateOperationsInput | string
+    street?: StringFieldUpdateOperationsInput | string
+    municipal?: StringFieldUpdateOperationsInput | string
   }
 
   export type UserLocationCreateManyInput = {
@@ -24571,9 +24571,9 @@ export namespace Prisma {
     pin: string
     district: string
     city: string
-    locality?: string | null
-    street?: string | null
-    municipal?: string | null
+    locality: string
+    street: string
+    municipal: string
   }
 
   export type UserLocationUpdateManyMutationInput = {
@@ -24581,9 +24581,9 @@ export namespace Prisma {
     pin?: StringFieldUpdateOperationsInput | string
     district?: StringFieldUpdateOperationsInput | string
     city?: StringFieldUpdateOperationsInput | string
-    locality?: NullableStringFieldUpdateOperationsInput | string | null
-    street?: NullableStringFieldUpdateOperationsInput | string | null
-    municipal?: NullableStringFieldUpdateOperationsInput | string | null
+    locality?: StringFieldUpdateOperationsInput | string
+    street?: StringFieldUpdateOperationsInput | string
+    municipal?: StringFieldUpdateOperationsInput | string
   }
 
   export type UserLocationUncheckedUpdateManyInput = {
@@ -24592,9 +24592,9 @@ export namespace Prisma {
     pin?: StringFieldUpdateOperationsInput | string
     district?: StringFieldUpdateOperationsInput | string
     city?: StringFieldUpdateOperationsInput | string
-    locality?: NullableStringFieldUpdateOperationsInput | string | null
-    street?: NullableStringFieldUpdateOperationsInput | string | null
-    municipal?: NullableStringFieldUpdateOperationsInput | string | null
+    locality?: StringFieldUpdateOperationsInput | string
+    street?: StringFieldUpdateOperationsInput | string
+    municipal?: StringFieldUpdateOperationsInput | string
   }
 
   export type AgentCreateInput = {
@@ -26146,15 +26146,15 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+  export type DateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
     lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
   export type StringNullableFilter<$PrismaModel = never> = {
@@ -26175,17 +26175,6 @@ export namespace Prisma {
   export type BoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type DateTimeFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
   export type UserLocationNullableScalarRelationFilter = {
@@ -26294,18 +26283,18 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
     lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
   export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -26332,20 +26321,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
-  }
-
-  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
   export type UserScalarRelationFilter = {
@@ -26395,6 +26370,17 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
   export type FloatFilter<$PrismaModel = never> = {
@@ -26516,6 +26502,20 @@ export namespace Prisma {
     _sum?: NestedIntFilter<$PrismaModel>
     _min?: NestedIntFilter<$PrismaModel>
     _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type FloatWithAggregatesFilter<$PrismaModel = never> = {
@@ -27405,8 +27405,8 @@ export namespace Prisma {
     set?: string
   }
 
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
   }
 
   export type NullableStringFieldUpdateOperationsInput = {
@@ -27415,10 +27415,6 @@ export namespace Prisma {
 
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
-  }
-
-  export type DateTimeFieldUpdateOperationsInput = {
-    set?: Date | string
   }
 
   export type UserLocationUpdateOneWithoutUserNestedInput = {
@@ -27577,6 +27573,10 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
   }
 
   export type FloatFieldUpdateOperationsInput = {
@@ -28980,15 +28980,15 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+  export type NestedDateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
     lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
   export type NestedStringNullableFilter<$PrismaModel = never> = {
@@ -29008,17 +29008,6 @@ export namespace Prisma {
   export type NestedBoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type NestedDateTimeFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
@@ -29049,29 +29038,18 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
-  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
     lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
-  }
-
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -29091,6 +29069,17 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
@@ -29099,18 +29088,15 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
-  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
     lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
   export type NestedFloatFilter<$PrismaModel = never> = {
@@ -29138,6 +29124,20 @@ export namespace Prisma {
     _sum?: NestedIntFilter<$PrismaModel>
     _min?: NestedIntFilter<$PrismaModel>
     _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
@@ -29205,9 +29205,9 @@ export namespace Prisma {
     pin: string
     district: string
     city: string
-    locality?: string | null
-    street?: string | null
-    municipal?: string | null
+    locality: string
+    street: string
+    municipal: string
   }
 
   export type UserLocationUncheckedCreateWithoutUserInput = {
@@ -29215,9 +29215,9 @@ export namespace Prisma {
     pin: string
     district: string
     city: string
-    locality?: string | null
-    street?: string | null
-    municipal?: string | null
+    locality: string
+    street: string
+    municipal: string
   }
 
   export type UserLocationCreateOrConnectWithoutUserInput = {
@@ -29357,9 +29357,9 @@ export namespace Prisma {
     pin?: StringFieldUpdateOperationsInput | string
     district?: StringFieldUpdateOperationsInput | string
     city?: StringFieldUpdateOperationsInput | string
-    locality?: NullableStringFieldUpdateOperationsInput | string | null
-    street?: NullableStringFieldUpdateOperationsInput | string | null
-    municipal?: NullableStringFieldUpdateOperationsInput | string | null
+    locality?: StringFieldUpdateOperationsInput | string
+    street?: StringFieldUpdateOperationsInput | string
+    municipal?: StringFieldUpdateOperationsInput | string
   }
 
   export type UserLocationUncheckedUpdateWithoutUserInput = {
@@ -29367,9 +29367,9 @@ export namespace Prisma {
     pin?: StringFieldUpdateOperationsInput | string
     district?: StringFieldUpdateOperationsInput | string
     city?: StringFieldUpdateOperationsInput | string
-    locality?: NullableStringFieldUpdateOperationsInput | string | null
-    street?: NullableStringFieldUpdateOperationsInput | string | null
-    municipal?: NullableStringFieldUpdateOperationsInput | string | null
+    locality?: StringFieldUpdateOperationsInput | string
+    street?: StringFieldUpdateOperationsInput | string
+    municipal?: StringFieldUpdateOperationsInput | string
   }
 
   export type ComplaintUpsertWithWhereUniqueWithoutComplainantInput = {
@@ -29476,9 +29476,9 @@ export namespace Prisma {
     email: string
     name: string
     phoneNumber: string
-    dateOfBirth?: Date | string | null
+    dateOfBirth: Date | string
     password: string
-    aadhaarId?: string | null
+    aadhaarId: string
     preferredLanguage?: string
     disability?: string | null
     consentDataCollection?: boolean
@@ -29495,9 +29495,9 @@ export namespace Prisma {
     email: string
     name: string
     phoneNumber: string
-    dateOfBirth?: Date | string | null
+    dateOfBirth: Date | string
     password: string
-    aadhaarId?: string | null
+    aadhaarId: string
     preferredLanguage?: string
     disability?: string | null
     consentDataCollection?: boolean
@@ -29530,9 +29530,9 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dateOfBirth?: DateTimeFieldUpdateOperationsInput | Date | string
     password?: StringFieldUpdateOperationsInput | string
-    aadhaarId?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarId?: StringFieldUpdateOperationsInput | string
     preferredLanguage?: StringFieldUpdateOperationsInput | string
     disability?: NullableStringFieldUpdateOperationsInput | string | null
     consentDataCollection?: BoolFieldUpdateOperationsInput | boolean
@@ -29549,9 +29549,9 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dateOfBirth?: DateTimeFieldUpdateOperationsInput | Date | string
     password?: StringFieldUpdateOperationsInput | string
-    aadhaarId?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarId?: StringFieldUpdateOperationsInput | string
     preferredLanguage?: StringFieldUpdateOperationsInput | string
     disability?: NullableStringFieldUpdateOperationsInput | string | null
     consentDataCollection?: BoolFieldUpdateOperationsInput | boolean
@@ -31985,9 +31985,9 @@ export namespace Prisma {
     email: string
     name: string
     phoneNumber: string
-    dateOfBirth?: Date | string | null
+    dateOfBirth: Date | string
     password: string
-    aadhaarId?: string | null
+    aadhaarId: string
     preferredLanguage?: string
     disability?: string | null
     consentDataCollection?: boolean
@@ -32004,9 +32004,9 @@ export namespace Prisma {
     email: string
     name: string
     phoneNumber: string
-    dateOfBirth?: Date | string | null
+    dateOfBirth: Date | string
     password: string
-    aadhaarId?: string | null
+    aadhaarId: string
     preferredLanguage?: string
     disability?: string | null
     consentDataCollection?: boolean
@@ -32541,9 +32541,9 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dateOfBirth?: DateTimeFieldUpdateOperationsInput | Date | string
     password?: StringFieldUpdateOperationsInput | string
-    aadhaarId?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarId?: StringFieldUpdateOperationsInput | string
     preferredLanguage?: StringFieldUpdateOperationsInput | string
     disability?: NullableStringFieldUpdateOperationsInput | string | null
     consentDataCollection?: BoolFieldUpdateOperationsInput | boolean
@@ -32560,9 +32560,9 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dateOfBirth?: DateTimeFieldUpdateOperationsInput | Date | string
     password?: StringFieldUpdateOperationsInput | string
-    aadhaarId?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarId?: StringFieldUpdateOperationsInput | string
     preferredLanguage?: StringFieldUpdateOperationsInput | string
     disability?: NullableStringFieldUpdateOperationsInput | string | null
     consentDataCollection?: BoolFieldUpdateOperationsInput | boolean
@@ -33210,9 +33210,9 @@ export namespace Prisma {
     email: string
     name: string
     phoneNumber: string
-    dateOfBirth?: Date | string | null
+    dateOfBirth: Date | string
     password: string
-    aadhaarId?: string | null
+    aadhaarId: string
     preferredLanguage?: string
     disability?: string | null
     consentDataCollection?: boolean
@@ -33229,9 +33229,9 @@ export namespace Prisma {
     email: string
     name: string
     phoneNumber: string
-    dateOfBirth?: Date | string | null
+    dateOfBirth: Date | string
     password: string
-    aadhaarId?: string | null
+    aadhaarId: string
     preferredLanguage?: string
     disability?: string | null
     consentDataCollection?: boolean
@@ -33327,9 +33327,9 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dateOfBirth?: DateTimeFieldUpdateOperationsInput | Date | string
     password?: StringFieldUpdateOperationsInput | string
-    aadhaarId?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarId?: StringFieldUpdateOperationsInput | string
     preferredLanguage?: StringFieldUpdateOperationsInput | string
     disability?: NullableStringFieldUpdateOperationsInput | string | null
     consentDataCollection?: BoolFieldUpdateOperationsInput | boolean
@@ -33346,9 +33346,9 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dateOfBirth?: DateTimeFieldUpdateOperationsInput | Date | string
     password?: StringFieldUpdateOperationsInput | string
-    aadhaarId?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarId?: StringFieldUpdateOperationsInput | string
     preferredLanguage?: StringFieldUpdateOperationsInput | string
     disability?: NullableStringFieldUpdateOperationsInput | string | null
     consentDataCollection?: BoolFieldUpdateOperationsInput | boolean
@@ -33546,9 +33546,9 @@ export namespace Prisma {
     email: string
     name: string
     phoneNumber: string
-    dateOfBirth?: Date | string | null
+    dateOfBirth: Date | string
     password: string
-    aadhaarId?: string | null
+    aadhaarId: string
     preferredLanguage?: string
     disability?: string | null
     consentDataCollection?: boolean
@@ -33565,9 +33565,9 @@ export namespace Prisma {
     email: string
     name: string
     phoneNumber: string
-    dateOfBirth?: Date | string | null
+    dateOfBirth: Date | string
     password: string
-    aadhaarId?: string | null
+    aadhaarId: string
     preferredLanguage?: string
     disability?: string | null
     consentDataCollection?: boolean
@@ -33663,9 +33663,9 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dateOfBirth?: DateTimeFieldUpdateOperationsInput | Date | string
     password?: StringFieldUpdateOperationsInput | string
-    aadhaarId?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarId?: StringFieldUpdateOperationsInput | string
     preferredLanguage?: StringFieldUpdateOperationsInput | string
     disability?: NullableStringFieldUpdateOperationsInput | string | null
     consentDataCollection?: BoolFieldUpdateOperationsInput | boolean
@@ -33682,9 +33682,9 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dateOfBirth?: DateTimeFieldUpdateOperationsInput | Date | string
     password?: StringFieldUpdateOperationsInput | string
-    aadhaarId?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarId?: StringFieldUpdateOperationsInput | string
     preferredLanguage?: StringFieldUpdateOperationsInput | string
     disability?: NullableStringFieldUpdateOperationsInput | string | null
     consentDataCollection?: BoolFieldUpdateOperationsInput | boolean

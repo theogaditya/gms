@@ -11,19 +11,19 @@ datasource db {
 
 // Citizen model
 model User {
-  id                    String    @id @default(uuid())
-  email                 String    @unique
+  id                    String   @id @default(uuid())
+  email                 String   @unique
   name                  String
-  phoneNumber           String    @unique
-  dateOfBirth           DateTime?
+  phoneNumber           String   @unique
+  dateOfBirth           DateTime
   password              String
-  aadhaarId             String?
-  preferredLanguage     String    @default("English")
-  disability            String?   @default("None")
-  consentDataCollection Boolean   @default(true)
-  dateOfCreation        DateTime  @default(now())
-  lastUpdated           DateTime  @updatedAt
-  status                String    @default("Active")
+  aadhaarId             String
+  preferredLanguage     String   @default("English")
+  disability            String?  @default("None")
+  consentDataCollection Boolean  @default(true)
+  dateOfCreation        DateTime @default(now())
+  lastUpdated           DateTime @updatedAt
+  status                String   @default("Active")
 
   // Relationships
   location         UserLocation?
@@ -34,14 +34,14 @@ model User {
 
 // User Location model
 model UserLocation {
-  id        String  @id @default(uuid())
-  userId    String  @unique
+  id        String @id @default(uuid())
+  userId    String @unique
   pin       String
   district  String
   city      String
-  locality  String?
-  street    String?
-  municipal String?
+  locality  String
+  street    String
+  municipal String
 
   // Relationships
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)

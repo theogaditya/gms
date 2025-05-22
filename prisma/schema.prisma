@@ -15,9 +15,9 @@ model User {
   email                 String    @unique
   name                  String
   phoneNumber           String    @unique
-  dateOfBirth           DateTime?
+  dateOfBirth           DateTime
   password              String
-  aadhaarId             String?
+  aadhaarId             String
   preferredLanguage     String    @default("English")
   disability            String?   @default("None")
   consentDataCollection Boolean   @default(true)
@@ -40,9 +40,9 @@ model UserLocation {
   pin         String
   district    String
   city        String
-  locality    String?
-  street      String?
-  municipal   String?
+  locality    String
+  street      String
+  municipal   String
   
   // Relationships
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
