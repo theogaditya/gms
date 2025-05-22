@@ -1,9 +1,11 @@
-import Image from "next/image";
+import Image from 'next'
 
 export default function Home() {
   return (
-    <div>
-      usre-fe
-    </div>
+    <>
+      <h1>
+        Welcome to user-fe
+      </h1>
+    </>
   );
 }
