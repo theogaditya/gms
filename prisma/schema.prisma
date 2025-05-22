@@ -15,7 +15,8 @@ model User {
   email                 String    @unique
   name                  String
   phoneNumber           String    @unique
-  dateOfBirth           DateTime
+  dateOfBirth           DateTime?
+  password              String
   aadhaarId             String?
   preferredLanguage     String    @default("English")
   disability            String?   @default("None")
