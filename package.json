@@ -15,6 +15,8 @@
     "@types/express": "^5.0.2",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^22.15.21",
+    "@types/react": "^19.1.5",
+    "@types/react-dom": "^19.1.5",
     "prettier": "^3.5.3",
     "prisma": "^6.8.2",
     "ts-node": "^10.9.2",
@@ -39,6 +41,8 @@
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
     "zod": "^3.25.20"
   }
 }

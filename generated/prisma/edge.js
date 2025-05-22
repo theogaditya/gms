@@ -380,7 +380,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "E:\\Projects\\gms\\generated\\prisma",
+      "value": "/home/aditya/batoi/gms/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -389,12 +389,12 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "windows",
+        "value": "debian-openssl-3.0.x",
         "native": true
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "E:\\Projects\\gms\\prisma\\schema.prisma",
+    "sourceFilePath": "/home/aditya/batoi/gms/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -408,6 +408,7 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {

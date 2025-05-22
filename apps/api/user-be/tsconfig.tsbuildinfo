@@ -1,1 +1,1 @@
-{"root":["./src/index.ts","./src/middleware/jwtauth.ts","./src/routes/authroutes.ts","./src/schemas/authschema.ts"],"version":"5.8.3"}
+{"root":["./src/index.ts","./src/middleware/jwtAuth.ts","./src/routes/authRoutes.ts","./src/schemas/authSchema.ts"],"version":"5.8.3"}
