@@ -1,13 +1,10 @@
+// components/Footer7.tsx
+
+"use client";
 import React from "react";
 import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter } from "react-icons/fa";
 
 interface Footer7Props {
-  logo?: {
-    url: string;
-    src: string;
-    alt: string;
-    title: string;
-  };
   sections?: Array<{
     title: string;
     links: Array<{ name: string; href: string }>;
@@ -27,30 +24,30 @@ interface Footer7Props {
 
 const defaultSections = [
   {
-    title: "Product",
+    title: "JanConnect",
     links: [
-      { name: "Overview", href: "#" },
-      { name: "Pricing", href: "#" },
-      { name: "Marketplace", href: "#" },
-      { name: "Features", href: "#" },
+      { name: "Submit Complaint", href: "/submit" },
+      { name: "Track Complaint", href: "/track" },
+      { name: "Community Page", href: "/community" },
+      { name: "Multilingual Support", href: "/language" },
     ],
   },
   {
-    title: "Company",
+    title: "Services",
     links: [
-      { name: "About", href: "#" },
-      { name: "Team", href: "#" },
-      { name: "Blog", href: "#" },
-      { name: "Careers", href: "#" },
+      { name: "Infrastructure", href: "/categories/infrastructure" },
+      { name: "Environment", href: "/categories/environment" },
+      { name: "Revenue", href: "/categories/revenue" },
+      { name: "Social", href: "/categories/social" },
     ],
   },
   {
-    title: "Resources",
+    title: "Support",
     links: [
-      { name: "Help", href: "#" },
-      { name: "Sales", href: "#" },
-      { name: "Advertise", href: "#" },
-      { name: "Privacy", href: "#" },
+      { name: "Help & FAQs", href: "/help" },
+      { name: "Chatbot Guide", href: "/chatbot" },
+      { name: "Audit Logs", href: "/audit" },
+      { name: "Contact Us", href: "/contact" },
     ],
   },
 ];
@@ -63,46 +60,32 @@ const defaultSocialLinks = [
 ];
 
 const defaultLegalLinks = [
-  { name: "Terms and Conditions", href: "#" },
-  { name: "Privacy Policy", href: "#" },
+  { name: "Terms of Service", href: "/terms" },
+  { name: "Privacy Policy", href: "/privacy" },
 ];
 
 export const Footer7 = ({
-  logo = {
-    url: "https://www.shadcnblocks.com",
-    src: "https://www.shadcnblocks.com/images/block/logos/shadcnblockscom-icon.svg",
-    alt: "logo",
-    title: "Shadcnblocks.com",
-  },
   sections = defaultSections,
-  description = "A collection of components for your startup business or side project.",
+  description = "Empowering citizens to report, track, and resolve complaints in real-time. JanConnect connects people with the authorities through transparency and technology.",
   socialLinks = defaultSocialLinks,
-  copyright = "© 2024 Shadcnblocks.com. All rights reserved.",
+  copyright = "© 2025 JanConnect. All rights reserved.",
   legalLinks = defaultLegalLinks,
 }: Footer7Props) => {
   return (
-    <section className="py-32">
-      <div className="container mx-auto">
-        <div className="flex w-full flex-col justify-between gap-10 lg:flex-row lg:items-start lg:text-left">
-          <div className="flex w-full flex-col justify-between gap-6 lg:items-start">
-            {/* Logo */}
-            <div className="flex items-center gap-2 lg:justify-start">
-              <a href={logo.url}>
-                <img
-                  src={logo.src}
-                  alt={logo.alt}
-                  title={logo.title}
-                  className="h-8"
-                />
-              </a>
-              <h2 className="text-xl font-semibold">{logo.title}</h2>
-            </div>
-            <p className="max-w-[70%] text-sm text-muted-foreground">
+    <footer className="bg-gray-100 dark:bg-gray-900 px-4 py-16 sm:px-8 lg:px-16">
+      <div className="mx-auto max-w-screen-xl">
+        <div className="flex flex-col lg:flex-row justify-between gap-10">
+          {/* Description & Social */}
+          <div className="flex flex-col gap-6">
+            <h2 className="text-xl font-semibold text-gray-800 dark:text-white">
+              JanConnect
+            </h2>
+            <p className="max-w-sm text-sm text-gray-600 dark:text-gray-400">
               {description}
             </p>
-            <ul className="flex items-center space-x-6 text-muted-foreground">
+            <ul className="flex space-x-6">
               {socialLinks.map((social, idx) => (
-                <li key={idx} className="font-medium hover:text-primary">
+                <li key={idx} className="hover:text-blue-600 dark:hover:text-blue-400">
                   <a href={social.href} aria-label={social.label}>
                     {social.icon}
                   </a>
@@ -110,17 +93,23 @@ export const Footer7 = ({
               ))}
             </ul>
           </div>
-          <div className="grid w-full gap-6 md:grid-cols-3 lg:gap-20">
+
+          {/* Navigation Sections */}
+          <div className="grid gap-10 grid-cols-2 sm:grid-cols-3">
             {sections.map((section, sectionIdx) => (
               <div key={sectionIdx}>
-                <h3 className="mb-4 font-bold">{section.title}</h3>
-                <ul className="space-y-3 text-sm text-muted-foreground">
+                <h3 className="mb-4 text-sm font-semibold text-gray-900 dark:text-white uppercase">
+                  {section.title}
+                </h3>
+                <ul className="space-y-2 text-gray-600 dark:text-gray-400">
                   {section.links.map((link, linkIdx) => (
-                    <li
-                      key={linkIdx}
-                      className="font-medium hover:text-primary"
-                    >
-                      <a href={link.href}>{link.name}</a>
+                    <li key={linkIdx}>
+                      <a
+                        href={link.href}
+                        className="hover:text-blue-600 dark:hover:text-blue-400"
+                      >
+                        {link.name}
+                      </a>
                     </li>
                   ))}
                 </ul>
@@ -128,18 +117,21 @@ export const Footer7 = ({
             ))}
           </div>
         </div>
-        <div className="mt-8 flex flex-col justify-between gap-4 border-t py-8 text-xs font-medium text-muted-foreground md:flex-row md:items-center md:text-left">
-          <p className="order-2 lg:order-1">{copyright}</p>
-          <ul className="order-1 flex flex-col gap-2 md:order-2 md:flex-row">
+
+        {/* Legal Footer */}
+        <div className="mt-12 border-t pt-6 flex flex-col md:flex-row justify-between text-xs text-gray-500 dark:text-gray-400">
+          <p>{copyright}</p>
+          <ul className="flex flex-col sm:flex-row sm:space-x-6 mt-2 sm:mt-0">
             {legalLinks.map((link, idx) => (
-              <li key={idx} className="hover:text-primary">
-                <a href={link.href}> {link.name}</a>
+              <li key={idx}>
+                <a href={link.href} className="hover:text-blue-600 dark:hover:text-blue-400">
+                  {link.name}
+                </a>
               </li>
             ))}
           </ul>
         </div>
       </div>
-    </section>
+    </footer>
   );
 };
-
