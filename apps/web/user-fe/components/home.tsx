@@ -23,12 +23,12 @@ const sampleMediaContent: MediaContent = {
   src: 'https://i.ibb.co/GSMY3Y9/unnamed.png',
   background:
     'https://images.pexels.com/photos/16244268/pexels-photo-16244268/free-photo-of-girl-standing-near-shed-in-black-and-white.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-  title: 'JanConnect',
+  title: 'SwarajDesk',
   date: '.',
   scrollToExpand: 'Scroll',
   about: {
     overview:
-      'Empower your voice in governance with JanConnect—a seamless platform bridging citizens and authorities. Report issues like waste dumping or potholes effortlessly, track real-time progress across departments, and engage with your community through upvotes',
+      'Empower your voice in governance with SwarajDesk - a seamless platform bridging citizens and authorities. Report issues like waste dumping or potholes effortlessly, track real-time progress across departments, and engage with your community through upvotes',
     conclusion:
       ' Leverage AI-driven categorization for faster resolutions, multilingual support for accessibility, and transparent audit trails. Transform complaints into actionable solutions, fostering cleaner, safer neighborhoods together.',
   },
