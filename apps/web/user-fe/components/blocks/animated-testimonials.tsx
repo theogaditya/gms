@@ -9,12 +9,13 @@ import { useEffect, useRef, useState } from "react"
 export interface Testimonial {
   id: number
   name: string
-  role: string
-  company: string
+  role: string 
+  panchayat: string
   content: string
   rating: number
   avatar: string
 }
+
 
 export interface AnimatedTestimonialsProps {
   title?: string
@@ -29,12 +30,10 @@ export interface AnimatedTestimonialsProps {
 
 export function AnimatedTestimonials({
   title = "Loved by the community",
-  subtitle = "Don't just take our word for it. See what developers and companies have to say about our starter template.",
-  badgeText = "Trusted by developers",
+  subtitle = "Hear from citizens and officials who are transforming complaints into constructive change through our platform.",
+  badgeText = "Trusted by Citizens",
   testimonials = [],
   autoRotateInterval = 6000,
-  trustedCompanies = [],
-  trustedCompaniesTitle = "Trusted by developers from companies worldwide",
   className,
 }: AnimatedTestimonialsProps) {
   const [activeIndex, setActiveIndex] = useState(0)
@@ -167,7 +166,7 @@ export function AnimatedTestimonials({
                     <div>
                       <h3 className="font-semibold">{testimonial.name}</h3>
                       <p className="text-sm text-muted-foreground">
-                        {testimonial.role}, {testimonial.company}
+                        {testimonial.role}, {testimonial.panchayat}
                       </p>
                     </div>
                   </div>
@@ -180,20 +179,6 @@ export function AnimatedTestimonials({
             <div className="absolute -top-6 -right-6 h-24 w-24 rounded-xl bg-primary/5"></div>
           </motion.div>
         </motion.div>
-
-        {/* Logo cloud */}
-        {trustedCompanies.length > 0 && (
-          <motion.div variants={itemVariants} initial="hidden" animate={controls} className="mt-24 text-center">
-            <h3 className="text-sm font-medium text-muted-foreground mb-8">{trustedCompaniesTitle}</h3>
-            <div className="flex flex-wrap justify-center gap-x-12 gap-y-8">
-              {trustedCompanies.map((company) => (
-                <div key={company} className="text-2xl font-semibold text-muted-foreground/50">
-                  {company}
-                </div>
-              ))}
-            </div>
-          </motion.div>
-        )}
       </div>
     </section>
   )

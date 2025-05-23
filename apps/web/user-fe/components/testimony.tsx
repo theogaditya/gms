@@ -8,36 +8,35 @@ export function AnimatedTestimonialsBasic() {
       testimonials={[
         {
           id: 1,
-          name: "Alex Johnson",
-          role: "Full Stack Developer",
-          company: "TechFlow",
+          name: "Rajesh Kumar",
+          role: "Ward Member",
+          panchayat: "Shivpur Panchayat",
           content:
-            "This starter template saved me weeks of setup time. The Supabase integration is flawless, and the UI components are beautiful and easy to customize. Worth every penny!",
+            "Earlier, tracking complaints was a manual hassle. This system has made everything digital, transparent, and fast. Citizens are finally seeing real-time updates on their issues.",
           rating: 5,
-          avatar: "https://randomuser.me/api/portraits/men/32.jpg",
+          avatar: "https://ui-avatars.com/api/?name=Rajesh+Kumar&background=0D8ABC&color=fff",
         },
         {
           id: 2,
-          name: "Sarah Miller",
-          role: "Frontend Engineer",
-          company: "DesignHub",
+          name: "Meena Kumari",
+          role: "Citizen",
+          panchayat: "Lakshmi Nagar Panchayat",
           content:
-            "I've used many starter templates, but this one stands out for its clean architecture and attention to detail. The TypeScript support is excellent, and the documentation is comprehensive.",
+            "I submitted a sanitation complaint and got updates at every step. It was resolved in just a few days. This system makes us feel like our voices matter.",
           rating: 5,
-          avatar: "https://randomuser.me/api/portraits/women/44.jpg",
+          avatar: "https://ui-avatars.com/api/?name=Meena+Kumari&background=F39C12&color=fff",
         },
         {
           id: 3,
-          name: "Michael Chen",
-          role: "Product Manager",
-          company: "InnovateLabs",
+          name: "Amit Sharma",
+          role: "Sarpanch",
+          panchayat: "Rajgarh Panchayat",
           content:
-            "Our team was able to launch our MVP in record time thanks to this template. The authentication flow and user management features worked right out of the box. Highly recommended!",
+            "With this system, we’ve built more trust in our governance. People feel heard and respected, and the automatic notifications are a big hit among villagers.",
           rating: 5,
-          avatar: "https://randomuser.me/api/portraits/men/46.jpg",
-        },
+          avatar: "https://ui-avatars.com/api/?name=Amit+Sharma&background=27AE60&color=fff",
+        }
       ]}
-      trustedCompanies={["Google", "Microsoft", "Airbnb", "Spotify", "Netflix"]}
     />
   );
 }
