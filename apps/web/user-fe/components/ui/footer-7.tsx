@@ -1,5 +1,6 @@
+import { icons } from "lucide-react";
 import React from "react";
-import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter } from "react-icons/fa";
+import { FaFacebook, FaGithub, FaInstagram, FaLinkedin, FaTwitter } from "react-icons/fa";
 
 interface Footer7Props {
   logo?: {
@@ -27,57 +28,43 @@ interface Footer7Props {
 
 const defaultSections = [
   {
-    title: "Product",
-    links: [
-      { name: "Overview", href: "#" },
-      { name: "Pricing", href: "#" },
-      { name: "Marketplace", href: "#" },
-      { name: "Features", href: "#" },
-    ],
-  },
-  {
     title: "Company",
     links: [
-      { name: "About", href: "#" },
-      { name: "Team", href: "#" },
-      { name: "Blog", href: "#" },
-      { name: "Careers", href: "#" },
+      { name: "About", href: "/about" },
+      { name: "Team", href: "/team" },
+      { name: "Careers", href: "/Careers" },
     ],
   },
   {
     title: "Resources",
     links: [
-      { name: "Help", href: "#" },
-      { name: "Sales", href: "#" },
-      { name: "Advertise", href: "#" },
-      { name: "Privacy", href: "#" },
+      { name: "Help", href: "/Help" },
+      { name: "Privacy", href: "/Privacy" },
     ],
   },
 ];
 
 const defaultSocialLinks = [
-  { icon: <FaInstagram className="size-5" />, href: "#", label: "Instagram" },
-  { icon: <FaFacebook className="size-5" />, href: "#", label: "Facebook" },
   { icon: <FaTwitter className="size-5" />, href: "#", label: "Twitter" },
   { icon: <FaLinkedin className="size-5" />, href: "#", label: "LinkedIn" },
+  { icon: <FaGithub className="size-5" />, href: "#", label: "GitHub" },
 ];
 
 const defaultLegalLinks = [
-  { name: "Terms and Conditions", href: "#" },
-  { name: "Privacy Policy", href: "#" },
+  { name: "Terms and Conditions", href: "/tc" },
 ];
 
 export const Footer7 = ({
   logo = {
-    url: "https://www.shadcnblocks.com",
-    src: "https://www.shadcnblocks.com/images/block/logos/shadcnblockscom-icon.svg",
+    url: "#",
+    src: "https://i.ibb.co/mFhnZZ25/logo.png",
     alt: "logo",
-    title: "Shadcnblocks.com",
+    title: "SwarajDesk.co.in", 
   },
   sections = defaultSections,
-  description = "A collection of components for your startup business or side project.",
+  description = "Voice your issue",
   socialLinks = defaultSocialLinks,
-  copyright = "© 2024 Shadcnblocks.com. All rights reserved.",
+  copyright = "© 2025 SwarajDesk.co.in . All rights reserved",
   legalLinks = defaultLegalLinks,
 }: Footer7Props) => {
   return (
@@ -86,18 +73,18 @@ export const Footer7 = ({
         <div className="flex w-full flex-col justify-between gap-10 lg:flex-row lg:items-start lg:text-left">
           <div className="flex w-full flex-col justify-between gap-6 lg:items-start">
             {/* Logo */}
-            <div className="flex items-center gap-2 lg:justify-start">
+            <div className="flex items-center gap-2 lg:justify-start transform scale-125">
               <a href={logo.url}>
                 <img
                   src={logo.src}
                   alt={logo.alt}
                   title={logo.title}
-                  className="h-8"
+                  className="h-20"
                 />
               </a>
               <h2 className="text-xl font-semibold">{logo.title}</h2>
             </div>
-            <p className="max-w-[70%] text-sm text-muted-foreground">
+            <p className="max-w-[70%] text-md text-muted-foreground">
               {description}
             </p>
             <ul className="flex items-center space-x-6 text-muted-foreground">

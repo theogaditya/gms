@@ -5,9 +5,32 @@ import { useEffect } from "react";
 import { useState, useRef } from "react";
 import {AnimatedTestimonialsBasic} from "@/components/testimony";
 import { Footer7 } from "@/components/ui/footer-7";
+import { Users, Target, Eye, Award, CheckCircle, Shield, Globe, Zap } from 'lucide-react';
 
-// Add this to home.tsx
-// Add to home.tsx
+  const features = [
+    {
+      icon: <Shield className="w-8 h-8" />,
+      title: "Secure & Transparent",
+      description: "End-to-end encryption with comprehensive audit logging ensures complete transparency in complaint resolution."
+    },
+    {
+      icon: <Globe className="w-8 h-8" />,
+      title: "Multilingual Support",
+      description: "Access the platform in your preferred language with support for multiple regional languages."
+    },
+    {
+      icon: <Zap className="w-8 h-8" />,
+      title: "AI-Powered Categorization",
+      description: "Advanced AI automatically categorizes and standardizes complaints for faster processing and resolution."
+    },
+    {
+      icon: <Users className="w-8 h-8" />,
+      title: "Community Engagement",
+      description: "Upvote public complaints and engage with your community to prioritize issues that matter most."
+    }
+  ];
+
+
 const Statistics = () => {
   const [complaints, setComplaints] = useState(0);
   const [users, setUsers] = useState(0);
@@ -54,7 +77,7 @@ const Statistics = () => {
         
       >
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+          <h2 className="text-3xl font-bold text-center text-black dark:text-white mb-12">
             Our Impact
           </h2>
           <p className="text-gray-600 dark:text-gray-400">
@@ -108,6 +131,36 @@ export default function Home() {
       <div>
       <Demo />
       <Statistics />
+      <br></br>
+      <br></br>
+      <br></br>
+            <section className="py-16 px-4">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold text-center text-black dark:text-white mb-12">
+            What Makes Us Different
+          </h2>
+          <div className="grid md:grid-cols-2 gap-8">
+            {features.map((feature, index) => (
+              <div key={index} className="bg-white dark:bg-black p-8 rounded-2xl  dark:border-white hover:shadow-2xl transition-all duration-300">
+                <div className="flex items-start gap-4">
+                  <div className="text-black dark:text-white mt-1">
+                    {feature.icon}
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-black dark:text-white mb-3">
+                      {feature.title}
+                    </h3>
+                    <p className="text-black dark:text-white leading-relaxed">
+                      {feature.description}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      <br></br>
       <AnimatedTestimonialsBasic />
       <Footer7 />
     </div>
