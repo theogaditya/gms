@@ -1,11 +1,11 @@
 "use client";
-import Image from "next/image";
 import Demo from "@/components/home";
 import { useEffect } from "react";
 import { useState, useRef } from "react";
 import {AnimatedTestimonialsBasic} from "@/components/testimony";
 import { Footer7 } from "@/components/ui/footer-7";
 import { Users, Target, Eye, Award, CheckCircle, Shield, Globe, Zap } from 'lucide-react';
+import { Header1 } from "@/components/ui/header";
 
   const features = [
     {
@@ -129,6 +129,7 @@ const StatCard = ({ title, value, suffix }: {
 export default function Home() {
   return (
       <div>
+      <Header1/>
       <Demo />
       <Statistics />
       <br></br>
