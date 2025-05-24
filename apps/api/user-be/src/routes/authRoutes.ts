@@ -140,6 +140,13 @@ router.post('/signin', async (req, res:any) => {
   }
 });
 
+//Logout 
+router.post('/logout', (req, res) => {
+  // Clear cookie
+  res.clearCookie('token');
+  res.json({ message: 'Logged out' });
+});
+
 router.get('/status', async (req, res:any) => {
   const token = req.cookies.token;
   if (!token) {

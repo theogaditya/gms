@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { MoveRight, Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
+import { Profile } from "@/components/profile"
 
 function Header1() {
     const navigationItems = [
@@ -203,13 +204,11 @@ function Header1() {
                     <div className="hidden md:flex items-center space-x-3">
                         <div className="hidden md:flex items-center space-x-3">
                             {isLoggedIn ? (
-                                <div className="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-sm font-bold text-white">
-                                    👤
-                                </div>
+                                <Profile />
                             ) : (
                                 <>
                                     <Button className="p-4" onClick={() => window.location.href = '/auth/login'}>
-                                        Login In
+                                        Login
                                     </Button>
                                     <Button className="p-4" onClick={() => window.location.href = '/auth/signup'}>
                                         Sign Up
@@ -243,36 +242,47 @@ function Header1() {
 
                 {/* Mobile Navigation Menu */}
                 {isMenuOpen && (
-                    <div className={`lg:hidden absolute top-full left-0 right-0 z-50 mt-1 py-4 px-4 rounded-lg shadow-lg border transition-all ${
-                        isScrolled
-                            ? 'bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700'
-                            : 'bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-white/20 dark:border-gray-700/20'
-                    }`}>
-                        <div className="space-y-2">
-                            {navigationItems.map((item) => (
-                                <MobileNavItem key={item.title} item={item} />
-                            ))}
-                        </div>
-
-                        {/* Mobile Auth Buttons */}
-                        <div className="flex flex-col space-y-2 mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
-                            {isLoggedIn ? (
-                                <div className="w-full flex items-center justify-center py-2 text-center rounded-md bg-gray-300 text-white font-semibold">
-                                    👤 Logged In
-                                </div>
-                            ) : (
-                                <>
-                                    <Button variant="outline" className="w-full" onClick={() => window.location.href = '/auth/login'}>
-                                        Sign In
-                                    </Button>
-                                    <Button className="w-full" onClick={() => window.location.href = '/auth/signup'}>
-                                        Sign Up
-                                    </Button>
-                                </>
-                            )}
-                        </div>
+                <div
+                    className={`lg:hidden absolute top-full left-0 right-0 z-50 mt-1 px-4 py-4 rounded-lg shadow-lg border transition-all ${
+                    isScrolled
+                        ? 'bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700'
+                        : 'bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-white/20 dark:border-gray-700/20'
+                    }`}
+                >
+                    {/* Navigation Items */}
+                    <div className="space-y-2">
+                    {navigationItems.map((item) => (
+                        <MobileNavItem key={item.title} item={item} />
+                    ))}
                     </div>
+
+                    {/* Mobile Auth/Profile Section */}
+                    <div className="flex flex-col space-y-2 mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+                    {isLoggedIn ? (
+                        <div className="flex justify-center">
+                        <Profile />
+                        </div>
+                    ) : (
+                        <>
+                        <Button
+                            variant="outline"
+                            className="w-full"
+                            onClick={() => (window.location.href = '/auth/login')}
+                        >
+                            Login
+                        </Button>
+                        <Button
+                            className="w-full"
+                            onClick={() => (window.location.href = '/auth/signup')}
+                        >
+                            Sign Up
+                        </Button>
+                        </>
+                    )}
+                    </div>
+                </div>
                 )}
+
             </div>
         </header>
     );

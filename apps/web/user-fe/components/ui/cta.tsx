@@ -26,7 +26,7 @@ export const Cta = ({
       url: "/complaint",
     },
     secondary: {
-      text: "Login",
+      text: "Log In",
       url: "/auth/login",
     },
   },
