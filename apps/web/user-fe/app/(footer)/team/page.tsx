@@ -1,7 +1,7 @@
 "use client";
 import React from 'react';
 import { useEffect } from 'react';
-import { Github, Linkedin, Twitter, Mail, Award, Users, Heart, Code, Target, Eye, Shield, Globe } from 'lucide-react';
+import { Github, Linkedin, Users, Heart, Code, Target, Eye } from 'lucide-react';
 
 const TeamPage = () => {
   useEffect(() => {
