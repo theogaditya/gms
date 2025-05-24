@@ -9,12 +9,13 @@ import { useEffect, useRef, useState } from "react"
 export interface Testimonial {
   id: number
   name: string
-  role: string
-  company: string
+  role: string 
+  panchayat: string
   content: string
   rating: number
   avatar: string
 }
+
 
 export interface AnimatedTestimonialsProps {
   title?: string
@@ -28,13 +29,13 @@ export interface AnimatedTestimonialsProps {
 }
 
 export function AnimatedTestimonials({
-  title = "Trusted by Our Citizens",
-  subtitle = "Our Complaint Management System empowers citizens to submit, track, and resolve issues related to operational and regulatory concerns with transparency and efficiency.",
-  badgeText = "Serving the community",
+
+  title = "Loved by the community",
+  subtitle = "Hear from citizens and officials who are transforming complaints into constructive change through our platform.",
+  badgeText = "Trusted by Citizens",
   testimonials = [],
   autoRotateInterval = 6000,
-  trustedCompanies = [],
-  trustedCompaniesTitle = "Endorsed by government and social organizations",
+
   className,
 }: AnimatedTestimonialsProps) {
   const [activeIndex, setActiveIndex] = useState(0)
@@ -179,12 +180,12 @@ export function AnimatedTestimonials({
                         {testimonial.name.charAt(0)}
                       </AvatarFallback>
                     </Avatar>
-                    <div className="min-w-0 flex-1">
-                      <h3 className="font-semibold text-xs sm:text-sm md:text-base truncate">
-                        {testimonial.name}
-                      </h3>
-                      <p className="text-xs sm:text-sm md:text-base text-muted-foreground truncate">
-                        {testimonial.role}, {testimonial.company}
+
+                    <div>
+                      <h3 className="font-semibold">{testimonial.name}</h3>
+                      <p className="text-sm text-muted-foreground">
+                        {testimonial.role}, {testimonial.panchayat}
+
                       </p>
                     </div>
                   </div>
@@ -197,30 +198,6 @@ export function AnimatedTestimonials({
             <div className="hidden lg:block absolute -top-4 lg:-top-6 -right-4 lg:-right-6 h-16 w-16 lg:h-20 lg:w-20 xl:h-24 xl:w-24 rounded-lg lg:rounded-xl bg-primary/5"></div>
           </motion.div>
         </motion.div>
-
-        {/* Logo cloud */}
-        {trustedCompanies.length > 0 && (
-          <motion.div 
-            variants={itemVariants} 
-            initial="hidden" 
-            animate={controls} 
-            className="mt-12 sm:mt-16 md:mt-20 lg:mt-24 text-center"
-          >
-            <h3 className="text-xs sm:text-sm md:text-base font-medium text-muted-foreground mb-6 sm:mb-8 px-4">
-              {trustedCompaniesTitle}
-            </h3>
-            <div className="flex flex-wrap justify-center items-center gap-x-6 sm:gap-x-8 md:gap-x-10 lg:gap-x-12 gap-y-4 sm:gap-y-6 md:gap-y-8">
-              {trustedCompanies.map((company) => (
-                <div 
-                  key={company} 
-                  className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-semibold text-muted-foreground/50 hover:text-muted-foreground/70 transition-colors duration-200"
-                >
-                  {company}
-                </div>
-              ))}
-            </div>
-          </motion.div>
-        )}
       </div>
     </section>
   )
