@@ -32,7 +32,7 @@ export function AnimatedTestimonialsBasic() {
           role: "Sarpanch",
           panchayat: "Rajgarh Panchayat",
           content:
-            "With this system, we’ve built more trust in our governance. People feel heard and respected, and the automatic notifications are a big hit among villagers.",
+            "With this system, we’ve built more trust in our governance. People feel heard and respected, and the monthly surveys are a big hit among villagers.",
           rating: 5,
           avatar: "https://ui-avatars.com/api/?name=Amit+Sharma&background=27AE60&color=fff",
         }

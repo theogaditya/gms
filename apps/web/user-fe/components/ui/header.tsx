@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
     NavigationMenu,
@@ -12,6 +13,7 @@ import {
 import { MoveRight, Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 
+
 function Header1() {
     const navigationItems = [
         {
@@ -21,7 +23,7 @@ function Header1() {
         },
         {
             title: "Register",
-            href: "/",
+            href: "/Help",
             description: "",
         },
         {
@@ -46,6 +48,23 @@ function Header1() {
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    useEffect(() => {
+        const checkLogin = async () => {
+            try {
+                const res = await fetch('http://localhost:3001/api/auth/status', {
+                    method: 'GET',
+                    credentials: 'include',
+                });
+                const data = await res.json();
+                setIsLoggedIn(data.loggedIn);
+            } catch (err) {
+                console.error('Error checking login status', err);
+            }
+        };
+        checkLogin();
+    }, []);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -110,12 +129,19 @@ function Header1() {
             <div className="container relative mx-auto px-4 sm:px-6 lg:px-8 overflow-visible">
                 <div className="flex items-center justify-between h-16 lg:h-20">
                     {/* Logo */}
-                    <p className={`font-semibold text-lg transition-colors ${
-                        isScrolled ? 'text-gray-900 dark:text-white' : 'text-gray-900 dark:text-gray-100'
-                    }`}>
-                        SwarajDesk
-                    </p>
-
+                    <Button
+                    variant="ghost"
+                    className="w-32 h-15 p-0 bg-transparent hover:bg-muted/10 flex items-center justify-center"   
+                    onClick={() => window.location.href = '/'}
+                    >
+                        <Image
+                            src="/logo.png"
+                            alt="SwarajDesk Logo"
+                            width={199}
+                            height={50}
+                            className={`transition-colors ${isScrolled ? 'filter-none' : 'filter brightness-90'}`}
+                        />
+                    </Button>
                     {/* Desktop Navigation */}
                     <div className="hidden lg:flex lg:items-center lg:space-x-1">
                         <NavigationMenu>
@@ -128,8 +154,8 @@ function Header1() {
                                                     variant="ghost"
                                                     className={`transition-colors ${
                                                         isScrolled
-                                                            ? 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800'
-                                                            : 'text-gray-900 dark:text-gray-100 hover:text-gray-700 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-800'
+                                                            ? 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 font-extrabold'
+                                                            : 'text-gray-900 dark:text-gray-100 hover:text-gray-200 dark:hover:text-white hover:bg-transparent/10 dark:hover:bg-gray-800 font-extrabold'
                                                     }`}
                                                 >
                                                     {item.title}
@@ -140,13 +166,13 @@ function Header1() {
                                                 <NavigationMenuTrigger
                                                     className={`bg-transparent hover:bg-white/10 font-medium text-sm transition-colors ${
                                                         isScrolled
-                                                            ? 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800'
-                                                            : 'text-gray-900 dark:text-gray-100 hover:text-gray-700 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-800'
+                                                            ? 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 font-extrabold'
+                                                            : 'text-gray-900 dark:text-gray-100 hover:text-gray-200 dark:hover:text-white hover:bg-transparent dark:hover:bg-gray-800 font-extrabold'
                                                     }`}
                                                 >
                                                     {item.title}
                                                 </NavigationMenuTrigger>
-                                                <NavigationMenuContent className="!w-[450px] p-4 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
+                                                <NavigationMenuContent className="!w-[450px] p-4 bg-gray-100/10 dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
                                                     <div className="flex flex-col lg:grid grid-cols-2 gap-4">
                                                         <div className="flex flex-col h-full justify-between">
                                                             <p className="text-base font-medium text-gray-900 dark:text-white">{item.title}</p>
@@ -176,12 +202,22 @@ function Header1() {
 
                     {/* Desktop Auth Buttons */}
                     <div className="hidden md:flex items-center space-x-3">
-                        <Button className="p-4" onClick={() => window.location.href = '/auth/login'}>
-                            Sign In
-                        </Button>
-                        <Button className="p-4" onClick={() => window.location.href = '/auth/signup'}>
-                            Sign Up
-                        </Button>
+                        <div className="hidden md:flex items-center space-x-3">
+                            {isLoggedIn ? (
+                                <div className="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-sm font-bold text-white">
+                                    👤
+                                </div>
+                            ) : (
+                                <>
+                                    <Button className="p-4" onClick={() => window.location.href = '/auth/login'}>
+                                        Login In
+                                    </Button>
+                                    <Button className="p-4" onClick={() => window.location.href = '/auth/signup'}>
+                                        Sign Up
+                                    </Button>
+                                </>
+                            )}
+                        </div>
                     </div>
 
                     {/* Mobile Menu Button */}
@@ -221,12 +257,20 @@ function Header1() {
 
                         {/* Mobile Auth Buttons */}
                         <div className="flex flex-col space-y-2 mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
-                            <Button variant="outline" className="w-full" onClick={() => window.location.href = '/auth/login'}>
-                                Sign In
-                            </Button>
-                            <Button className="w-full" onClick={() => window.location.href = '/auth/signup'}>
-                                Sign Up
-                            </Button>
+                            {isLoggedIn ? (
+                                <div className="w-full flex items-center justify-center py-2 text-center rounded-md bg-gray-300 text-white font-semibold">
+                                    👤 Logged In
+                                </div>
+                            ) : (
+                                <>
+                                    <Button variant="outline" className="w-full" onClick={() => window.location.href = '/auth/login'}>
+                                        Sign In
+                                    </Button>
+                                    <Button className="w-full" onClick={() => window.location.href = '/auth/signup'}>
+                                        Sign Up
+                                    </Button>
+                                </>
+                            )}
                         </div>
                     </div>
                 )}

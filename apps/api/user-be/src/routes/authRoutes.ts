@@ -140,4 +140,28 @@ router.post('/signin', async (req, res:any) => {
   }
 });
 
+router.get('/status', async (req, res:any) => {
+  const token = req.cookies.token;
+  if (!token) {
+    return res.json({ loggedIn: false });
+  }
+
+  try {
+    const decoded: any = jwt.verify(token, process.env.JWT_SECRET!);
+    const user = await prisma.user.findUnique({
+      where: { id: decoded.id },
+      select: { id: true, email: true, name: true },
+    });
+
+    if (!user) {
+      return res.json({ loggedIn: false });
+    }
+
+    res.json({ loggedIn: true, user });
+  } catch (error) {
+    console.error('Token verification failed:', error);
+    return res.json({ loggedIn: false });
+  }
+});
+
 export default router;
