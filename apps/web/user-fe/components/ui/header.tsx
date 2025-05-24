@@ -18,7 +18,7 @@ function Header1() {
     const navigationItems = [
         {
             title: "Home",
-            href: "/",
+            href: "/#home",
             description: "",
         },
         {
