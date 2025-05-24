@@ -13,7 +13,6 @@ import {
 import { MoveRight, Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 
-
 function Header1() {
     const navigationItems = [
         {

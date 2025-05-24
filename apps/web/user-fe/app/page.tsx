@@ -134,7 +134,6 @@ export default function Home() {
       <div id="home">
         <Demo />
       </div>
-      
       <Statistics />
       <br></br>
       <br></br>
