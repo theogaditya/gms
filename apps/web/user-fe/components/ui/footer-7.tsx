@@ -31,23 +31,14 @@ const defaultSections = [
     links: [
       { name: "About", href: "/about" },
       { name: "Team", href: "/team" },
-      { name: "Careers", href: "/careers" },
+      { name: "Careers", href: "/Careers" },
     ],
   },
   {
     title: "Resources",
     links: [
-      { name: "Help Center", href: "/help" },
-      { name: "Privacy Policy", href: "/privacy" },
-      { name: "Terms of Service", href: "/terms" },
-    ],
-  },
-  {
-    title: "Support",
-    links: [
-      { name: "Contact Us", href: "/contact" },
-      { name: "FAQs", href: "/faqs" },
-      { name: "Community Forum", href: "/community" },
+      { name: "Help Center", href: "/Help" },
+      { name: "Privacy Policy", href: "/Privacy" },
     ],
   },
 ];
