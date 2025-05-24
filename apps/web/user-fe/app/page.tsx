@@ -131,7 +131,9 @@ export default function Home() {
   return (
       <div>
       <Header1/>
-      <Demo />
+      <div id="home">
+        <Demo />
+      </div>
       <Statistics />
       <br></br>
       <br></br>

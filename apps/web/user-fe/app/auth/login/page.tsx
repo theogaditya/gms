@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect,useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -16,6 +16,30 @@ export default function LoginPage() {
   });
   const [errors, setErrors] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+
+    // Check if user is already logged in
+  useEffect(() => {
+    const checkLogin = async () => {
+      try {
+        const res = await fetch("http://localhost:3001/api/auth/status", {
+          method: "GET",
+          credentials: "include",
+        });
+        const data = await res.json();
+        if (data.loggedIn) {
+          router.push("/");
+          alert("You Are Logged In");
+        } else {
+          setIsCheckingAuth(false);
+        }
+      } catch (err) {
+        console.error("Error checking login status", err);
+        setIsCheckingAuth(false);
+      }
+    };
+    checkLogin();
+  }, [router]);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));

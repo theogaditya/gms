@@ -13,17 +13,16 @@ import {
 import { MoveRight, Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 
-
 function Header1() {
     const navigationItems = [
         {
             title: "Home",
-            href: "/",
+            href: "/#home",
             description: "",
         },
         {
             title: "Register",
-            href: "/Help",
+            href: "/complaint",
             description: "",
         },
         {
