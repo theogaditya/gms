@@ -4,8 +4,9 @@ import { useEffect } from "react";
 import { useState, useRef } from "react";
 import {AnimatedTestimonialsBasic} from "@/components/testimony";
 import { Footer7 } from "@/components/ui/footer-7";
-import { Users, Target, Eye, Award, CheckCircle, Shield, Globe, Zap } from 'lucide-react';
+import { Users, Shield, Globe, Zap } from 'lucide-react';
 import { Header1 } from "@/components/ui/header";
+import { Cta } from "@/components/ui/cta";
 
   const features = [
     {
@@ -130,12 +131,15 @@ export default function Home() {
   return (
       <div>
       <Header1/>
-      <Demo />
+      <div id="home">
+        <Demo />
+      </div>
       <Statistics />
       <br></br>
       <br></br>
       <br></br>
-            <section className="py-16 px-4">
+      <Cta />
+      <section className="py-16 px-4">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl font-bold text-center text-black dark:text-white mb-12">
             What Makes Us Different
@@ -161,6 +165,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+      <div>
+      </div>
       <br></br>
       <AnimatedTestimonialsBasic />
       <Footer7 />

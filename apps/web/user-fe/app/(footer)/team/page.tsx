@@ -1,7 +1,7 @@
 "use client";
 import React from 'react';
 import { useEffect } from 'react';
-import { Github, Linkedin, Twitter, Mail, Award, Users, Heart, Code, Target, Eye, Shield, Globe } from 'lucide-react';
+import { Github, Linkedin, Users, Heart, Code, Target, Eye } from 'lucide-react';
 
 const TeamPage = () => {
   useEffect(() => {
@@ -26,7 +26,7 @@ const TeamPage = () => {
     {
       name: "Pramit kumar ",
       role: "Full stack engineer & Co-founder",
-      image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300&h=300&fit=crop&crop=face",
+      image: "https://media.licdn.com/dms/image/v2/D5603AQGVttzH8fOlLg/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1711767780184?e=1753315200&v=beta&t=8X649ria8NzT5J1cI4GghHdDAZ_pkeHg4-zmq_4Vzz4",
       github: "https://github.com/PRAMITKN",
       linkedin: "https://www.linkedin.com/in/pramitkumarnaik/",
     },

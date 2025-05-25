@@ -2,7 +2,6 @@
 
 import { useEffect } from 'react';
 import ScrollExpandMedia from '@/components/blocks/scroll-expansion-hero';
-import Image from 'next/image';
 
 interface MediaAbout {
   overview: string;
