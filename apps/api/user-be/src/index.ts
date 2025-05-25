@@ -8,7 +8,7 @@ import { PrismaClient } from '../../../../generated/prisma';
 const app = express();
 const prisma = new PrismaClient();
 
-// Middleware
+// Middleware 
 app.use(
   cors({
     origin: ['http://localhost:3000', 'http://localhost:3002'], 
