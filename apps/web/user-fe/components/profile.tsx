@@ -12,13 +12,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
-  Bolt,
-  BookOpen,
   CircleUserRound,
-  Layers2,
   LogOut,
-  Pin,
-  UserPen,
 } from "lucide-react";
 
 function Profile() {
@@ -56,48 +51,16 @@ function Profile() {
           />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="min-w-45 max-w-64">
-        <DropdownMenuLabel className="flex items-center gap-3">
-          {/* Profile Image */}
-          {/* <img
-            src="https://originui.com/Profile.jpg"
-            alt="Avatar"
-            width={32}
-            height={32}
-            className="shrink-0 rounded-full"
-          /> */}
-          <div className="flex min-w-0 flex-col">
-            <span className="truncate text-sm font-medium text-foreground">{user.name}</span>
-            <span className="truncate text-xs font-normal text-muted-foreground">
-              {user.email}
-            </span>
-          </div>
+            <DropdownMenuContent className="min-w-35">
+        <DropdownMenuLabel className="flex flex-col">
+          <span>Signed in as</span>
+          <span className="text-xs font-normal text-foreground">{user.email}</span>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <Bolt size={16} strokeWidth={2} className="opacity-60" aria-hidden="true" />
-            <span>Option 1</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Layers2 size={16} strokeWidth={2} className="opacity-60" aria-hidden="true" />
-            <span>Option 2</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <BookOpen size={16} strokeWidth={2} className="opacity-60" aria-hidden="true" />
-            <span>Option 3</span>
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <Pin size={16} strokeWidth={2} className="opacity-60" aria-hidden="true" />
-            <span>Option 4</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <UserPen size={16} strokeWidth={2} className="opacity-60" aria-hidden="true" />
-            <span>Option 5</span>
-          </DropdownMenuItem>
+          <DropdownMenuItem>Option 1</DropdownMenuItem>
+          <DropdownMenuItem>Option 2</DropdownMenuItem>
+          <DropdownMenuItem>Option 3</DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={async () => {

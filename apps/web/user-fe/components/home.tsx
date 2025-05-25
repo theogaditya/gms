@@ -19,7 +19,7 @@ interface MediaContent {
 
 // https://i.ibb.co/GSMY3Y9/unnamed.png
 const sampleMediaContent: MediaContent = {
-  src: 'https://i.ibb.co/GSMY3Y9/unnamed.png',
+  src: 'https://i.ibb.co/21bvwPBX/unnamed.png',
   background:
     'https://images.pexels.com/photos/16244268/pexels-photo-16244268/free-photo-of-girl-standing-near-shed-in-black-and-white.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
   title: 'SwarajDesk',
