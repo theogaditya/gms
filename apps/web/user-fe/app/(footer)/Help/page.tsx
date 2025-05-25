@@ -8,38 +8,28 @@ const HelpPage = () => {
   }, []);
 
   const contactMethods = [
+
     {
-      icon: <PhoneCall className="w-6 h-6 text-blue-600" />,
-      title: "Phone Support",
-      info: "Call us 24/7 at +91 12345 67890 for immediate assistance.",
-    },
-    {
-      icon: <Mail className="w-6 h-6 text-green-600" />,
+      icon: <Mail className="w-6 h-6 text-gray-600" />,
       title: "Email Support",
-      info: "Send your queries anytime at support@swarajdesk.in.",
+      info: "Send your queries anytime at support@swarajdesk.co.in",
     },
     {
-      icon: <Info className="w-6 h-6 text-yellow-600" />,
+      icon: <Info className="w-6 h-6 text-gray-600" />,
       title: "FAQ",
       info: "Check out our Frequently Asked Questions section for quick answers.",
     },
     {
-      icon: <LifeBuoy className="w-6 h-6 text-purple-600" />,
+      icon: <LifeBuoy className="w-6 h-6 text-gray-600" />,
       title: "Live Chat",
       info: "Chat live with our support team from 9 AM to 9 PM every day.",
     },
   ];
 
-  const workingHours = [
-    { day: "Monday - Friday", hours: "9:00 AM - 9:00 PM" },
-    { day: "Saturday", hours: "10:00 AM - 6:00 PM" },
-    { day: "Sunday", hours: "Closed" },
-  ];
-
   const officeAddress = {
     line1: "SwarajDesk Headquarters",
-    line2: "123 Civic Center, New Delhi",
-    line3: "India, 110001",
+    line2: "C. V. Raman Global University, Mahura, Bhubaneswar, Odisha",
+    line3: "India, 752054",
   };
 
   return (
@@ -56,7 +46,7 @@ const HelpPage = () => {
         </p>
       </div>
 
-      {/* Contact Methods */}
+        {/* additional info */}
       <section className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
         {contactMethods.map((method, i) => (
           <div
@@ -72,28 +62,9 @@ const HelpPage = () => {
             </div>
           </div>
         ))}
-      </section>
-
-      {/* Working Hours & Address */}
-      <section className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
         <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md border border-gray-200 dark:border-gray-700">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
-            <Clock className="w-6 h-6 text-indigo-600" />
-            Working Hours
-          </h2>
-          <ul className="text-gray-700 dark:text-gray-300 space-y-3">
-            {workingHours.map((wh, i) => (
-              <li key={i} className="flex justify-between border-b border-gray-300 dark:border-gray-600 pb-2">
-                <span>{wh.day}</span>
-                <span className="font-semibold">{wh.hours}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md border border-gray-200 dark:border-gray-700">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
-            <MapPin className="w-6 h-6 text-indigo-600" />
+            <MapPin className="w-6 h-6 text-gray-600" />
             Office Address
           </h2>
           <address className="not-italic text-gray-700 dark:text-gray-300 space-y-1">
@@ -103,6 +74,7 @@ const HelpPage = () => {
           </address>
         </div>
       </section>
+
     </div>
   );
 };

@@ -120,14 +120,14 @@ function Header1() {
 
     return (
         <header
-            className={`w-full z-50 fixed top-0 left-0 transition-all duration-300 ${
+            className={`w-full z-50 fixed top-0 left-0 right-0 transition-all duration-300 ${
                 isScrolled
-                    ? 'bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-b border-gray-200/20 dark:border-gray-700/20'
-                    : 'bg-transparent'
+                    ? 'bg-white/3 dark:bg-gray-900/5 backdrop-blur-sm'
+                    : 'bg-white/1 dark:bg-gray-900/1 backdrop-blur-sm'
             }`}
         >
             <div className="container relative mx-auto px-4 sm:px-6 lg:px-8 overflow-visible">
-                <div className="flex items-center justify-between h-16 lg:h-20">
+                <div className="flex items-center justify-between h-12 lg:h-14">
                     {/* Logo */}
                     <Button
                     variant="ghost"
@@ -135,7 +135,7 @@ function Header1() {
                     onClick={() => window.location.href = '/'}
                     >
                         <Image
-                            src="/logo.png"
+                            src="https://swarajdesk.adityahota.online/logo.png"
                             alt="SwarajDesk Logo"
                             width={199}
                             height={50}

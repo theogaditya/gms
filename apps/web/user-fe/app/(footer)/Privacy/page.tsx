@@ -11,7 +11,7 @@ const PrivacyPage = () => {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 px-4 py-20">
       {/* Header */}
       <div className="max-w-5xl mx-auto text-center mb-16">
-        <Shield className="w-12 h-12 mx-auto mb-4 text-indigo-600" />
+        <Shield className="w-12 h-12 mx-auto mb-4 text-purple-600" />
         <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
           Privacy Policy
         </h1>
@@ -26,7 +26,7 @@ const PrivacyPage = () => {
         <div className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 
                         hover:shadow-xl hover:scale-[1.02] transform transition-all duration-300 cursor-pointer">
           <div className="flex items-center gap-3 mb-4">
-            <Lock className="w-6 h-6 text-indigo-600" />
+            <Lock className="w-6 h-6 gray-600" />
             <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">Information We Collect</h2>
           </div>
           <p>
@@ -40,7 +40,7 @@ const PrivacyPage = () => {
         <div className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-md border border-gray-200 dark:border-gray-700
                         hover:shadow-xl hover:scale-[1.02] transform transition-all duration-300 cursor-pointer">
           <div className="flex items-center gap-3 mb-4">
-            <UserCheck className="w-6 h-6 text-indigo-600" />
+            <UserCheck className="w-6 h-6 gray-600" />
             <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">How We Use Your Information</h2>
           </div>
           <p>
@@ -54,7 +54,7 @@ const PrivacyPage = () => {
         <div className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-md border border-gray-200 dark:border-gray-700
                         hover:shadow-xl hover:scale-[1.02] transform transition-all duration-300 cursor-pointer">
           <div className="flex items-center gap-3 mb-4">
-            <Globe className="w-6 h-6 text-indigo-600" />
+            <Globe className="w-6 h-6 text-gray-600" />
             <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">Cookies & Tracking</h2>
           </div>
           <p>
@@ -68,7 +68,7 @@ const PrivacyPage = () => {
         <div className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-md border border-gray-200 dark:border-gray-700
                         hover:shadow-xl hover:scale-[1.02] transform transition-all duration-300 cursor-pointer">
           <div className="flex items-center gap-3 mb-4">
-            <FileText className="w-6 h-6 text-indigo-600" />
+            <FileText className="w-6 h-6 text-gray-600" />
             <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">Data Retention</h2>
           </div>
           <p>
@@ -82,7 +82,7 @@ const PrivacyPage = () => {
         <div className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-md border border-gray-200 dark:border-gray-700
                         hover:shadow-xl hover:scale-[1.02] transform transition-all duration-300 cursor-pointer">
           <div className="flex items-center gap-3 mb-4">
-            <AlertCircle className="w-6 h-6 text-indigo-600" />
+            <AlertCircle className="w-6 h-6 text-gray-600" />
             <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">Your Rights</h2>
           </div>
           <p>
@@ -96,7 +96,7 @@ const PrivacyPage = () => {
         <div className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-md border border-gray-200 dark:border-gray-700
                         hover:shadow-xl hover:scale-[1.02] transform transition-all duration-300 cursor-pointer">
           <div className="flex items-center gap-3 mb-4">
-            <Shield className="w-6 h-6 text-indigo-600" />
+            <Shield className="w-6 h-6 text-gray-600" />
             <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">Security Measures</h2>
           </div>
           <p>
@@ -110,7 +110,7 @@ const PrivacyPage = () => {
         <div className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-md border border-gray-200 dark:border-gray-700
                         hover:shadow-xl hover:scale-[1.02] transform transition-all duration-300 cursor-pointer">
           <div className="flex items-center gap-3 mb-4">
-            <Shield className="w-6 h-6 text-indigo-600" />
+            <Shield className="w-6 h-6 text-gray-600" />
             <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">Changes to this Policy</h2>
           </div>
           <p>

@@ -1,7 +1,7 @@
 "use client";
 import React from 'react';
 import { useEffect } from 'react';
-import { Users, Target, Eye, Award, CheckCircle, Shield, Globe, Zap } from 'lucide-react';
+import { Users, Target, Eye,BadgeInfo, Award, CheckCircle, Shield, Globe, Zap } from 'lucide-react';
 
 const AboutPage = () => {
   useEffect(() => {
@@ -22,26 +22,14 @@ const AboutPage = () => {
   ];
 
   return (
-    <div className="min-h-scree">
-      {/* Hero Section */}
-      <section className="py-20 px-4">
-        <div className="max-w-6xl mx-auto text-center">
-          <div className="flex items-center justify-center gap-4 mb-6">
-            {/* <img
-              src="https://i.ibb.co/mFhnZZ25/logo.png"
-              alt="SwarajDesk Logo"
-              className="h-16 filter grayscale"
-            /> */}
-            <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-black to-gray-800 bg-clip-text text-transparent">
-              About SwarajDesk
-            </h1>
-          </div>
-          <p className="text-xl md:text-2xl text-black dark:text-white mb-8 max-w-4xl mx-auto leading-relaxed">
-            Empowering citizens to voice their concerns and transform communities through seamless governance interaction
-          </p>
-
-        </div>
-      </section>
+    <div className="min-h-scree px-4 py-20">
+      <div className="max-w-5xl mx-auto text-center mb-16">
+        <BadgeInfo className="w-12 h-12 mx-auto mb-4 text-green-600" />
+        <h1 className="text-4xl font-bold text-gray-900 dark:text-white">About</h1>
+        <p className="text-gray-700 dark:text-gray-300 mt-3 max-w-3xl mx-auto">
+           Empowering citizens to voice their concerns and transform communities through seamless governance interaction
+        </p>
+      </div>
       {/* Mission & Vision */}
 <section className="py-16 px-4">
         <div className="max-w-6xl mx-auto">

@@ -1,7 +1,7 @@
 "use client";
 import React from 'react';
 import { useEffect } from 'react';
-import { Github, Linkedin, Users, Heart, Code, Target, Eye } from 'lucide-react';
+import { Github, Linkedin, Users, Heart, Code, Target, Eye,Handshake } from 'lucide-react';
 
 const TeamPage = () => {
   useEffect(() => {
@@ -12,21 +12,21 @@ const TeamPage = () => {
     {
       name: "Aditya Hota",
       role: "Full stack and devops engineer & Co-founder",
-      image: "https://i.ibb.co/LXfm0FLp/pfp.jpg",
+      image: "https://swarajdesk.adityahota.online/adi-pfp.jpg",
       github: "https://github.com/theogaditya",
       linkedin: "https://www.linkedin.com/in/aditya-hota-6b1167276/",
     },
     {
       name: "Abhash Bahara",
       role: "Full stack and devops engineer & Co-founder",
-      image: "https://i.ibb.co/PGzdDxgY/Whats-App-Image-2025-04-24-at-00-52-14-be3a066a.jpg",
+      image: "https://swarajdesk.adityahota.online/abhash-pfp.jpg",
       github: "https://github.com/MistaHolmes",
       linkedin: "https://www.linkedin.com/in/abhash-behera-70b77528b/",
     },
     {
       name: "Pramit kumar ",
       role: "Full stack engineer & Co-founder",
-      image: "https://media.licdn.com/dms/image/v2/D5603AQGVttzH8fOlLg/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1711767780184?e=1753315200&v=beta&t=8X649ria8NzT5J1cI4GghHdDAZ_pkeHg4-zmq_4Vzz4",
+      image: "https://swarajdesk.adityahota.online/pramit-pfp.png",
       github: "https://github.com/PRAMITKN",
       linkedin: "https://www.linkedin.com/in/pramitkumarnaik/",
     },
@@ -56,17 +56,16 @@ const TeamPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-white dark:bg-black">
+    <div className="min-h-screen bg-white dark:bg-black ">
       {/* Hero Section */}
       <section className="py-20 px-4">
-        <div className="max-w-6xl mx-auto text-center">
-          <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-black to-gray-800 bg-clip-text text-transparent mb-6">
-            Meet Our Team
-          </h1>
-          <p className="text-xl md:text-2xl text-gray-900 dark:text-white mb-12 max-w-4xl mx-auto leading-relaxed">
-            Passionate individuals working together to transform how citizens interact with governance
-          </p>
-        </div>
+      <div className="max-w-5xl mx-auto text-center mb-16">
+        <Handshake className="w-12 h-12 mx-auto mb-4 text-green-600" />
+        <h1 className="text-4xl font-bold text-gray-900 dark:text-white">Meet Our Team</h1>
+        <p className="text-gray-700 dark:text-gray-300 mt-3 max-w-3xl mx-auto">
+           Passionate individuals working together to transform how citizens interact with governance
+        </p>
+      </div>
       </section>
 
       {/* Mission & Vision - Team Style */}

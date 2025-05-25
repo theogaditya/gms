@@ -10,7 +10,6 @@ import { Textarea } from "@/components/ui/textarea"
 import { Checkbox } from "@/components/ui/checkbox"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { useRouter } from "next/navigation"
-import { Header1 } from './ui/header'
 
 // Define the steps of the form
 const steps = [
@@ -145,9 +144,6 @@ export default function ComplaintForm() {
 
   return (
     <div className="w-full max-w-3xl sm:max-w-4xl mx-auto p-4 sm:p-6">
-      <div className="p-4 sm:p-6">
-        <Header1/>
-      </div>
       <Card className="w-full shadow-lg">
         <CardHeader className="pb-4">
           <CardTitle className="text-xl sm:text-2xl">Submit New Complaint</CardTitle>

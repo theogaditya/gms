@@ -5,25 +5,13 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'me7aitdbxq.ufs.sh',
-        port: '',
-        pathname: '/f/**',
-      },
-      {
-        protocol: 'https',
         hostname: 'i.ibb.co',
         port: '',
         pathname: '/**',
       },
-      {
+{
         protocol: 'https',
-        hostname: 'images.unsplash.com',
-        port: '',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'images.pexels.com',
+        hostname: 'swarajdesk.adityahota.online',
         port: '',
         pathname: '/**',
       },
