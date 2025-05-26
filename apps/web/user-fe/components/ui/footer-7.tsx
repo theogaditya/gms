@@ -45,10 +45,7 @@ const defaultSections = [
 
 const defaultSocialLinks = [
   { icon: <FaTwitter className="w-6 h-6" />, href: "#", label: "Twitter" },
-  { icon: <FaLinkedin className="w-6 h-6" />, href: "#", label: "LinkedIn" },
   { icon: <FaGithub className="w-6 h-6" />, href: "#", label: "GitHub" },
-  { icon: <FaFacebook className="w-6 h-6" />, href: "#", label: "Facebook" },
-  { icon: <FaInstagram className="w-6 h-6" />, href: "#", label: "Instagram" },
 ];
 
 const defaultLegalLinks = [{ name: "Terms and Conditions", href: "/tc" }];
@@ -56,12 +53,12 @@ const defaultLegalLinks = [{ name: "Terms and Conditions", href: "/tc" }];
 export const Footer7 = ({
   logo = {
     url: "#",
-    src: "https://i.ibb.co/mFhnZZ25/logo.png",
+    src: "https://swarajdesk.adityahota.online/logo.png",
     alt: "SwarajDesk Logo",
     title: "SwarajDesk.co.in",
   },
   sections = defaultSections,
-  description = `SwarajDesk.co.in is your trusted platform to voice issues, seek help, and connect with a supportive community dedicated to delivering transparent and effective solutions for all your concerns.`,
+  description = `Voice your issue`,
   socialLinks = defaultSocialLinks,
   copyright = "© 2025 SwarajDesk.co.in. All rights reserved.",
   legalLinks = defaultLegalLinks,
@@ -95,7 +92,7 @@ export const Footer7 = ({
           </div>
 
           {/* Links Sections */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 flex-grow">
+          <div className="grid grid-cols-2 gap-30">
             {sections.map(({ title, links }, idx) => (
               <nav key={idx} aria-label={title}>
                 <h3 className="mb-5 text-lg font-semibold text-gray-900 dark:text-white">{title}</h3>

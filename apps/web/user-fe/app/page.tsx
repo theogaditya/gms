@@ -5,7 +5,6 @@ import { useState, useRef } from "react";
 import {AnimatedTestimonialsBasic} from "@/components/testimony";
 import { Footer7 } from "@/components/ui/footer-7";
 import { Users, Shield, Globe, Zap } from 'lucide-react';
-import { Header1 } from "@/components/ui/header";
 import { Cta } from "@/components/ui/cta";
 
   const features = [
@@ -130,7 +129,6 @@ const StatCard = ({ title, value, suffix }: {
 export default function Home() {
   return (
       <div>
-      <Header1/>
       <div id="home">
         <Demo />
       </div>
@@ -138,7 +136,6 @@ export default function Home() {
       <br></br>
       <br></br>
       <br></br>
-      <Cta />
       <section className="py-16 px-4">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl font-bold text-center text-black dark:text-white mb-12">
@@ -168,8 +165,8 @@ export default function Home() {
       <div>
       </div>
       <br></br>
+      <Cta />
       <AnimatedTestimonialsBasic />
-      <Footer7 />
     </div>
   );
 }
