@@ -103,7 +103,6 @@ router.post('/create', async (req, res: any) => {
       where: {
         OR: [
           { officialEmail: data.officialEmail },
-          { adminId: data.adminId }
         ]
       }
     });
@@ -120,7 +119,6 @@ router.post('/create', async (req, res: any) => {
     const newSuperAdmin = await prisma.superAdmin.create({
       data: {
         fullName: data.fullName,
-        adminId: data.adminId,
         officialEmail: data.officialEmail,
         phoneNumber: data.phoneNumber,
         password: hashedPassword,
@@ -191,7 +189,6 @@ router.post('/create/state-admins', authenticateSuperAdmin, async (req, res: any
       where: {
         OR: [
           { officialEmail: data.officialEmail },
-          { adminId: data.adminId }
         ]
       }
     });
@@ -208,7 +205,6 @@ router.post('/create/state-admins', authenticateSuperAdmin, async (req, res: any
     const newAdmin = await prisma.departmentStateAdmin.create({
       data: {
         fullName: data.fullName,
-        adminId: data.adminId,
         officialEmail: data.officialEmail,
         phoneNumber: data.phoneNumber,
         password: hashedPassword,
@@ -224,7 +220,6 @@ router.post('/create/state-admins', authenticateSuperAdmin, async (req, res: any
       data: {
         id: newAdmin.id,
         fullName: newAdmin.fullName,
-        adminId: newAdmin.adminId,
         officialEmail: newAdmin.officialEmail,
         state: newAdmin.state,
         department: newAdmin.department,
@@ -253,7 +248,6 @@ router.post('/create/municipal-admins', authenticateSuperAdmin, async (req, res:
       where: {
         OR: [
           { officialEmail: data.officialEmail },
-          { adminId: data.adminId }
         ]
       }
     });
@@ -270,14 +264,11 @@ router.post('/create/municipal-admins', authenticateSuperAdmin, async (req, res:
     const newAdmin = await prisma.departmentMunicipalAdmin.create({
       data: {
         fullName: data.fullName,
-        adminId: data.adminId,
         officialEmail: data.officialEmail,
         phoneNumber: data.phoneNumber,
         password: hashedPassword,
         department: data.department,
         municipality: data.municipality,
-        managedByStateAdminId: data.managedByStateAdminId,
-        managedBySuperMunicipalId: data.managedBySuperMunicipalId
       }
     });
 
@@ -287,7 +278,6 @@ router.post('/create/municipal-admins', authenticateSuperAdmin, async (req, res:
       data: {
         id: newAdmin.id,
         fullName: newAdmin.fullName,
-        adminId: newAdmin.adminId,
         officialEmail: newAdmin.officialEmail,
         department: newAdmin.department,
         municipality: newAdmin.municipality

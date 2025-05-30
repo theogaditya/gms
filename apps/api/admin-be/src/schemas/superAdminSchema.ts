@@ -7,7 +7,6 @@ export const superAdminLoginSchema = z.object({
 
 export const createSuperAdminSchema = z.object({
   fullName: z.string().min(2, 'Name must be at least 2 characters'),
-  adminId: z.string().min(2, 'Admin ID is required'),
   officialEmail: z.string().email('Invalid email format'),
   phoneNumber: z.string().optional(),
   password: z.string().min(8, 'Password must be at least 8 characters'),
@@ -15,7 +14,6 @@ export const createSuperAdminSchema = z.object({
 
 export const createStateAdminSchema = z.object({
   fullName: z.string().min(2, 'Name must be at least 2 characters'),
-  adminId: z.string().min(2, 'Admin ID is required'),
   officialEmail: z.string().email('Invalid email format'),
   phoneNumber: z.string().min(10, 'Phone number must be at least 10 digits'),
   password: z.string().min(8, 'Password must be at least 8 characters'),
@@ -26,7 +24,6 @@ export const createStateAdminSchema = z.object({
 
 export const createMunicipalAdminSchema = z.object({
   fullName: z.string().min(2, 'Name must be at least 2 characters'),
-  adminId: z.string().min(2, 'Admin ID is required'),
   officialEmail: z.string().email('Invalid email format'),
   phoneNumber: z.string().min(10, 'Phone number must be at least 10 digits'),
   password: z.string().min(8, 'Password must be at least 8 characters'),
