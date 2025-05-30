@@ -186,6 +186,8 @@ exports.Prisma.DepartmentMunicipalAdminScalarFieldEnum = {
   lastUpdated: 'lastUpdated',
   status: 'status',
   lastLogin: 'lastLogin',
+  workloadLimit: 'workloadLimit',
+  currentWorkload: 'currentWorkload',
   resolutionRate: 'resolutionRate',
   slaComplianceRate: 'slaComplianceRate',
   escalationCount: 'escalationCount',
@@ -226,7 +228,7 @@ exports.Prisma.DepartmentStateAdminScalarFieldEnum = {
   status: 'status',
   lastLogin: 'lastLogin',
   stateResolutionRate: 'stateResolutionRate',
-  systemicIssuesIdentified: 'systemicIssuesIdentified',
+  escalationCount: 'escalationCount',
   managedMunicipalities: 'managedMunicipalities',
   managedBySuperStateId: 'managedBySuperStateId'
 };
@@ -370,6 +372,20 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
+exports.Status = exports.$Enums.Status = {
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
+  SUSPENDED: 'SUSPENDED'
+};
+
+exports.AccessLevel = exports.$Enums.AccessLevel = {
+  SUPER_ADMIN: 'SUPER_ADMIN',
+  SUPER_MUNICIPAL_ADMIN: 'SUPER_MUNICIPAL_ADMIN',
+  SUPER_STATE_ADMIN: 'SUPER_STATE_ADMIN',
+  DEPT_MUNICIPAL_ADMIN: 'DEPT_MUNICIPAL_ADMIN',
+  DEPT_STATE_ADMIN: 'DEPT_STATE_ADMIN'
+};
+
 exports.ComplaintStatus = exports.$Enums.ComplaintStatus = {
   REGISTERED: 'REGISTERED',
   UNDER_PROCESSING: 'UNDER_PROCESSING',

@@ -67,8 +67,8 @@ model Agent {
   currentWorkload    Int       @default(0)
   availabilityStatus String    @default("At Work")
   dateOfCreation     DateTime  @default(now())
-  lastUpdated        DateTime  @updatedAt
-  status             String    @default("Active")
+  lastUpdated        Status    @default(ACTIVE)
+  status             String    @default("Active") //Enum Active, Inactive, Suspended
   lastLogin          DateTime?
   
   // Performance metrics
@@ -81,24 +81,39 @@ model Agent {
   coAssignedComplaints  Complaint[]  @relation("CoAssignedAgentComplaints")
   managedByMunicipal    DepartmentMunicipalAdmin? @relation("MunicipalAdminToAgents", fields: [managedByMunicipalId], references: [id])
   managedByMunicipalId  String?
+}
 
+enum Status{
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+}
+
+enum AccessLevel{
+  SUPER_ADMIN
+  SUPER_MUNICIPAL_ADMIN
+  SUPER_STATE_ADMIN
+  DEPT_MUNICIPAL_ADMIN
+  DEPT_STATE_ADMIN
 }
 
 // Department Municipal Admin model
 model DepartmentMunicipalAdmin {
   id                String    @id @default(uuid())
   fullName          String
-  adminId           String    @unique
+  adminId           String    @default(uuid())
   officialEmail     String    @unique
   phoneNumber       String
   password          String
   department        String
   municipality      String
-  accessLevel       String
+  accessLevel       AccessLevel @default(DEPT_MUNICIPAL_ADMIN)
   dateOfCreation    DateTime  @default(now())
   lastUpdated       DateTime  @updatedAt
-  status            String    @default("Active")
+  status            Status    @default(ACTIVE)
   lastLogin         DateTime?
+  workloadLimit      Int       @default(10)
+  currentWorkload    Int       @default(0)
   
   // Performance metrics
   resolutionRate    Float     @default(0)
@@ -122,15 +137,15 @@ model DepartmentMunicipalAdmin {
 model SuperMunicipalAdmin {
   id                 String    @id @default(uuid())
   fullName           String
-  adminId            String    @unique
+  adminId            String    @default(uuid())
   officialEmail      String    @unique
   password           String
   phoneNumber        String?
   municipality       String
-  accessLevel        String
+  accessLevel        AccessLevel @default(SUPER_MUNICIPAL_ADMIN)
   dateOfCreation     DateTime  @default(now())
   lastUpdated        DateTime  @updatedAt
-  status             String    @default("Active")
+  status             Status    @default(ACTIVE)
   lastLogin          DateTime?
   
   // Performance metrics
@@ -150,24 +165,24 @@ model SuperMunicipalAdmin {
 model DepartmentStateAdmin {
   id                  String    @id @default(uuid())
   fullName            String
-  adminId             String    @unique
+  adminId             String    @default(uuid())
   officialEmail       String    @unique
   password            String
   phoneNumber         String?
   department          String
   state               String
-  accessLevel         String
+  accessLevel         AccessLevel @default(DEPT_STATE_ADMIN)
   dateOfCreation      DateTime  @default(now())
   lastUpdated         DateTime  @updatedAt
-  status              String    @default("Active")
+  status              Status    @default(ACTIVE)
   lastLogin           DateTime?
   
   // Performance metrics
   stateResolutionRate    Float  @default(0)
-  systemicIssuesIdentified Int  @default(0)
+  escalationCount     Int  @default(0)
   
   // Relationships
-  managedMunicipalities  String[]
+  managedMunicipalities  String[]  @default([])
   managedMunicipalAdmins DepartmentMunicipalAdmin[] @relation("StateAdminToMunicipalAdmin")
   escalatedComplaints    Complaint[]                @relation("StateAdminToEscalatedComplaints")
   regionalWorkflows      RegionalWorkflow[]
@@ -182,15 +197,15 @@ model DepartmentStateAdmin {
 model SuperStateAdmin {
   id                 String    @id @default(uuid())
   fullName           String
-  adminId            String    @unique
+  adminId            String    @default(uuid())
   officialEmail      String    @unique
   phoneNumber        String?
   password           String
   state              String
-  accessLevel        String
+  accessLevel        AccessLevel @default(SUPER_STATE_ADMIN)
   dateOfCreation     DateTime  @default(now())
   lastUpdated        DateTime  @updatedAt
-  status             String    @default("Active")
+  status             Status    @default(ACTIVE)
   lastLogin          DateTime?
   
   // Performance metrics
@@ -211,14 +226,14 @@ model SuperStateAdmin {
 model SuperAdmin {
   id                String    @id @default(uuid())
   fullName          String
-  adminId           String    @unique
+  adminId           String    @default(uuid())
   officialEmail     String    @unique
   phoneNumber       String?
   password          String
-  accessLevel       String
+  accessLevel       AccessLevel @default(SUPER_ADMIN)
   dateOfCreation    DateTime  @default(now())
   lastUpdated       DateTime  @updatedAt
-  status            String    @default("Active")
+  status            Status    @default(ACTIVE)
   lastLogin         DateTime?
   
   // Relationships
@@ -374,7 +389,7 @@ model NewsUpdate {
 // Audit Log 
 model AuditLog {
   id          String    @id @default(uuid())
-  action      String
+  action      String    //Enum Reassingment and Escalation
   userId      String
   complaintId String?
   timestamp   DateTime  @default(now())
