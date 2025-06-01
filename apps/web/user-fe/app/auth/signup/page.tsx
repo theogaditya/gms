@@ -9,7 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Progress } from "@/components/ui/progress";
 import { Shield, User, MapPin, Settings, ArrowLeft, ArrowRight, CheckCircle } from "lucide-react";
-
+const API_URL = process.env.NEXT_PUBLIC_API_URL ; 
 interface FormData {
   email: string;
   phoneNumber: string;
@@ -129,7 +129,7 @@ const handleInputChange = (field: string, value: string) => {
 
     setIsLoading(true);
     try {
-      const response = await fetch('http://localhost:3001/api/auth/signup', {
+      const response = await fetch(`${API_URL}/api/auth/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -171,7 +171,7 @@ const handleInputChange = (field: string, value: string) => {
 
   if (isSuccess) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center pt-24 pb-8 px-4">
         <Card className="w-full max-w-md">
           <CardContent className="pt-6 text-center">
             <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
@@ -192,7 +192,7 @@ const handleInputChange = (field: string, value: string) => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 py-8 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 pt-24 pb-8 px-4">
       <div className="max-w-2xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
@@ -489,7 +489,7 @@ const handleInputChange = (field: string, value: string) => {
         <div className="text-center mt-6">
           <p className="text-gray-600 dark:text-gray-400">
             Already have an account?{' '}
-            <a href="/signin" className="text-black dark:text-white font-medium hover:underline">
+            <a href="/auth/login" className="text-black dark:text-white font-medium hover:underline">
               Sign in here
             </a>
           </p>

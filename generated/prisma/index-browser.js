@@ -275,19 +275,10 @@ exports.Prisma.CategoryScalarFieldEnum = {
   managedByDeptStateAdminId: 'managedByDeptStateAdminId'
 };
 
-exports.Prisma.SubCategoryMappingScalarFieldEnum = {
-  id: 'id',
-  categoryId: 'categoryId',
-  originalSubCategory: 'originalSubCategory',
-  standardizedSubCategory: 'standardizedSubCategory',
-  createdBy: 'createdBy',
-  creationDate: 'creationDate',
-  lastUpdated: 'lastUpdated'
-};
-
 exports.Prisma.ComplaintScalarFieldEnum = {
   id: 'id',
   submissionDate: 'submissionDate',
+  seq: 'seq',
   complainantId: 'complainantId',
   categoryId: 'categoryId',
   subCategory: 'subCategory',
@@ -370,6 +361,13 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
+exports.ComplaintUrgency = exports.$Enums.ComplaintUrgency = {
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH',
+  CRITICAL: 'CRITICAL'
+};
+
 exports.ComplaintStatus = exports.$Enums.ComplaintStatus = {
   REGISTERED: 'REGISTERED',
   UNDER_PROCESSING: 'UNDER_PROCESSING',
@@ -389,7 +387,6 @@ exports.Prisma.ModelName = {
   SuperStateAdmin: 'SuperStateAdmin',
   SuperAdmin: 'SuperAdmin',
   Category: 'Category',
-  SubCategoryMapping: 'SubCategoryMapping',
   Complaint: 'Complaint',
   ComplaintLocation: 'ComplaintLocation',
   Upvote: 'Upvote',

@@ -239,46 +239,29 @@ model Category {
 
   // Relationships
   complaints                Complaint[]
-  subCategoryMappings       SubCategoryMapping[]
   createdBySuperAdmin       SuperAdmin?           @relation(fields: [createdBySuperAdminId], references: [id])
   createdBySuperAdminId     String?
   managedByDeptStateAdmin   DepartmentStateAdmin? @relation(fields: [managedByDeptStateAdminId], references: [id])
   managedByDeptStateAdminId String?
 }
 
-// Sub-Category Mappings
-model SubCategoryMapping {
-  id                      String   @id @default(uuid())
-  categoryId              String
-  originalSubCategory     String
-  standardizedSubCategory String
-  createdBy               String
-  creationDate            DateTime @default(now())
-  lastUpdated             DateTime @updatedAt
-
-  // Relationships
-  category Category @relation(fields: [categoryId], references: [id])
-
-  @@unique([categoryId, originalSubCategory])
-  @@map("sub_category_mappings")
-}
-
 // Complaints
 model Complaint {
-  id                      String          @id @default(uuid())
-  submissionDate          DateTime        @default(now())
+  id                      String           @id @default(uuid())
+  submissionDate          DateTime         @default(now())
+  seq                     Int              @unique @default(autoincrement())
   complainantId           String
   categoryId              String
   subCategory             String
   standardizedSubCategory String?
   description             String
-  urgency                 String
+  urgency                 ComplaintUrgency @default(LOW)
   attachmentUrl           String?
   assignedDepartment      String
-  status                  ComplaintStatus @default(REGISTERED)
+  status                  ComplaintStatus  @default(REGISTERED)
   sla                     String?
-  upvoteCount             Int             @default(0)
-  isPublic                Boolean
+  upvoteCount             Int              @default(0)
+  isPublic                Boolean          @default(true)
   escalationLevel         String?
   dateOfResolution        DateTime?
 
@@ -320,6 +303,13 @@ enum ComplaintStatus {
   REJECTED
 }
 
+enum ComplaintUrgency {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
 // Complaint Location model 
 model ComplaintLocation {
   id          String  @id @default(uuid())
@@ -327,7 +317,7 @@ model ComplaintLocation {
   pin         String
   district    String
   city        String
-  locality    String?
+  locality    String
   street      String?
   latitude    Float?
   longitude   Float?
