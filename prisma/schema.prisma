@@ -30,7 +30,7 @@ model User {
   complaints            Complaint[]      @relation("ComplainantComplaints")
   upvotes               Upvote[]
   auditLogsCreated      AuditLog[]       @relation("LogCreator")
-  
+
 }
 
 // User Location model
@@ -70,7 +70,8 @@ model Agent {
   lastUpdated        Status    @default(ACTIVE)
   status             String    @default("Active") //Enum Active, Inactive, Suspended
   lastLogin          DateTime?
-  
+  assignmentAcceptedAt DateTime? //Should be updated wherever the agent is assigned the complaint
+
   // Performance metrics
   resolutionRate     Float     @default(0)
   avgResolutionTime  String?
@@ -89,13 +90,30 @@ enum Status{
   SUSPENDED
 }
 
-enum AccessLevel{
+enum AccessLevel {
   SUPER_ADMIN
   SUPER_MUNICIPAL_ADMIN
   SUPER_STATE_ADMIN
   DEPT_MUNICIPAL_ADMIN
   DEPT_STATE_ADMIN
 }
+
+enum Department {
+  INFRASTRUCTURE
+  EDUCATION
+  REVENUE
+  HEALTH
+  WATER_SUPPLY_SANITATION
+  ELECTRICITY_POWER
+  TRANSPORTATION
+  MUNICIPAL_SERVICES
+  POLICE_SERVICES
+  ENVIRONMENT
+  HOUSING_URBAN_DEVELOPMENT
+  SOCIAL_WELFARE
+  PUBLIC_GRIEVANCES
+}
+
 
 // Department Municipal Admin model
 model DepartmentMunicipalAdmin {
