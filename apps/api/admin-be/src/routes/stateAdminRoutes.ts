@@ -43,7 +43,7 @@ router.post('/login', async (req, res:any) => {
   return res.json({ success: true, message: 'Logged in successfully' });
 });
 
-// ----- 7. Get All State Admins -----
+// ----- 2. Get All State Admins -----
 router.get('/state-admins', async (req, res: any) => {
   try {
     const stateAdmins = await prisma.departmentStateAdmin.findMany({

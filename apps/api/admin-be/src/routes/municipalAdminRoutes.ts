@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET!;
 
-router.post('/login', async (req, res:any) => {
+router.post('/login', async (req, res: any) => {
   const { officialEmail, password } = req.body;
 
   const admin = await prisma.departmentMunicipalAdmin.findUnique({ where: { officialEmail } });
@@ -26,13 +26,27 @@ router.post('/login', async (req, res:any) => {
     {
       id: admin.id,
       email: admin.officialEmail,
-      accessLevel: admin.accessLevel
+      accessLevel: admin.accessLevel,
     },
     JWT_SECRET,
     { expiresIn: '7d' }
   );
 
-  return res.json({ success: true, token });
+  res.cookie('token', token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+  });
+
+  return res.json({
+    success: true,
+    admin: {
+      id: admin.id,
+      officialEmail: admin.officialEmail,
+      accessLevel: admin.accessLevel,
+    },
+  });
 });
 
 export default router;
