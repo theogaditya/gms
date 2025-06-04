@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET!;
 
-router.post('/signin', async (req, res:any) => {
+router.post('/login', async (req, res:any) => {
   const { officialEmail, password } = req.body;
 
   const admin = await prisma.departmentMunicipalAdmin.findUnique({ where: { officialEmail } });

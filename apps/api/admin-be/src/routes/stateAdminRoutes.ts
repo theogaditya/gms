@@ -4,11 +4,10 @@ import bcrypt from 'bcrypt';
 import { PrismaClient } from '../../../../../generated/prisma';
 
 const prisma = new PrismaClient();
-
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET!;
 
-router.post('/signin', async (req, res:any) => {
+router.post('/login', async (req, res:any) => {
   const { officialEmail, password } = req.body;
 
   const admin = await prisma.departmentStateAdmin.findUnique({ where: { officialEmail } });
@@ -32,7 +31,15 @@ router.post('/signin', async (req, res:any) => {
     { expiresIn: '7d' }
   );
 
-  return res.json({ success: true, token });
+  // Set cookie options
+  res.cookie('token', token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production', // secure only in prod
+    sameSite: 'strict',
+    maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days in 
+  });
+
+  return res.json({ success: true, message: 'Logged in successfully' });
 });
 
 export default router;

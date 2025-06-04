@@ -8,7 +8,7 @@ import {
   createStateAdminSchema,
   createMunicipalAdminSchema
 } from '../schemas/superAdminSchema';
-import { PrismaClient } from '../../../../../generated/prisma';
+import { Department, PrismaClient } from '../../../../../generated/prisma';
 
 const prisma = new PrismaClient();
 const router = express.Router();
@@ -38,35 +38,40 @@ router.post('/login', async (req, res: any) => {
       return res.status(401).json({ success: false, message: 'Invalid credentials' });
     }
 
-    // Update last login
     await prisma.superAdmin.update({
       where: { id: admin.id },
       data: { lastLogin: new Date() }
     });
 
     const token = jwt.sign(
-      { id: admin.id, email: admin.officialEmail }, 
-      JWT_SECRET, 
+      {
+        id: admin.id,
+        email: admin.officialEmail,
+        accessLevel: admin.accessLevel,
+      },
+      JWT_SECRET,
       { expiresIn: '24h' }
     );
 
-    // Set secure cookie for NextJS
     res.cookie('superAdminToken', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
-      maxAge: 24 * 60 * 60 * 1000, // 24 hours
-      path: '/'
+      maxAge: 24 * 60 * 60 * 1000, // 24h
+      path: '/',
     });
 
-    return res.json({ 
-      success: true, 
+    return res.json({
+      success: true,
       message: 'Login successful',
       admin: {
         id: admin.id,
+        adminId: admin.adminId,
         fullName: admin.fullName,
         officialEmail: admin.officialEmail,
-        accessLevel: admin.accessLevel
+        accessLevel: admin.accessLevel,
+        status: admin.status,
+        lastLogin: admin.lastLogin,
       }
     });
   } catch (err) {
@@ -74,6 +79,7 @@ router.post('/login', async (req, res: any) => {
     return res.status(500).json({ success: false, message: 'Server error' });
   }
 });
+
 
 // ----- 2. Super Admin Logout -----
 router.post('/logout', (req, res: any) => {
@@ -98,7 +104,6 @@ router.post('/create', async (req, res: any) => {
   const data = parseResult.data;
 
   try {
-    // Check if super admin already exists
     const existing = await prisma.superAdmin.findFirst({
       where: {
         OR: [
@@ -110,7 +115,7 @@ router.post('/create', async (req, res: any) => {
     if (existing) {
       return res.status(409).json({
         success: false,
-        message: 'Super Admin with given email or ID already exists'
+        message: 'Super Admin with given email already exists'
       });
     }
 
@@ -122,6 +127,8 @@ router.post('/create', async (req, res: any) => {
         officialEmail: data.officialEmail,
         phoneNumber: data.phoneNumber,
         password: hashedPassword,
+        accessLevel: 'SUPER_ADMIN', // this will default anyway, but explicit
+        status: 'ACTIVE',           // default, but explicit for clarity
       }
     });
 
@@ -130,11 +137,12 @@ router.post('/create', async (req, res: any) => {
       message: 'Super Admin created successfully',
       data: {
         id: newSuperAdmin.id,
-        fullName: newSuperAdmin.fullName,
         adminId: newSuperAdmin.adminId,
+        fullName: newSuperAdmin.fullName,
         officialEmail: newSuperAdmin.officialEmail,
         accessLevel: newSuperAdmin.accessLevel,
-        dateOfCreation: newSuperAdmin.dateOfCreation
+        dateOfCreation: newSuperAdmin.dateOfCreation,
+        status: newSuperAdmin.status,
       }
     });
 
@@ -143,6 +151,7 @@ router.post('/create', async (req, res: any) => {
     return res.status(500).json({ success: false, message: 'Server error' });
   }
 });
+
 
 // ----- 4. Get Current Super Admin Profile -----
 router.get('/profile', authenticateSuperAdmin, async (req, res: any) => {
@@ -208,7 +217,7 @@ router.post('/create/state-admins', authenticateSuperAdmin, async (req, res: any
         officialEmail: data.officialEmail,
         phoneNumber: data.phoneNumber,
         password: hashedPassword,
-        department: data.department,
+        department: data.department as Department,
         state: data.state,
         managedMunicipalities: data.managedMunicipalities || []
       }
@@ -267,7 +276,7 @@ router.post('/create/municipal-admins', authenticateSuperAdmin, async (req, res:
         officialEmail: data.officialEmail,
         phoneNumber: data.phoneNumber,
         password: hashedPassword,
-        department: data.department,
+        department: data.department as Department,
         municipality: data.municipality,
       }
     });
