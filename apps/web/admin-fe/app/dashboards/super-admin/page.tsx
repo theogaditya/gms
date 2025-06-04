@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { useEffect } from 'react';
 
 interface Admin {
   id: string;
@@ -17,15 +18,66 @@ interface Admin {
 export default function SuperAdminDashboard() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<'dashboard' | 'admins' | 'settings'>('dashboard');
-  const [admins, setAdmins] = useState<Admin[]>([
-    { id: '1', name: 'John Doe', email: 'john@municipal.gov', department: 'INFRASTRUCTURE', accessLevel: 'DEPT_MUNICIPAL_ADMIN', status: 'Active' },
-    { id: '2', name: 'Jane Smith', email: 'jane@state.gov', department: 'HEALTH', accessLevel: 'DEPT_STATE_ADMIN', status: 'Active' },
-  ]);
+  const [admins, setAdmins] = useState<Admin[]>([]);
+  const [loading, setLoading] = useState(false);
+  const API_BASE = "http://localhost:3002/api/super-admin";
 
-  const handleDeactivateAdmin = (id: string) => {
-    setAdmins(prev => prev.map(admin => 
-      admin.id === id ? { ...admin, status: 'Inactive' } : admin
-    ));
+  const handleDeactivateAdmin = async (id: string) => {
+    const admin = admins.find((a) => a.id === id);
+    if (!admin) return;
+
+    const newStatus = admin.status === 'Active' ? 'INACTIVE' : 'ACTIVE';
+
+    try {
+      const res = await fetch(`${API_BASE}/admins/${id}/status`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: newStatus }),
+        credentials:'include'
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        setAdmins(prev => prev.map(a => 
+          a.id === id ? { ...a, status: newStatus.charAt(0).toUpperCase() + newStatus.slice(1).toLowerCase() } : a
+        ));
+      } else {
+        alert('Failed to update status: ' + data.message);
+      }
+    } catch (err) {
+      console.error(err);
+      alert('An error occurred while updating status.');
+    }
+  };
+
+  useEffect(() => {
+    if (activeTab === 'admins') {
+      fetchAdmins();
+    }
+  }, [activeTab]);
+
+  const fetchAdmins = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch(`${API_BASE}/admins`,{
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+        credentials:'include',
+      });
+      const data = await res.json();
+      if (data.success) {
+        // Capitalize status for display
+        const formattedAdmins = data.admins.map((admin: Admin) => ({
+          ...admin,
+          status: admin.status.charAt(0).toUpperCase() + admin.status.slice(1).toLowerCase()
+        }));
+        setAdmins(formattedAdmins);
+      }
+    } catch (err) {
+      console.error('Failed to fetch admins:', err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -80,7 +132,7 @@ export default function SuperAdminDashboard() {
         {activeTab === 'dashboard' && (
           <motion.section initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <StatCard title="Total Admins" value="24" />
-            <StatCard title="Active Sessions" value="8" />
+            <StatCard title="Total Complaints" value="8" />
             <StatCard title="System Health" value="100%" color="text-green-400" />
 
             {/* Recent Activity */}
@@ -160,10 +212,9 @@ export default function SuperAdminDashboard() {
                         <button className="text-blue-400 hover:text-blue-300 mr-3">Edit</button>
                         <button 
                           onClick={() => handleDeactivateAdmin(admin.id)} 
-                          className="text-red-400 hover:text-red-300"
-                          disabled={admin.status === 'Inactive'}
+                          className={`mr-3 ${admin.status === 'Active' ? 'text-red-400 hover:text-red-300' : 'text-green-400 hover:text-green-300'}`}
                         >
-                          {admin.status === 'Active' ? 'Deactivate' : 'Inactive'}
+                          {admin.status === 'Active' ? 'Deactivate' : 'Activate'}
                         </button>
                       </td>
                     </tr>

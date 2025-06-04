@@ -25,7 +25,7 @@ export const authenticateSuperAdmin = async (
 ): Promise<void> => {
   try {
     // Prioritize cookies over Authorization header for NextJS
-    let token = req.cookies.token || req.cookies.superAdminToken;
+    let token = req.cookies.superAdminToken || req.cookies.token;
     
     if (!token) {
       const authHeader = req.headers.authorization;

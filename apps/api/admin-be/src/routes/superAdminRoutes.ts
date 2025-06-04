@@ -298,56 +298,58 @@ router.post('/create/municipal-admins', authenticateSuperAdmin, async (req, res:
   }
 });
 
-// ----- 7. Get All State Admins -----
-router.get('/state-admins', authenticateSuperAdmin, async (req, res: any) => {
+// ----- 7. Get All Admins -----  
+router.get('/admins',authenticateSuperAdmin, async (req, res) => {
   try {
-    const stateAdmins = await prisma.departmentStateAdmin.findMany({
-      select: {
-        id: true,
-        fullName: true,
-        adminId: true,
-        officialEmail: true,
-        department: true,
-        state: true,
-        status: true,
-        dateOfCreation: true,
-        lastLogin: true,
-        managedMunicipalities: true
-      },
-      orderBy: { dateOfCreation: 'desc' }
-    });
+    const stateAdmins = await prisma.departmentStateAdmin.findMany();
+    const municipalAdmins = await prisma.departmentMunicipalAdmin.findMany();
 
-    return res.json({ success: true, data: stateAdmins });
+    const admins = [...stateAdmins, ...municipalAdmins].map(admin => ({
+      id: admin.id,
+      name: admin.fullName,
+      email: admin.officialEmail,
+      department: admin.department,
+      accessLevel: admin.accessLevel,
+      status: admin.status,
+    }));
+
+    res.json({ success: true, admins });
   } catch (error) {
-    console.error('Get State Admins Error:', error);
-    return res.status(500).json({ success: false, message: 'Server error' });
+    console.error(error);
+    res.status(500).json({ success: false, message: 'Failed to fetch admins' });
   }
 });
 
-// ----- 8. Get All Municipal Admins -----
-router.get('/municipal-admins', authenticateSuperAdmin, async (req, res: any) => {
+// ----- 8. Update Admins Status -----  
+router.patch('/admins/:id/status',authenticateSuperAdmin, async (req, res:any) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  if (!['ACTIVE', 'INACTIVE'].includes(status)) {
+    return res.status(400).json({ success: false, message: 'Invalid status' });
+  }
+
   try {
-    const municipalAdmins = await prisma.departmentMunicipalAdmin.findMany({
-      select: {
-        id: true,
-        fullName: true,
-        adminId: true,
-        officialEmail: true,
-        department: true,
-        municipality: true,
-        status: true,
-        dateOfCreation: true,
-        lastLogin: true,
-        currentWorkload: true,
-        workloadLimit: true
-      },
-      orderBy: { dateOfCreation: 'desc' }
+    let updated = await prisma.departmentStateAdmin.updateMany({
+      where: { id },
+      data: { status },
     });
 
-    return res.json({ success: true, data: municipalAdmins });
+    if (updated.count === 0) {
+      updated = await prisma.departmentMunicipalAdmin.updateMany({
+        where: { id },
+        data: { status },
+      });
+    }
+
+    if (updated.count === 0) {
+      return res.status(404).json({ success: false, message: 'Admin not found' });
+    }
+
+    res.json({ success: true, message: `Admin status updated to ${status}` });
   } catch (error) {
-    console.error('Get Municipal Admins Error:', error);
-    return res.status(500).json({ success: false, message: 'Server error' });
+    console.error(error);
+    res.status(500).json({ success: false, message: 'Failed to update status' });
   }
 });
 

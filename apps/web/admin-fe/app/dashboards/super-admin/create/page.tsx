@@ -51,9 +51,14 @@ export default function CreateAdmin() {
     setLoading(true);
 
     try {
-      const res = await fetch('/api/admin/create', {
+      const endpoint = formData.accessLevel === 'DEPT_STATE_ADMIN'
+        ? 'http://localhost:3002/api/super-admin/create/state-admins'
+        : 'http://localhost:3002/api/super-admin/create/municipal-admins';
+
+      const res = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify(formData),
       });
 
@@ -69,6 +74,7 @@ export default function CreateAdmin() {
       setLoading(false);
     }
   };
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;

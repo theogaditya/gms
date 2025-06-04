@@ -2,6 +2,7 @@ import express from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { PrismaClient } from '../../../../../generated/prisma';
+import { authenticateStateAdmin } from '../middleware/adminAuth';
 
 const prisma = new PrismaClient();
 const router = express.Router();
@@ -41,5 +42,32 @@ router.post('/login', async (req, res:any) => {
 
   return res.json({ success: true, message: 'Logged in successfully' });
 });
+
+// ----- 7. Get All State Admins -----
+router.get('/state-admins', async (req, res: any) => {
+  try {
+    const stateAdmins = await prisma.departmentStateAdmin.findMany({
+      select: {
+        id: true,
+        fullName: true,
+        adminId: true,
+        officialEmail: true,
+        department: true,
+        state: true,
+        status: true,
+        dateOfCreation: true,
+        lastLogin: true,
+        managedMunicipalities: true
+      },
+      orderBy: { dateOfCreation: 'desc' }
+    });
+
+    return res.json({ success: true, data: stateAdmins });
+  } catch (error) {
+    console.error('Get State Admins Error:', error);
+    return res.status(500).json({ success: false, message: 'Server error' });
+  }
+});
+
 
 export default router;
