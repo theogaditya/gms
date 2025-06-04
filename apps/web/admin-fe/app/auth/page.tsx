@@ -10,7 +10,7 @@ export default function AdminSignIn() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [role, setRole] = useState('SUPER_ADMIN'); // default selection
+  const [role, setRole] = useState('SUPER_ADMIN');
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,7 +18,13 @@ export default function AdminSignIn() {
     setLoading(true);
 
     try {
-      const res = await fetch('http://localhost:3002/api/super-admin/login', {
+      const endpointMap: Record<string, string> = {
+        SUPER_ADMIN: 'http://localhost:3002/api/super-admin/login',
+        DEPT_STATE_ADMIN: 'http://localhost:3002/api/state-admin/login',
+        DEPT_MUNICIPAL_ADMIN: 'http://localhost:3002/api/municipal-admin/login',
+      };
+
+      const res = await fetch(endpointMap[role], {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -34,29 +40,27 @@ export default function AdminSignIn() {
         throw new Error(data.message || 'Login failed');
       }
 
-    const accessLevel = data.admin?.accessLevel;
+      const accessLevel = data.admin?.accessLevel;
 
-    // ✅ Route based on access level
-    switch (accessLevel) {
-      case 'SUPER_ADMIN':
-        router.push('/dashboards/super-admin');
-        break;
-      case 'DEPT_STATE_ADMIN':
-        router.push('/dashboards/state-admin');
-        break;
-      case 'DEPT_MUNICIPAL_ADMIN':
-        router.push('/dashboards/municipal-admin');
-        break;
-      default:
-        throw new Error('Unauthorized access level');
-    }
+      switch (accessLevel) {
+        case 'SUPER_ADMIN':
+          router.push('/dashboards/super-admin');
+          break;
+        case 'DEPT_STATE_ADMIN':
+          router.push('/dashboards/state-admin');
+          break;
+        case 'DEPT_MUNICIPAL_ADMIN':
+          router.push('/dashboards/municipal-admin');
+          break;
+        default:
+          throw new Error('Unauthorized access level');
+      }
     } catch (err: any) {
       setError(err.message || 'Something went wrong');
     } finally {
       setLoading(false);
     }
   };
-
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 flex items-center justify-center p-4">
