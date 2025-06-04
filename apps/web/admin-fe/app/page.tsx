@@ -1,11 +1,9 @@
-import Image from "next/image";
 import AdminSignIn from "./auth/page";
 
 export default function Home() {
   return (
     <div>
       <AdminSignIn/>
-      
     </div>
   );
 }
