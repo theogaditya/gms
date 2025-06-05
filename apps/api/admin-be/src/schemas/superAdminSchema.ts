@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { Department,AccessLevel } from '../../../../../generated/prisma';
 
 export const superAdminLoginSchema = z.object({
   officialEmail: z.string().email('Invalid email format'),
@@ -17,7 +18,7 @@ export const createStateAdminSchema = z.object({
   officialEmail: z.string().email('Invalid email format'),
   phoneNumber: z.string().min(10, 'Phone number must be at least 10 digits'),
   password: z.string().min(8, 'Password must be at least 8 characters'),
-  department: z.string().min(2, 'Department is required'),
+  department: z.nativeEnum(Department),
   state: z.string().min(2, 'State is required'),
   managedMunicipalities: z.array(z.string()).optional().default([]),
 });

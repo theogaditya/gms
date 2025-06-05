@@ -21,5 +21,7 @@ app.use('/api/super-admin', superAdminRoutes);
 app.use('/api/state-admin', stateAdminRoutes);
 app.use('/api/municipal-admin', municipalAdminRoutes);
 
+//Testing Endpoints
+
 const PORT = process.env.ADMIN_BE_PORT || 5000;
 app.listen(PORT, () => console.log(`Server Running http://localhost:${PORT}`));

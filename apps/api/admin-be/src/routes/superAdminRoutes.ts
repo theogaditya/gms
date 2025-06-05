@@ -195,11 +195,7 @@ router.post('/create/state-admins', authenticateSuperAdmin, async (req, res: any
 
   try {
     const existing = await prisma.departmentStateAdmin.findFirst({
-      where: {
-        OR: [
-          { officialEmail: data.officialEmail },
-        ]
-      }
+      where: { officialEmail: data.officialEmail },
     });
 
     if (existing) {
@@ -232,7 +228,10 @@ router.post('/create/state-admins', authenticateSuperAdmin, async (req, res: any
         officialEmail: newAdmin.officialEmail,
         state: newAdmin.state,
         department: newAdmin.department,
-        managedMunicipalities: newAdmin.managedMunicipalities
+        managedMunicipalities: newAdmin.managedMunicipalities,
+        accessLevel: newAdmin.accessLevel,
+        dateOfCreation: newAdmin.dateOfCreation,
+        status: newAdmin.status,
       }
     });
 
