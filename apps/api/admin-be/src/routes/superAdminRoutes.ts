@@ -352,4 +352,16 @@ router.patch('/admins/:id/status',authenticateSuperAdmin, async (req, res:any) =
   }
 });
 
+// ----- 9. Get All Complaints -----
+router.get('/complaints', authenticateSuperAdmin, async (req, res) => {
+  try {
+    const complaints = await prisma.complaint.findMany();
+
+    res.json({ success: true, complaints });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: 'Failed to fetch complaints' });
+  }
+});
+
 export default router;
