@@ -8,15 +8,6 @@ import AdminsTab from './components/AdminsTab';
 import Header from './components/Header';
 import Footer from './components/Footer';
 
-interface Admin {
-  id: string;
-  name: string;
-  email: string;
-  department: string;
-  accessLevel: string;
-  status: string;
-}
-
 export default function SuperAdminDashboard() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<'dashboard' | 'admins' | 'settings'>('dashboard');
