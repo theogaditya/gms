@@ -99,7 +99,8 @@ export default function SuperAdminDashboard() {
         <Header activeTab={activeTab} />
 
         {activeTab === 'dashboard' && <DashboardTab />}
-        {activeTab === 'admins' && <AdminsTab admins={admins} loading={loading} onToggleStatus={handleDeactivateAdmin} />}
+        {activeTab === 'admins' && <AdminsTab />}
+
         <Footer />
       </main>
     </div>
