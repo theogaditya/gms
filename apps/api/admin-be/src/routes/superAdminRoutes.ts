@@ -355,7 +355,15 @@ router.patch('/admins/:id/status',authenticateSuperAdmin, async (req, res:any) =
 // ----- 9. Get All Complaints -----
 router.get('/complaints', authenticateSuperAdmin, async (req, res) => {
   try {
-    const complaints = await prisma.complaint.findMany();
+    const complaints = await prisma.complaint.findMany({
+      include: {
+        category: true,
+        complainant: true 
+      },
+      orderBy: {
+        submissionDate: 'desc' 
+      }
+    });
 
     res.json({ success: true, complaints });
   } catch (error) {
@@ -363,5 +371,10 @@ router.get('/complaints', authenticateSuperAdmin, async (req, res) => {
     res.status(500).json({ success: false, message: 'Failed to fetch complaints' });
   }
 });
+
+// ----- 10. Delete A Complaint -----
+
+
+// ----- 11. Escalate A Complaint ----- 
 
 export default router;
