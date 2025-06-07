@@ -46,7 +46,6 @@ export default function DashboardTab() {
   const router = useRouter();
   const API_BASE="http://localhost:3002/api/super-admin";
   
-  // Fetch complaints from API
   const fetchComplaints = async () => {
     try {
       setLoading(true);
@@ -66,7 +65,6 @@ export default function DashboardTab() {
 
       const data = await response.json();
       
-      // Assuming the API returns an array of complaints
       const complaints = Array.isArray(data) ? data : data.complaints || [];
       
       setStats({
@@ -85,21 +83,18 @@ export default function DashboardTab() {
     fetchComplaints();
   }, []);
 
-  // Group complaints by status for summary cards
   const groupedByStatus = stats.recent.reduce((acc: Record<string, Complaint[]>, complaint) => {
     acc[complaint.status] = acc[complaint.status] || [];
     acc[complaint.status].push(complaint);
     return acc;
   }, {});
 
-  // Group complaints by urgency for summary
   const groupedByUrgency = stats.recent.reduce((acc: Record<string, Complaint[]>, complaint) => {
     acc[complaint.urgency] = acc[complaint.urgency] || [];
     acc[complaint.urgency].push(complaint);
     return acc;
   }, {});
 
-  // Status to color map for cards
   const statusColors: Record<string, string> = {
     UNDER_PROCESSING: 'text-yellow-300',
     RESOLVED: 'text-green-300',
@@ -108,7 +103,6 @@ export default function DashboardTab() {
     CLOSED: 'text-gray-300',
   };
 
-  // Status display names
   const statusDisplayNames: Record<string, string> = {
     UNDER_PROCESSING: 'Under Processing',
     RESOLVED: 'Resolved',
@@ -117,7 +111,6 @@ export default function DashboardTab() {
     CLOSED: 'Closed',
   };
 
-  // Urgency colors
   const urgencyColors: Record<string, string> = {
     LOW: 'bg-green-600 text-green-100',
     MEDIUM: 'bg-yellow-600 text-yellow-100',
@@ -125,7 +118,6 @@ export default function DashboardTab() {
     CRITICAL: 'bg-red-600 text-red-100',
   };
 
-  // Urgency display colors for summary
   const urgencyDisplayColors: Record<string, string> = {
     LOW: 'text-green-300',
     MEDIUM: 'text-yellow-300',
@@ -133,34 +125,44 @@ export default function DashboardTab() {
     CRITICAL: 'text-red-400',
   };
 
-  // Filtered complaints based on selected filters
   const filteredComplaints = stats.recent.filter((complaint) => {
     const statusMatch = filterStatus === 'All' || complaint.status === filterStatus;
     const urgencyMatch = filterUrgency === 'All' || complaint.urgency === filterUrgency;
     return statusMatch && urgencyMatch;
   });
 
-  // Delete complaint handler
-  const handleDelete = async (id: string) => {
+  const handleToggleEscalation = async (id: string) => {
     try {
+      const complaint = stats.recent.find(c => c.id === id);
+      if (!complaint) return;
+
+      const newStatus = complaint.status === 'ESCALATED' ? 'UNDER_PROCESSING' : 'ESCALATED';
+
       const response = await fetch(`${API_BASE}/complaints/${id}`, {
-        method: 'DELETE',
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         credentials: 'include',
+        body: JSON.stringify({
+          status: newStatus,
+        }),
       });
 
       if (!response.ok) {
-        throw new Error(`Failed to delete complaint: ${response.status}`);
+        throw new Error(`Failed to update complaint: ${response.status}`);
       }
 
-      // Remove from local state
-      const updated = stats.recent.filter(c => c.id !== id);
+      // Update local state
+      const updated = stats.recent.map(c =>
+        c.id === id
+          ? { ...c, status: newStatus as Complaint['status'] }
+          : c
+      );
       setStats({ totalComplaints: updated.length, recent: updated });
     } catch (err) {
-      console.error('Error deleting complaint:', err);
-      setError(err instanceof Error ? err.message : 'Failed to delete complaint');
+      console.error('Error updating complaint:', err);
+      setError(err instanceof Error ? err.message : 'Failed to update complaint');
     }
   };
 
@@ -176,8 +178,8 @@ export default function DashboardTab() {
   const executePopupAction = async () => {
     if (!confirmAction.complaint) return;
     
-    if (confirmAction.type === 'delete') {
-      await handleDelete(confirmAction.complaint.id);
+    if (confirmAction.type === 'toggle') {
+      await handleToggleEscalation(confirmAction.complaint.id);
     }
     closePopup();
   };
@@ -344,15 +346,6 @@ export default function DashboardTab() {
       <div className="bg-gray-800 p-6 rounded-xl border border-gray-700">
         <h3 className="text-lg font-semibold text-white mb-4">Quick Actions</h3>
         <div className="space-y-3 flex flex-col">
-          <Link href="/dashboards/super-admin/create">
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-2 px-4 rounded-lg text-sm font-medium"
-            >
-              Create New Admin
-            </motion.button>
-          </Link>
           <Link href="https://insight.batoi.com/management/44/32e98cab-a41c-48f0-8804-d3f1b4ec1363">
             <button className="w-full bg-gray-700 text-white py-2 px-4 rounded-lg text-sm font-medium hover:bg-gray-600 transition">
               View Reports
@@ -449,10 +442,10 @@ export default function DashboardTab() {
                   {statusDisplayNames[item.status] || item.status}
                 </span>
                 <button
-                  onClick={() => confirmPopup(item, 'delete')}
-                  className="bg-red-600 text-white px-2 py-1 rounded-lg text-xs font-medium hover:bg-red-700 transition"
+                  onClick={() => confirmPopup(item, 'toggle')}
+                  className="bg-orange-500 text-white px-2 py-1 rounded-lg text-xs font-medium hover:bg-orange-600 transition"
                 >
-                  Delete
+                  {item.status === 'ESCALATED' ? 'De-Escalate' : 'Escalate'}
                 </button>
               </div>
             </motion.div>
@@ -472,17 +465,13 @@ export default function DashboardTab() {
             <div className="bg-gray-900 p-6 rounded-xl border border-gray-700 shadow-lg max-w-sm w-full">
               <h2 className="text-white text-lg font-semibold mb-3">
                 Confirm{' '}
-                {confirmAction.type === 'delete'
-                  ? 'Deletion'
-                  : confirmAction.complaint.status === 'ESCALATED'
+                {confirmAction.complaint.status === 'ESCALATED'
                   ? 'De-Escalation'
                   : 'Escalation'}
               </h2>
               <p className="text-gray-300 text-sm mb-4">
                 Are you sure you want to{' '}
-                {confirmAction.type === 'delete'
-                  ? 'delete'
-                  : confirmAction.complaint.status === 'ESCALATED'
+                {confirmAction.complaint.status === 'ESCALATED'
                   ? 'de-escalate'
                   : 'escalate'}{' '}
                 this complaint?
