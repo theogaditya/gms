@@ -23,7 +23,7 @@ export const Cta = ({
   buttons = {
     primary: {
       text: "Register a Complaint",
-      url: "/complaint",
+      url: "/regcomplaint",
     },
     secondary: {
       text: "Log In",
