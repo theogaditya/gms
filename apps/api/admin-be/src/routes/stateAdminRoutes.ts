@@ -1,11 +1,17 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import dotenv from 'dotenv';
 import { PrismaClient } from '../../../../../generated/prisma';
 import { authenticateStateAdmin } from '../middleware/adminAuth';
 
 const prisma = new PrismaClient();
 const router = express.Router();
+
+const nodeEnv = process.env.NODE_ENV || 'development';
+const envFile = nodeEnv === 'production' ? '.env.prod' : '.env.local';
+dotenv.config({ path: envFile });
+
 const JWT_SECRET = process.env.JWT_SECRET!;
 
 router.post('/login', async (req, res:any) => {

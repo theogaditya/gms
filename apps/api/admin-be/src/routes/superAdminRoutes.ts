@@ -1,4 +1,5 @@
 import express from 'express';
+import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { authenticateSuperAdmin } from '../middleware/superAdminAuth';
@@ -12,7 +13,11 @@ import { Department, PrismaClient } from '../../../../../generated/prisma';
 
 const prisma = new PrismaClient();
 const router = express.Router();
-const JWT_SECRET = process.env.JWT_SECRET || 'super-secret-key';
+const nodeEnv = process.env.NODE_ENV || 'development';
+const envFile = nodeEnv === 'production' ? '.env.prod' : '.env.local';
+dotenv.config({ path: envFile });
+
+const JWT_SECRET = process.env.JWT_SECRET!;
 
 // ----- 1. Super Admin Login -----
 router.post('/login', async (req, res: any) => {
