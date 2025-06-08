@@ -19,10 +19,6 @@ type Department =
   | 'SOCIAL_WELFARE'
   | 'PUBLIC_GRIEVANCES';
 
-type AccessLevel =
-  | 'DEPT_MUNICIPAL_ADMIN'
-  | 'DEPT_STATE_ADMIN';
-
 export default function CreateAdmin() {
   const router = useRouter();
   const [formData, setFormData] = useState({
@@ -33,8 +29,6 @@ export default function CreateAdmin() {
     confirmPassword: '',
     department: 'INFRASTRUCTURE' as Department,
     municipality: '',
-    accessLevel: 'DEPT_MUNICIPAL_ADMIN' as AccessLevel,
-    state: ''
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -51,9 +45,8 @@ export default function CreateAdmin() {
     setLoading(true);
 
     try {
-      const endpoint = formData.accessLevel === 'DEPT_STATE_ADMIN'
-        ? 'http://localhost:3002/api/super-admin/create/state-admins'
-        : 'http://localhost:3002/api/super-admin/create/municipal-admins';
+      // Always create municipal admin
+      const endpoint = 'http://localhost:3002/api/super-admin/create/municipal-admins';
 
       const res = await fetch(endpoint, {
         method: 'POST',
@@ -75,7 +68,6 @@ export default function CreateAdmin() {
     }
   };
 
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -96,7 +88,7 @@ export default function CreateAdmin() {
           className="bg-gray-800 rounded-xl shadow-xl border border-gray-700 overflow-hidden"
         >
           <div className="bg-gradient-to-r from-blue-600 to-indigo-700 p-6 text-center border-b border-gray-700">
-            <h2 className="text-xl font-semibold text-white">Create New Admin</h2>
+            <h2 className="text-xl font-semibold text-white">Create New Municipal Admin</h2>
             <p className="text-blue-100 text-sm">Fill in the required details</p>
           </div>
 
@@ -148,20 +140,6 @@ export default function CreateAdmin() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-blue-200 mb-1">Access Level</label>
-                <select
-                  name="accessLevel"
-                  value={formData.accessLevel}
-                  onChange={handleChange}
-                  className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
-                  required
-                >
-                  <option value="DEPT_MUNICIPAL_ADMIN">Municipal Admin</option>
-                  <option value="DEPT_STATE_ADMIN">State Admin</option>
-                </select>
-              </div>
-
-              <div>
                 <label className="block text-sm font-medium text-blue-200 mb-1">Department</label>
                 <select
                   name="department"
@@ -180,31 +158,17 @@ export default function CreateAdmin() {
                 </select>
               </div>
 
-              {formData.accessLevel === 'DEPT_MUNICIPAL_ADMIN' ? (
-                <div>
-                  <label className="block text-sm font-medium text-blue-200 mb-1">Municipality</label>
-                  <input
-                    type="text"
-                    name="municipality"
-                    value={formData.municipality}
-                    onChange={handleChange}
-                    className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
-                    required
-                  />
-                </div>
-              ) : (
-                <div>
-                  <label className="block text-sm font-medium text-blue-200 mb-1">State</label>
-                  <input
-                    type="text"
-                    name="state"
-                    value={formData.state}
-                    onChange={handleChange}
-                    className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
-                    required
-                  />
-                </div>
-              )}
+              <div>
+                <label className="block text-sm font-medium text-blue-200 mb-1">Municipality</label>
+                <input
+                  type="text"
+                  name="municipality"
+                  value={formData.municipality}
+                  onChange={handleChange}
+                  className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                  required
+                />
+              </div>
 
               <div>
                 <label className="block text-sm font-medium text-blue-200 mb-1">Password</label>
@@ -236,7 +200,7 @@ export default function CreateAdmin() {
             <div className="flex justify-end pt-4 space-x-3">
               <button
                 type="button"
-                onClick={() => router.push('/dashboards/super-admin')}
+                onClick={() => router.push('/dashboards/state-admin')}
                 className="bg-gray-700 text-white py-2 px-6 rounded-lg font-medium hover:bg-gray-600 transition"
               >
                 Cancel
