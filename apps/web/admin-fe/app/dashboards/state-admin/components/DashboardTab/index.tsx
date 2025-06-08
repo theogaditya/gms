@@ -2,7 +2,6 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 
 interface Complaint {
   id: string;
@@ -43,7 +42,6 @@ export default function DashboardTab() {
     complaint: Complaint | null;
   }>({ type: 'delete', complaint: null });
 
-  const router = useRouter();
   const API_BASE="http://localhost:3002/api/super-admin";
   
   const fetchComplaints = async () => {

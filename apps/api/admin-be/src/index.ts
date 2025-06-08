@@ -30,5 +30,5 @@ app.use('/api/state-admin', stateAdminRoutes);
 app.use('/api/municipal-admin', municipalAdminRoutes);
 
 // Start server
-const PORT = process.env.ADMIN_BE_PORT || 5000;
+const PORT = process.env.ADMIN_BE_PORT;
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));

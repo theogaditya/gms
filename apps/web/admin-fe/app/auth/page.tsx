@@ -24,7 +24,7 @@ export default function AdminSignIn() {
         DEPT_STATE_ADMIN: `${API_BASE}/api/state-admin/login`,
         DEPT_MUNICIPAL_ADMIN: `${API_BASE}/api/municipal-admin/login`,
       };
-
+      
       const res = await fetch(endpointMap[role], {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -35,6 +35,7 @@ export default function AdminSignIn() {
         }),
       });
 
+      console.log('Endpoint:', endpointMap[role]);
       const data = await res.json();
 
       if (!res.ok) {
