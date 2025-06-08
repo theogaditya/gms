@@ -17,7 +17,8 @@ interface Admin {
 export default function AdminsTab() {
   const [admins, setAdmins] = useState<Admin[]>([]);
   const [loading, setLoading] = useState(false);
-  const API_BASE = "http://localhost:3002/api/super-admin";
+  const API_BASE = process.env.NEXT_PUBLIC_URL_ADMIN;
+  console.log('API_BASE:', API_BASE);
 
   const handleDeactivateAdmin = async (id: string) => {
     const admin = admins.find((a) => a.id === id);
@@ -26,7 +27,7 @@ export default function AdminsTab() {
     const newStatus = admin.status === 'Active' ? 'INACTIVE' : 'ACTIVE';
 
     try {
-      const res = await fetch(`${API_BASE}/admins/${id}/status`, {
+      const res = await fetch(`${API_BASE}/api/super-admin/admins/${id}/status`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: newStatus }),
@@ -51,7 +52,7 @@ export default function AdminsTab() {
     const fetchAdmins = async () => {
       try {
         setLoading(true);
-        const res = await fetch(`${API_BASE}/admins`, {
+        const res = await fetch(`${API_BASE}/api/super-admin/admins`, {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',

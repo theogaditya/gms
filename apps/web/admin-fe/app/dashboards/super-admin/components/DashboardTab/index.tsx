@@ -2,7 +2,6 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 
 interface Complaint {
   id: string;
@@ -43,16 +42,16 @@ export default function DashboardTab() {
     complaint: Complaint | null;
   }>({ type: 'delete', complaint: null });
 
-  const router = useRouter();
-  const API_BASE="http://localhost:3002/api/super-admin";
-  
+  const API_BASE = process.env.NEXT_PUBLIC_URL_ADMIN;
+  console.log('API_BASE:', API_BASE);
+
   // Fetch complaints from API
   const fetchComplaints = async () => {
     try {
       setLoading(true);
       setError(null);
       
-      const response = await fetch(`${API_BASE}/complaints`, { 
+      const response = await fetch(`${API_BASE}/api/super-admin/complaints`, { 
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -143,7 +142,7 @@ export default function DashboardTab() {
   // Delete complaint handler
   const handleDelete = async (id: string) => {
     try {
-      const response = await fetch(`${API_BASE}/complaints/${id}`, {
+      const response = await fetch(`${API_BASE}/api/super-admin/complaints/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

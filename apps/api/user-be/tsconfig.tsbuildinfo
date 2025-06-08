@@ -1,1 +1,1 @@
-{"root":["./src/index.ts","./src/middleware/jwtAuth.ts","./src/routes/authRoutes.ts","./src/routes/complaintRoutes.ts","./src/routes/userRoutes.ts","./src/schemas/authSchema.ts","./src/schemas/complaintSchema.ts"],"version":"5.8.3"}
+{"root":["./src/index.ts","./src/middleware/jwtauth.ts","./src/routes/authroutes.ts","./src/routes/complaintroutes.ts","./src/routes/userroutes.ts","./src/schemas/authschema.ts","./src/schemas/complaintschema.ts"],"version":"5.8.3"}
