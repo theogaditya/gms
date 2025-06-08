@@ -1,11 +1,17 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import dotenv from 'dotenv';
 import { PrismaClient } from '../../../../../generated/prisma';
 import { authenticateStateAdmin } from '../middleware/adminAuth';
 
 const prisma = new PrismaClient();
 const router = express.Router();
+
+const nodeEnv = process.env.NODE_ENV || 'development';
+const envFile = nodeEnv === 'production' ? '.env.prod' : '.env.local';
+dotenv.config({ path: envFile });
+
 const JWT_SECRET = process.env.JWT_SECRET!;
 
 router.post('/login', async (req, res:any) => {
@@ -40,7 +46,15 @@ router.post('/login', async (req, res:any) => {
     maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days in 
   });
 
-  return res.json({ success: true, message: 'Logged in successfully' });
+  return res.json({
+    success: true,
+    message: 'Logged in successfully',
+    admin: {
+      id: admin.id,
+      officialEmail: admin.officialEmail,
+      accessLevel: admin.accessLevel
+    }
+  });
 });
 
 // ----- 2. Get All State Admins -----
@@ -57,7 +71,8 @@ router.get('/state-admins', async (req, res: any) => {
         status: true,
         dateOfCreation: true,
         lastLogin: true,
-        managedMunicipalities: true
+        managedMunicipalities: true,
+        accessLevel: true,
       },
       orderBy: { dateOfCreation: 'desc' }
     });

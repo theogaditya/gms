@@ -11,19 +11,20 @@ export default function AdminSignIn() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [role, setRole] = useState('SUPER_ADMIN');
+  const API_BASE = process.env.NEXT_PUBLIC_URL_ADMIN;
+  console.log('API_BASE:', API_BASE);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setLoading(true);
-
     try {
       const endpointMap: Record<string, string> = {
-        SUPER_ADMIN: 'http://localhost:3002/api/super-admin/login',
-        DEPT_STATE_ADMIN: 'http://localhost:3002/api/state-admin/login',
-        DEPT_MUNICIPAL_ADMIN: 'http://localhost:3002/api/municipal-admin/login',
+        SUPER_ADMIN: `${API_BASE}/api/super-admin/login`,
+        DEPT_STATE_ADMIN: `${API_BASE}/api/state-admin/login`,
+        DEPT_MUNICIPAL_ADMIN: `${API_BASE}/api/municipal-admin/login`,
       };
-
+      
       const res = await fetch(endpointMap[role], {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -34,6 +35,7 @@ export default function AdminSignIn() {
         }),
       });
 
+      console.log('Endpoint:', endpointMap[role]);
       const data = await res.json();
 
       if (!res.ok) {
