@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-      "dev": "cross-env NODE_ENV=development tsc -b && cross-env NODE_ENV=development node dist/index.js",
-     "build": "cross-env NODE_ENV=production tsc -b && cross-env VERTEX_AI_TOKEN=$(gcloud auth application-default print-access-token) NODE_ENV=production echo"
+    "dev": "cross-env NODE_ENV=development tsc -b && cross-env NODE_ENV=development node dist/index.js",
+    "build": "cross-env NODE_ENV=production tsc -b && cross-env VERTEX_AI_TOKEN=$(gcloud auth application-default print-access-token) NODE_ENV=production echo"
   },
   "keywords": [],
   "author": "",
