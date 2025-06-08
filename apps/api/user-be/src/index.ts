@@ -15,10 +15,7 @@ import userRoutes from './routes/userRoutes';
 import { jwtAuth } from './middleware/jwtAuth';
 import { PrismaClient } from '../../../../generated/prisma';
 import { initializeWebSocket } from './routes/complaintRoutes';
-import { createServer } from 'http';
 import http from 'http';
-import WebSocket from 'ws';
-
 
 const app = express();
 const prisma = new PrismaClient();
@@ -69,7 +66,7 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 });
 
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT
 
 // Initialize WebSocket after server creation but before listening
 try {

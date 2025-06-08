@@ -11,13 +11,18 @@ export default function AdminSignIn() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [role, setRole] = useState('SUPER_ADMIN');
+<<<<<<< Updated upstream
   const API_BASE = "http://localhost:3002";
   
+=======
+  const API_BASE = process.env.NEXT_PUBLIC_URL_ADMIN;
+  console.log('API_BASE:', API_BASE);
+
+>>>>>>> Stashed changes
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setLoading(true);
-
     try {
       const endpointMap: Record<string, string> = {
         SUPER_ADMIN: `${API_BASE}/api/super-admin/login`,

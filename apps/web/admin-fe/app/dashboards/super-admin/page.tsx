@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Sidebar from './components/Sidebar';
 import DashboardTab from './components/DashboardTab';
@@ -11,7 +11,7 @@ import Footer from './components/Footer';
 export default function SuperAdminDashboard() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<'dashboard' | 'admins' | 'settings'>('dashboard');
-  // Logout logic here
+
   function handleLogout() {
     localStorage.removeItem('authToken');
     router.push('/');
