@@ -11,6 +11,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import authRoutes from './routes/authRoutes';
 import complatintRoutes from './routes/complaintRoutes';
+import userRoutes from './routes/userRoutes';
 import { jwtAuth } from './middleware/jwtAuth';
 import { PrismaClient } from '../../../../generated/prisma';
 import { initializeWebSocket } from './routes/complaintRoutes';
@@ -24,11 +25,13 @@ const prisma = new PrismaClient();
 const server = http.createServer(app);
 
 // Middleware 
+//'http://localhost:3000', 'http://localhost:3002'
 app.use(
   cors({
-    origin: ['http://localhost:3000', 'http://localhost:3002'], 
+    origin: ['*','http://localhost:3000'], 
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"]
   })
 );
 app.use(express.json());
@@ -37,7 +40,8 @@ app.use(cookieParser());
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/complaints', complatintRoutes);
-
+app.use('/api/complaints', complatintRoutes);
+app.use('/api/user', userRoutes);
 app.get('/', (req,res)=>{ res.json('Hello World')})
 
 // Protected route for testing jwtAuth

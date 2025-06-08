@@ -203,65 +203,60 @@ useEffect(() => {
       </div>
 
       {/* Content */}
-      <div className="max-w-4xl mx-auto px-4 py-6">
-        {/* Swaraj AI Section */}
-        <div className="mb-6 bg-gradient-to-r from-green-50 to-blue-50 dark:from-gray-800 dark:to-gray-800 p-4 rounded-xl border border-green-200 dark:border-gray-700">
-          <div className="flex items-start">
-            <div className="bg-gradient-to-r from-green-400 to-blue-500 rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0">
-              <Sparkles className="h-6 w-6 text-white" />
-            </div>
-            <div className="ml-4">
-              <h3 className="font-semibold text-gray-900 dark:text-white mb-1">Swaraj AI Insights</h3>
-              <p className="text-gray-700 dark:text-gray-300">{aiInsights}</p>
-            </div>
+ <div className="max-w-4xl mx-auto px-4 py-6">
+      {/* Swaraj AI Section */}
+      <div className="mb-6 bg-gradient-to-r from-green-50 to-blue-50 dark:from-gray-800 dark:to-gray-800 p-4 rounded-xl border border-green-200 dark:border-gray-700">
+        <div className="flex items-start">
+          <div className="bg-gradient-to-r from-green-400 to-blue-500 rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0">
+            <Sparkles className="h-6 w-6 text-white" />
+          </div>
+          <div className="ml-4">
+            <h3 className="font-semibold text-gray-900 dark:text-white mb-1">Swaraj AI Insights</h3>
+            <p className="text-gray-700 dark:text-gray-300">{aiInsights}</p>
           </div>
         </div>
-
-        {loading && (
-          <div className="flex justify-center py-10">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
-          </div>
-        )}
-
-        {error && (
-          <div className="bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 p-4 rounded-lg mb-6">
-            {error}
-          </div>
-        )}
-
-        {!loading && !error && complaints.length === 0 && (
-          <div className="text-center py-10">
-            <div className="bg-gray-200 dark:bg-gray-700 border-2 border-dashed rounded-xl w-16 h-16 mx-auto" />
-            <h3 className="mt-4 text-lg font-medium text-gray-900 dark:text-white">
-              No complaints found
-            </h3>
-            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-              {searchQuery
-                ? 'No complaints match your search. Try different keywords.'
-                : 'There are no complaints to display.'}
-            </p>
-          </div>
-        )}
-
-        {!loading && !error && complaints.length > 0 && (
-          <div className="space-y-5">
-            {complaints.map((complaint) => (
-              <ComplaintCard key={complaint.id} complaint={complaint} />
-            ))}
-          </div>
-        )}
-
-        {/* Newsletter Template */}
-{activeTab !== 'newsletter' && !loading && !error && complaints.length > 0 && (
-  <div className="space-y-5">
-    {complaints.map((complaint) => (
-      <ComplaintCard key={complaint.id} complaint={complaint} />
-    ))}
-  </div>
-)}
       </div>
-    </div>
-  );
-};
 
+      {/* Only show complaints list and no-complaints message if NOT in newsletter tab */}
+      {activeTab !== 'newsletter' && (
+        <>
+          {loading && (
+            <div className="flex justify-center py-10">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
+            </div>
+          )}
+
+          {error && (
+            <div className="bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 p-4 rounded-lg mb-6">
+              {error}
+            </div>
+          )}
+
+          {!loading && !error && complaints.length === 0 && (
+            <div className="text-center py-10">
+              <div className="bg-gray-200 dark:bg-gray-700 border-2 border-dashed rounded-xl w-16 h-16 mx-auto" />
+              <h3 className="mt-4 text-lg font-medium text-gray-900 dark:text-white">
+                No complaints found
+              </h3>
+              <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                {searchQuery
+                  ? 'No complaints match your search. Try different keywords.'
+                  : 'There are no complaints to display.'}
+              </p>
+            </div>
+          )}
+
+          {!loading && !error && complaints.length > 0 && (
+            <div className="space-y-5">
+              {complaints.map((complaint) => (
+                <ComplaintCard key={complaint.id} complaint={complaint} />
+              ))}
+            </div>
+          )}
+        </>
+      )}
+    </div>
+  </div>
+);
+}
 export default AllComplaintsPage;

@@ -16,6 +16,10 @@ import {
   LogOut,
 } from "lucide-react";
 
+const options = [
+  { label: "my profile", href: "/user" },
+  { label: "community", href: "/community" },
+]
 function Profile() {
   const [user, setUser] = useState<{ name: string; email: string } | null>(null);
 
@@ -57,10 +61,17 @@ function Profile() {
           <span className="text-xs font-normal text-foreground">{user.email}</span>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuItem>Option 1</DropdownMenuItem>
-          <DropdownMenuItem>Option 2</DropdownMenuItem>
-          <DropdownMenuItem>Option 3</DropdownMenuItem>
+           <DropdownMenuGroup>
+          {options.map(({ label, href }) => (
+            <DropdownMenuItem
+              key={href}
+              onClick={() => {
+                window.location.href = href;
+              }}
+            >
+              {label}
+            </DropdownMenuItem>
+          ))}
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={async () => {
