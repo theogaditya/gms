@@ -415,7 +415,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/home/aditya/batoi/gms/generated/prisma",
+      "value": "E:\\Projects\\gms\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -424,12 +424,12 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "debian-openssl-1.1.x",
+        "value": "windows",
         "native": true
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/home/aditya/batoi/gms/prisma/schema.prisma",
+    "sourceFilePath": "E:\\Projects\\gms\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {

@@ -296,7 +296,7 @@ model Complaint {
   urgency                 ComplaintUrgency @default(LOW)
   attachmentUrl           String?
   assignedDepartment      String
-  status                  ComplaintStatus  @default(REGISTERED)
+  status                  ComplaintStatus  @default(UNDER_PROCESSING)
   sla                     String?
   upvoteCount             Int              @default(0)
   isPublic                Boolean          @default(true)

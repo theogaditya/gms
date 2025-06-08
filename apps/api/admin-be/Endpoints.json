@@ -1,0 +1,158 @@
+{
+  "info": {
+    "name": "Super Admin API",
+    "description": "To test the super Admin endpoints refer to this json file"
+  },
+  "item": [
+    {
+      "name": "Create Super Admin",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3005/api/super-admin/create",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3005",
+          "path": ["api", "super-admin", "create"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"fullName\": \"John Doe\",\n  \"adminId\": \"SUPER_001\",\n  \"officialEmail\": \"john.doe@municipality.gov\",\n  \"phoneNumber\": \"+1234567890\",\n  \"password\": \"SuperSecure123!\",\n  \"municipality\": \"Central Municipality\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Super Admin Login",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3005/api/super-admin/login",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3005",
+          "path": ["api", "super-admin", "login"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"officialEmail\": \"john.doe@municipality.gov\",\n  \"password\": \"SuperSecure123!\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Super Admin Logout",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3005/api/super-admin/logout",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3005",
+          "path": ["api", "super-admin", "logout"]
+        }
+      }
+    },
+    {
+      "name": "Get Super Admin Profile",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3005/api/super-admin/profile",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3005",
+          "path": ["api", "super-admin", "profile"]
+        }
+      }
+    },
+    {
+      "name": "Create State Admin",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3005/api/super-admin/create/state-admins",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3005",
+          "path": ["api", "super-admin", "create", "state-admins"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"fullName\": \"Jane Smith\",\n  \"adminId\": \"STATE_001\",\n  \"officialEmail\": \"jane.smith@state.gov\",\n  \"phoneNumber\": \"9876543210\",\n  \"password\": \"StateAdmin123!\",\n  \"department\": \"Public Works\",\n  \"state\": \"California\",\n  \"managedMunicipalities\": [\"Los Angeles\", \"San Francisco\", \"San Diego\"]\n}"
+        }
+      }
+    },
+    {
+      "name": "Create Municipal Admin",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3005/api/super-admin/create/municipal-admins",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3005",
+          "path": ["api", "super-admin", "create", "municipal-admins"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"fullName\": \"Alice Brown\",\n  \"adminId\": \"MUNICIPAL_001\",\n  \"officialEmail\": \"alice.brown@cityofla.gov\",\n  \"phoneNumber\": \"3331234567\",\n  \"password\": \"MunicipalAdmin123!\",\n  \"department\": \"Transportation\",\n  \"municipality\": \"Los Angeles\",\n  \"managedByStateAdminId\": \"uuid-of-state-admin\",\n  \"managedBySuperMunicipalId\": \"uuid-of-super-municipal-admin\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Get All State Admins",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3005/api/super-admin/state-admins",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3005",
+          "path": ["api", "super-admin", "state-admins"]
+        },
+        "body": "NO BODY AT ALL!!"
+      }
+    },
+    {
+      "name": "Get All Municipal Admins",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3005/api/super-admin/municipal-admins",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3005",
+          "path": ["api", "super-admin", "municipal-admins"]
+        },
+        "body": "NO BODY AT ALL!!"
+      }
+    }
+  ]
+}

@@ -1,9 +1,7 @@
-import AdminSignIn from "./auth/page";
-
 export default function Home() {
   return (
     <div>
-      <AdminSignIn/>
+      <h1>Municipal Admin Dashboard</h1>    
     </div>
   );
 }
