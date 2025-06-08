@@ -23,9 +23,13 @@ function Header1() {
         },
         {
             title: "Register",
-            href: "/complaint",
+            href: "/regcomplaint",
             description: "",
         },
+                        {
+                    title: "Community",
+                    href: "/community",
+                },
         {
             title: "Company",
             description: "Efficiently handle citizen complaints and improve transparency in local governance.",

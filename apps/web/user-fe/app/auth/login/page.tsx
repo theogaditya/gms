@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+const API_URL = process.env.NEXT_PUBLIC_API_URL 
 
 export default function LoginPage() {
   const router = useRouter();
@@ -22,13 +23,13 @@ export default function LoginPage() {
   useEffect(() => {
     const checkLogin = async () => {
       try {
-        const res = await fetch("http://localhost:3001/api/auth/status", {
+        const res = await fetch(`${API_URL}/api/auth/status`, {
           method: "GET",
           credentials: "include",
         });
         const data = await res.json();
         if (data.loggedIn) {
-          router.push("/");
+          window.location.href = "/";
           alert("You Are Logged In");
         } else {
           setIsCheckingAuth(false);
@@ -62,7 +63,7 @@ export default function LoginPage() {
 
     setIsLoading(true);
     try {
-      const response = await fetch('http://localhost:3001/api/auth/signin', {
+      const response = await fetch(`${API_URL}/api/auth/signin`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -74,7 +75,7 @@ export default function LoginPage() {
       const data = await response.json();
 
       if (response.ok) {
-        router.push('/');
+        window.location.href = "/";
       } else {
         setErrors([data.error || 'Login failed. Please check your credentials.']);
       }
@@ -155,7 +156,7 @@ export default function LoginPage() {
             <p className="text-gray-600 dark:text-gray-400">
               Don't have an account?{' '}
               <a 
-                href="/signup" 
+                href="/auth/signup" 
                 className="text-black dark:text-white font-medium hover:underline"
               >
                 Sign up here
@@ -172,6 +173,7 @@ export default function LoginPage() {
           </div>
         </CardContent>
       </Card>
+
     </div>
   );
 }

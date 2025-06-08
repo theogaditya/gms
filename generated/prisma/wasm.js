@@ -186,6 +186,8 @@ exports.Prisma.DepartmentMunicipalAdminScalarFieldEnum = {
   lastUpdated: 'lastUpdated',
   status: 'status',
   lastLogin: 'lastLogin',
+  workloadLimit: 'workloadLimit',
+  currentWorkload: 'currentWorkload',
   resolutionRate: 'resolutionRate',
   slaComplianceRate: 'slaComplianceRate',
   escalationCount: 'escalationCount',
@@ -226,7 +228,7 @@ exports.Prisma.DepartmentStateAdminScalarFieldEnum = {
   status: 'status',
   lastLogin: 'lastLogin',
   stateResolutionRate: 'stateResolutionRate',
-  systemicIssuesIdentified: 'systemicIssuesIdentified',
+  escalationCount: 'escalationCount',
   managedMunicipalities: 'managedMunicipalities',
   managedBySuperStateId: 'managedBySuperStateId'
 };
@@ -275,19 +277,10 @@ exports.Prisma.CategoryScalarFieldEnum = {
   managedByDeptStateAdminId: 'managedByDeptStateAdminId'
 };
 
-exports.Prisma.SubCategoryMappingScalarFieldEnum = {
-  id: 'id',
-  categoryId: 'categoryId',
-  originalSubCategory: 'originalSubCategory',
-  standardizedSubCategory: 'standardizedSubCategory',
-  createdBy: 'createdBy',
-  creationDate: 'creationDate',
-  lastUpdated: 'lastUpdated'
-};
-
 exports.Prisma.ComplaintScalarFieldEnum = {
   id: 'id',
   submissionDate: 'submissionDate',
+  seq: 'seq',
   complainantId: 'complainantId',
   categoryId: 'categoryId',
   subCategory: 'subCategory',
@@ -370,6 +363,49 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
+exports.userStatus = exports.$Enums.userStatus = {
+  ACTIVE: 'ACTIVE',
+  DELETED: 'DELETED',
+  SUSPENDED: 'SUSPENDED'
+};
+
+exports.Department = exports.$Enums.Department = {
+  INFRASTRUCTURE: 'INFRASTRUCTURE',
+  EDUCATION: 'EDUCATION',
+  REVENUE: 'REVENUE',
+  HEALTH: 'HEALTH',
+  WATER_SUPPLY_SANITATION: 'WATER_SUPPLY_SANITATION',
+  ELECTRICITY_POWER: 'ELECTRICITY_POWER',
+  TRANSPORTATION: 'TRANSPORTATION',
+  MUNICIPAL_SERVICES: 'MUNICIPAL_SERVICES',
+  POLICE_SERVICES: 'POLICE_SERVICES',
+  ENVIRONMENT: 'ENVIRONMENT',
+  HOUSING_URBAN_DEVELOPMENT: 'HOUSING_URBAN_DEVELOPMENT',
+  SOCIAL_WELFARE: 'SOCIAL_WELFARE',
+  PUBLIC_GRIEVANCES: 'PUBLIC_GRIEVANCES'
+};
+
+exports.Status = exports.$Enums.Status = {
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
+  SUSPENDED: 'SUSPENDED'
+};
+
+exports.AccessLevel = exports.$Enums.AccessLevel = {
+  SUPER_ADMIN: 'SUPER_ADMIN',
+  SUPER_MUNICIPAL_ADMIN: 'SUPER_MUNICIPAL_ADMIN',
+  SUPER_STATE_ADMIN: 'SUPER_STATE_ADMIN',
+  DEPT_MUNICIPAL_ADMIN: 'DEPT_MUNICIPAL_ADMIN',
+  DEPT_STATE_ADMIN: 'DEPT_STATE_ADMIN'
+};
+
+exports.ComplaintUrgency = exports.$Enums.ComplaintUrgency = {
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH',
+  CRITICAL: 'CRITICAL'
+};
+
 exports.ComplaintStatus = exports.$Enums.ComplaintStatus = {
   REGISTERED: 'REGISTERED',
   UNDER_PROCESSING: 'UNDER_PROCESSING',
@@ -389,7 +425,6 @@ exports.Prisma.ModelName = {
   SuperStateAdmin: 'SuperStateAdmin',
   SuperAdmin: 'SuperAdmin',
   Category: 'Category',
-  SubCategoryMapping: 'SubCategoryMapping',
   Complaint: 'Complaint',
   ComplaintLocation: 'ComplaintLocation',
   Upvote: 'Upvote',

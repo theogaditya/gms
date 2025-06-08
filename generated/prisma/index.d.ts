@@ -59,11 +59,6 @@ export type SuperAdmin = $Result.DefaultSelection<Prisma.$SuperAdminPayload>
  */
 export type Category = $Result.DefaultSelection<Prisma.$CategoryPayload>
 /**
- * Model SubCategoryMapping
- * 
- */
-export type SubCategoryMapping = $Result.DefaultSelection<Prisma.$SubCategoryMappingPayload>
-/**
  * Model Complaint
  * 
  */
@@ -98,7 +93,55 @@ export type RegionalWorkflow = $Result.DefaultSelection<Prisma.$RegionalWorkflow
  * Enums
  */
 export namespace $Enums {
-  export const ComplaintStatus: {
+  export const userStatus: {
+  ACTIVE: 'ACTIVE',
+  DELETED: 'DELETED',
+  SUSPENDED: 'SUSPENDED'
+};
+
+export type userStatus = (typeof userStatus)[keyof typeof userStatus]
+
+
+export const Status: {
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
+  SUSPENDED: 'SUSPENDED'
+};
+
+export type Status = (typeof Status)[keyof typeof Status]
+
+
+export const AccessLevel: {
+  SUPER_ADMIN: 'SUPER_ADMIN',
+  SUPER_MUNICIPAL_ADMIN: 'SUPER_MUNICIPAL_ADMIN',
+  SUPER_STATE_ADMIN: 'SUPER_STATE_ADMIN',
+  DEPT_MUNICIPAL_ADMIN: 'DEPT_MUNICIPAL_ADMIN',
+  DEPT_STATE_ADMIN: 'DEPT_STATE_ADMIN'
+};
+
+export type AccessLevel = (typeof AccessLevel)[keyof typeof AccessLevel]
+
+
+export const Department: {
+  INFRASTRUCTURE: 'INFRASTRUCTURE',
+  EDUCATION: 'EDUCATION',
+  REVENUE: 'REVENUE',
+  HEALTH: 'HEALTH',
+  WATER_SUPPLY_SANITATION: 'WATER_SUPPLY_SANITATION',
+  ELECTRICITY_POWER: 'ELECTRICITY_POWER',
+  TRANSPORTATION: 'TRANSPORTATION',
+  MUNICIPAL_SERVICES: 'MUNICIPAL_SERVICES',
+  POLICE_SERVICES: 'POLICE_SERVICES',
+  ENVIRONMENT: 'ENVIRONMENT',
+  HOUSING_URBAN_DEVELOPMENT: 'HOUSING_URBAN_DEVELOPMENT',
+  SOCIAL_WELFARE: 'SOCIAL_WELFARE',
+  PUBLIC_GRIEVANCES: 'PUBLIC_GRIEVANCES'
+};
+
+export type Department = (typeof Department)[keyof typeof Department]
+
+
+export const ComplaintStatus: {
   REGISTERED: 'REGISTERED',
   UNDER_PROCESSING: 'UNDER_PROCESSING',
   FORWARDED: 'FORWARDED',
@@ -109,11 +152,41 @@ export namespace $Enums {
 
 export type ComplaintStatus = (typeof ComplaintStatus)[keyof typeof ComplaintStatus]
 
+
+export const ComplaintUrgency: {
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH',
+  CRITICAL: 'CRITICAL'
+};
+
+export type ComplaintUrgency = (typeof ComplaintUrgency)[keyof typeof ComplaintUrgency]
+
 }
+
+export type userStatus = $Enums.userStatus
+
+export const userStatus: typeof $Enums.userStatus
+
+export type Status = $Enums.Status
+
+export const Status: typeof $Enums.Status
+
+export type AccessLevel = $Enums.AccessLevel
+
+export const AccessLevel: typeof $Enums.AccessLevel
+
+export type Department = $Enums.Department
+
+export const Department: typeof $Enums.Department
 
 export type ComplaintStatus = $Enums.ComplaintStatus
 
 export const ComplaintStatus: typeof $Enums.ComplaintStatus
+
+export type ComplaintUrgency = $Enums.ComplaintUrgency
+
+export const ComplaintUrgency: typeof $Enums.ComplaintUrgency
 
 /**
  * ##  Prisma Client ʲˢ
@@ -329,16 +402,6 @@ export class PrismaClient<
     * ```
     */
   get category(): Prisma.CategoryDelegate<ExtArgs, ClientOptions>;
-
-  /**
-   * `prisma.subCategoryMapping`: Exposes CRUD operations for the **SubCategoryMapping** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more SubCategoryMappings
-    * const subCategoryMappings = await prisma.subCategoryMapping.findMany()
-    * ```
-    */
-  get subCategoryMapping(): Prisma.SubCategoryMappingDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.complaint`: Exposes CRUD operations for the **Complaint** model.
@@ -848,7 +911,6 @@ export namespace Prisma {
     SuperStateAdmin: 'SuperStateAdmin',
     SuperAdmin: 'SuperAdmin',
     Category: 'Category',
-    SubCategoryMapping: 'SubCategoryMapping',
     Complaint: 'Complaint',
     ComplaintLocation: 'ComplaintLocation',
     Upvote: 'Upvote',
@@ -873,7 +935,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "userLocation" | "agent" | "departmentMunicipalAdmin" | "superMunicipalAdmin" | "departmentStateAdmin" | "superStateAdmin" | "superAdmin" | "category" | "subCategoryMapping" | "complaint" | "complaintLocation" | "upvote" | "newsUpdate" | "auditLog" | "regionalWorkflow"
+      modelProps: "user" | "userLocation" | "agent" | "departmentMunicipalAdmin" | "superMunicipalAdmin" | "departmentStateAdmin" | "superStateAdmin" | "superAdmin" | "category" | "complaint" | "complaintLocation" | "upvote" | "newsUpdate" | "auditLog" | "regionalWorkflow"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1543,80 +1605,6 @@ export namespace Prisma {
           }
         }
       }
-      SubCategoryMapping: {
-        payload: Prisma.$SubCategoryMappingPayload<ExtArgs>
-        fields: Prisma.SubCategoryMappingFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.SubCategoryMappingFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SubCategoryMappingPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.SubCategoryMappingFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SubCategoryMappingPayload>
-          }
-          findFirst: {
-            args: Prisma.SubCategoryMappingFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SubCategoryMappingPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.SubCategoryMappingFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SubCategoryMappingPayload>
-          }
-          findMany: {
-            args: Prisma.SubCategoryMappingFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SubCategoryMappingPayload>[]
-          }
-          create: {
-            args: Prisma.SubCategoryMappingCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SubCategoryMappingPayload>
-          }
-          createMany: {
-            args: Prisma.SubCategoryMappingCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.SubCategoryMappingCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SubCategoryMappingPayload>[]
-          }
-          delete: {
-            args: Prisma.SubCategoryMappingDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SubCategoryMappingPayload>
-          }
-          update: {
-            args: Prisma.SubCategoryMappingUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SubCategoryMappingPayload>
-          }
-          deleteMany: {
-            args: Prisma.SubCategoryMappingDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.SubCategoryMappingUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.SubCategoryMappingUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SubCategoryMappingPayload>[]
-          }
-          upsert: {
-            args: Prisma.SubCategoryMappingUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SubCategoryMappingPayload>
-          }
-          aggregate: {
-            args: Prisma.SubCategoryMappingAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateSubCategoryMapping>
-          }
-          groupBy: {
-            args: Prisma.SubCategoryMappingGroupByArgs<ExtArgs>
-            result: $Utils.Optional<SubCategoryMappingGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.SubCategoryMappingCountArgs<ExtArgs>
-            result: $Utils.Optional<SubCategoryMappingCountAggregateOutputType> | number
-          }
-        }
-      }
       Complaint: {
         payload: Prisma.$ComplaintPayload<ExtArgs>
         fields: Prisma.ComplaintFieldRefs
@@ -2154,7 +2142,6 @@ export namespace Prisma {
     superStateAdmin?: SuperStateAdminOmit
     superAdmin?: SuperAdminOmit
     category?: CategoryOmit
-    subCategoryMapping?: SubCategoryMappingOmit
     complaint?: ComplaintOmit
     complaintLocation?: ComplaintLocationOmit
     upvote?: UpvoteOmit
@@ -2599,12 +2586,10 @@ export namespace Prisma {
 
   export type CategoryCountOutputType = {
     complaints: number
-    subCategoryMappings: number
   }
 
   export type CategoryCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     complaints?: boolean | CategoryCountOutputTypeCountComplaintsArgs
-    subCategoryMappings?: boolean | CategoryCountOutputTypeCountSubCategoryMappingsArgs
   }
 
   // Custom InputTypes
@@ -2623,13 +2608,6 @@ export namespace Prisma {
    */
   export type CategoryCountOutputTypeCountComplaintsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ComplaintWhereInput
-  }
-
-  /**
-   * CategoryCountOutputType without action
-   */
-  export type CategoryCountOutputTypeCountSubCategoryMappingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: SubCategoryMappingWhereInput
   }
 
 
@@ -2709,7 +2687,7 @@ export namespace Prisma {
     consentDataCollection: boolean | null
     dateOfCreation: Date | null
     lastUpdated: Date | null
-    status: string | null
+    status: $Enums.userStatus | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -2725,7 +2703,7 @@ export namespace Prisma {
     consentDataCollection: boolean | null
     dateOfCreation: Date | null
     lastUpdated: Date | null
-    status: string | null
+    status: $Enums.userStatus | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -2880,7 +2858,7 @@ export namespace Prisma {
     consentDataCollection: boolean
     dateOfCreation: Date
     lastUpdated: Date
-    status: string
+    status: $Enums.userStatus
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -3001,7 +2979,7 @@ export namespace Prisma {
       consentDataCollection: boolean
       dateOfCreation: Date
       lastUpdated: Date
-      status: string
+      status: $Enums.userStatus
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -3441,7 +3419,7 @@ export namespace Prisma {
     readonly consentDataCollection: FieldRef<"User", 'Boolean'>
     readonly dateOfCreation: FieldRef<"User", 'DateTime'>
     readonly lastUpdated: FieldRef<"User", 'DateTime'>
-    readonly status: FieldRef<"User", 'String'>
+    readonly status: FieldRef<"User", 'userStatus'>
   }
     
 
@@ -5070,7 +5048,7 @@ export namespace Prisma {
     password: string | null
     phoneNumber: string | null
     officialEmail: string | null
-    department: string | null
+    department: $Enums.Department | null
     municipality: string | null
     autonomyLevel: string | null
     accessLevel: string | null
@@ -5078,7 +5056,7 @@ export namespace Prisma {
     currentWorkload: number | null
     availabilityStatus: string | null
     dateOfCreation: Date | null
-    lastUpdated: Date | null
+    lastUpdated: $Enums.Status | null
     status: string | null
     lastLogin: Date | null
     resolutionRate: number | null
@@ -5095,7 +5073,7 @@ export namespace Prisma {
     password: string | null
     phoneNumber: string | null
     officialEmail: string | null
-    department: string | null
+    department: $Enums.Department | null
     municipality: string | null
     autonomyLevel: string | null
     accessLevel: string | null
@@ -5103,7 +5081,7 @@ export namespace Prisma {
     currentWorkload: number | null
     availabilityStatus: string | null
     dateOfCreation: Date | null
-    lastUpdated: Date | null
+    lastUpdated: $Enums.Status | null
     status: string | null
     lastLogin: Date | null
     resolutionRate: number | null
@@ -5323,7 +5301,7 @@ export namespace Prisma {
     password: string
     phoneNumber: string
     officialEmail: string
-    department: string
+    department: $Enums.Department
     municipality: string
     autonomyLevel: string
     accessLevel: string
@@ -5331,7 +5309,7 @@ export namespace Prisma {
     currentWorkload: number
     availabilityStatus: string
     dateOfCreation: Date
-    lastUpdated: Date
+    lastUpdated: $Enums.Status
     status: string
     lastLogin: Date | null
     resolutionRate: number
@@ -5494,7 +5472,7 @@ export namespace Prisma {
       password: string
       phoneNumber: string
       officialEmail: string
-      department: string
+      department: $Enums.Department
       municipality: string
       autonomyLevel: string
       accessLevel: string
@@ -5502,7 +5480,7 @@ export namespace Prisma {
       currentWorkload: number
       availabilityStatus: string
       dateOfCreation: Date
-      lastUpdated: Date
+      lastUpdated: $Enums.Status
       status: string
       lastLogin: Date | null
       resolutionRate: number
@@ -5942,7 +5920,7 @@ export namespace Prisma {
     readonly password: FieldRef<"Agent", 'String'>
     readonly phoneNumber: FieldRef<"Agent", 'String'>
     readonly officialEmail: FieldRef<"Agent", 'String'>
-    readonly department: FieldRef<"Agent", 'String'>
+    readonly department: FieldRef<"Agent", 'Department'>
     readonly municipality: FieldRef<"Agent", 'String'>
     readonly autonomyLevel: FieldRef<"Agent", 'String'>
     readonly accessLevel: FieldRef<"Agent", 'String'>
@@ -5950,7 +5928,7 @@ export namespace Prisma {
     readonly currentWorkload: FieldRef<"Agent", 'Int'>
     readonly availabilityStatus: FieldRef<"Agent", 'String'>
     readonly dateOfCreation: FieldRef<"Agent", 'DateTime'>
-    readonly lastUpdated: FieldRef<"Agent", 'DateTime'>
+    readonly lastUpdated: FieldRef<"Agent", 'Status'>
     readonly status: FieldRef<"Agent", 'String'>
     readonly lastLogin: FieldRef<"Agent", 'DateTime'>
     readonly resolutionRate: FieldRef<"Agent", 'Float'>
@@ -6451,12 +6429,16 @@ export namespace Prisma {
   }
 
   export type DepartmentMunicipalAdminAvgAggregateOutputType = {
+    workloadLimit: number | null
+    currentWorkload: number | null
     resolutionRate: number | null
     slaComplianceRate: number | null
     escalationCount: number | null
   }
 
   export type DepartmentMunicipalAdminSumAggregateOutputType = {
+    workloadLimit: number | null
+    currentWorkload: number | null
     resolutionRate: number | null
     slaComplianceRate: number | null
     escalationCount: number | null
@@ -6469,13 +6451,15 @@ export namespace Prisma {
     officialEmail: string | null
     phoneNumber: string | null
     password: string | null
-    department: string | null
+    department: $Enums.Department | null
     municipality: string | null
-    accessLevel: string | null
+    accessLevel: $Enums.AccessLevel | null
     dateOfCreation: Date | null
     lastUpdated: Date | null
-    status: string | null
+    status: $Enums.Status | null
     lastLogin: Date | null
+    workloadLimit: number | null
+    currentWorkload: number | null
     resolutionRate: number | null
     slaComplianceRate: number | null
     escalationCount: number | null
@@ -6490,13 +6474,15 @@ export namespace Prisma {
     officialEmail: string | null
     phoneNumber: string | null
     password: string | null
-    department: string | null
+    department: $Enums.Department | null
     municipality: string | null
-    accessLevel: string | null
+    accessLevel: $Enums.AccessLevel | null
     dateOfCreation: Date | null
     lastUpdated: Date | null
-    status: string | null
+    status: $Enums.Status | null
     lastLogin: Date | null
+    workloadLimit: number | null
+    currentWorkload: number | null
     resolutionRate: number | null
     slaComplianceRate: number | null
     escalationCount: number | null
@@ -6518,6 +6504,8 @@ export namespace Prisma {
     lastUpdated: number
     status: number
     lastLogin: number
+    workloadLimit: number
+    currentWorkload: number
     resolutionRate: number
     slaComplianceRate: number
     escalationCount: number
@@ -6528,12 +6516,16 @@ export namespace Prisma {
 
 
   export type DepartmentMunicipalAdminAvgAggregateInputType = {
+    workloadLimit?: true
+    currentWorkload?: true
     resolutionRate?: true
     slaComplianceRate?: true
     escalationCount?: true
   }
 
   export type DepartmentMunicipalAdminSumAggregateInputType = {
+    workloadLimit?: true
+    currentWorkload?: true
     resolutionRate?: true
     slaComplianceRate?: true
     escalationCount?: true
@@ -6553,6 +6545,8 @@ export namespace Prisma {
     lastUpdated?: true
     status?: true
     lastLogin?: true
+    workloadLimit?: true
+    currentWorkload?: true
     resolutionRate?: true
     slaComplianceRate?: true
     escalationCount?: true
@@ -6574,6 +6568,8 @@ export namespace Prisma {
     lastUpdated?: true
     status?: true
     lastLogin?: true
+    workloadLimit?: true
+    currentWorkload?: true
     resolutionRate?: true
     slaComplianceRate?: true
     escalationCount?: true
@@ -6595,6 +6591,8 @@ export namespace Prisma {
     lastUpdated?: true
     status?: true
     lastLogin?: true
+    workloadLimit?: true
+    currentWorkload?: true
     resolutionRate?: true
     slaComplianceRate?: true
     escalationCount?: true
@@ -6696,13 +6694,15 @@ export namespace Prisma {
     officialEmail: string
     phoneNumber: string
     password: string
-    department: string
+    department: $Enums.Department
     municipality: string
-    accessLevel: string
+    accessLevel: $Enums.AccessLevel
     dateOfCreation: Date
     lastUpdated: Date
-    status: string
+    status: $Enums.Status
     lastLogin: Date | null
+    workloadLimit: number
+    currentWorkload: number
     resolutionRate: number
     slaComplianceRate: number | null
     escalationCount: number
@@ -6743,6 +6743,8 @@ export namespace Prisma {
     lastUpdated?: boolean
     status?: boolean
     lastLogin?: boolean
+    workloadLimit?: boolean
+    currentWorkload?: boolean
     resolutionRate?: boolean
     slaComplianceRate?: boolean
     escalationCount?: boolean
@@ -6771,6 +6773,8 @@ export namespace Prisma {
     lastUpdated?: boolean
     status?: boolean
     lastLogin?: boolean
+    workloadLimit?: boolean
+    currentWorkload?: boolean
     resolutionRate?: boolean
     slaComplianceRate?: boolean
     escalationCount?: boolean
@@ -6794,6 +6798,8 @@ export namespace Prisma {
     lastUpdated?: boolean
     status?: boolean
     lastLogin?: boolean
+    workloadLimit?: boolean
+    currentWorkload?: boolean
     resolutionRate?: boolean
     slaComplianceRate?: boolean
     escalationCount?: boolean
@@ -6817,6 +6823,8 @@ export namespace Prisma {
     lastUpdated?: boolean
     status?: boolean
     lastLogin?: boolean
+    workloadLimit?: boolean
+    currentWorkload?: boolean
     resolutionRate?: boolean
     slaComplianceRate?: boolean
     escalationCount?: boolean
@@ -6824,7 +6832,7 @@ export namespace Prisma {
     managedBySuperMunicipalId?: boolean
   }
 
-  export type DepartmentMunicipalAdminOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fullName" | "adminId" | "officialEmail" | "phoneNumber" | "password" | "department" | "municipality" | "accessLevel" | "dateOfCreation" | "lastUpdated" | "status" | "lastLogin" | "resolutionRate" | "slaComplianceRate" | "escalationCount" | "managedByStateAdminId" | "managedBySuperMunicipalId", ExtArgs["result"]["departmentMunicipalAdmin"]>
+  export type DepartmentMunicipalAdminOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fullName" | "adminId" | "officialEmail" | "phoneNumber" | "password" | "department" | "municipality" | "accessLevel" | "dateOfCreation" | "lastUpdated" | "status" | "lastLogin" | "workloadLimit" | "currentWorkload" | "resolutionRate" | "slaComplianceRate" | "escalationCount" | "managedByStateAdminId" | "managedBySuperMunicipalId", ExtArgs["result"]["departmentMunicipalAdmin"]>
   export type DepartmentMunicipalAdminInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     managedAgents?: boolean | DepartmentMunicipalAdmin$managedAgentsArgs<ExtArgs>
     managedComplaints?: boolean | DepartmentMunicipalAdmin$managedComplaintsArgs<ExtArgs>
@@ -6860,13 +6868,15 @@ export namespace Prisma {
       officialEmail: string
       phoneNumber: string
       password: string
-      department: string
+      department: $Enums.Department
       municipality: string
-      accessLevel: string
+      accessLevel: $Enums.AccessLevel
       dateOfCreation: Date
       lastUpdated: Date
-      status: string
+      status: $Enums.Status
       lastLogin: Date | null
+      workloadLimit: number
+      currentWorkload: number
       resolutionRate: number
       slaComplianceRate: number | null
       escalationCount: number
@@ -7307,13 +7317,15 @@ export namespace Prisma {
     readonly officialEmail: FieldRef<"DepartmentMunicipalAdmin", 'String'>
     readonly phoneNumber: FieldRef<"DepartmentMunicipalAdmin", 'String'>
     readonly password: FieldRef<"DepartmentMunicipalAdmin", 'String'>
-    readonly department: FieldRef<"DepartmentMunicipalAdmin", 'String'>
+    readonly department: FieldRef<"DepartmentMunicipalAdmin", 'Department'>
     readonly municipality: FieldRef<"DepartmentMunicipalAdmin", 'String'>
-    readonly accessLevel: FieldRef<"DepartmentMunicipalAdmin", 'String'>
+    readonly accessLevel: FieldRef<"DepartmentMunicipalAdmin", 'AccessLevel'>
     readonly dateOfCreation: FieldRef<"DepartmentMunicipalAdmin", 'DateTime'>
     readonly lastUpdated: FieldRef<"DepartmentMunicipalAdmin", 'DateTime'>
-    readonly status: FieldRef<"DepartmentMunicipalAdmin", 'String'>
+    readonly status: FieldRef<"DepartmentMunicipalAdmin", 'Status'>
     readonly lastLogin: FieldRef<"DepartmentMunicipalAdmin", 'DateTime'>
+    readonly workloadLimit: FieldRef<"DepartmentMunicipalAdmin", 'Int'>
+    readonly currentWorkload: FieldRef<"DepartmentMunicipalAdmin", 'Int'>
     readonly resolutionRate: FieldRef<"DepartmentMunicipalAdmin", 'Float'>
     readonly slaComplianceRate: FieldRef<"DepartmentMunicipalAdmin", 'Float'>
     readonly escalationCount: FieldRef<"DepartmentMunicipalAdmin", 'Int'>
@@ -7897,10 +7909,10 @@ export namespace Prisma {
     password: string | null
     phoneNumber: string | null
     municipality: string | null
-    accessLevel: string | null
+    accessLevel: $Enums.AccessLevel | null
     dateOfCreation: Date | null
     lastUpdated: Date | null
-    status: string | null
+    status: $Enums.Status | null
     lastLogin: Date | null
     municipalityResolutionRate: number | null
     crossDepartmentSuccess: number | null
@@ -7915,10 +7927,10 @@ export namespace Prisma {
     password: string | null
     phoneNumber: string | null
     municipality: string | null
-    accessLevel: string | null
+    accessLevel: $Enums.AccessLevel | null
     dateOfCreation: Date | null
     lastUpdated: Date | null
-    status: string | null
+    status: $Enums.Status | null
     lastLogin: Date | null
     municipalityResolutionRate: number | null
     crossDepartmentSuccess: number | null
@@ -8104,10 +8116,10 @@ export namespace Prisma {
     password: string
     phoneNumber: string | null
     municipality: string
-    accessLevel: string
+    accessLevel: $Enums.AccessLevel
     dateOfCreation: Date
     lastUpdated: Date
-    status: string
+    status: $Enums.Status
     lastLogin: Date | null
     municipalityResolutionRate: number
     crossDepartmentSuccess: number
@@ -8240,10 +8252,10 @@ export namespace Prisma {
       password: string
       phoneNumber: string | null
       municipality: string
-      accessLevel: string
+      accessLevel: $Enums.AccessLevel
       dateOfCreation: Date
       lastUpdated: Date
-      status: string
+      status: $Enums.Status
       lastLogin: Date | null
       municipalityResolutionRate: number
       crossDepartmentSuccess: number
@@ -8681,10 +8693,10 @@ export namespace Prisma {
     readonly password: FieldRef<"SuperMunicipalAdmin", 'String'>
     readonly phoneNumber: FieldRef<"SuperMunicipalAdmin", 'String'>
     readonly municipality: FieldRef<"SuperMunicipalAdmin", 'String'>
-    readonly accessLevel: FieldRef<"SuperMunicipalAdmin", 'String'>
+    readonly accessLevel: FieldRef<"SuperMunicipalAdmin", 'AccessLevel'>
     readonly dateOfCreation: FieldRef<"SuperMunicipalAdmin", 'DateTime'>
     readonly lastUpdated: FieldRef<"SuperMunicipalAdmin", 'DateTime'>
-    readonly status: FieldRef<"SuperMunicipalAdmin", 'String'>
+    readonly status: FieldRef<"SuperMunicipalAdmin", 'Status'>
     readonly lastLogin: FieldRef<"SuperMunicipalAdmin", 'DateTime'>
     readonly municipalityResolutionRate: FieldRef<"SuperMunicipalAdmin", 'Float'>
     readonly crossDepartmentSuccess: FieldRef<"SuperMunicipalAdmin", 'Int'>
@@ -9184,12 +9196,12 @@ export namespace Prisma {
 
   export type DepartmentStateAdminAvgAggregateOutputType = {
     stateResolutionRate: number | null
-    systemicIssuesIdentified: number | null
+    escalationCount: number | null
   }
 
   export type DepartmentStateAdminSumAggregateOutputType = {
     stateResolutionRate: number | null
-    systemicIssuesIdentified: number | null
+    escalationCount: number | null
   }
 
   export type DepartmentStateAdminMinAggregateOutputType = {
@@ -9199,15 +9211,15 @@ export namespace Prisma {
     officialEmail: string | null
     password: string | null
     phoneNumber: string | null
-    department: string | null
+    department: $Enums.Department | null
     state: string | null
-    accessLevel: string | null
+    accessLevel: $Enums.AccessLevel | null
     dateOfCreation: Date | null
     lastUpdated: Date | null
-    status: string | null
+    status: $Enums.Status | null
     lastLogin: Date | null
     stateResolutionRate: number | null
-    systemicIssuesIdentified: number | null
+    escalationCount: number | null
     managedBySuperStateId: string | null
   }
 
@@ -9218,15 +9230,15 @@ export namespace Prisma {
     officialEmail: string | null
     password: string | null
     phoneNumber: string | null
-    department: string | null
+    department: $Enums.Department | null
     state: string | null
-    accessLevel: string | null
+    accessLevel: $Enums.AccessLevel | null
     dateOfCreation: Date | null
     lastUpdated: Date | null
-    status: string | null
+    status: $Enums.Status | null
     lastLogin: Date | null
     stateResolutionRate: number | null
-    systemicIssuesIdentified: number | null
+    escalationCount: number | null
     managedBySuperStateId: string | null
   }
 
@@ -9245,7 +9257,7 @@ export namespace Prisma {
     status: number
     lastLogin: number
     stateResolutionRate: number
-    systemicIssuesIdentified: number
+    escalationCount: number
     managedMunicipalities: number
     managedBySuperStateId: number
     _all: number
@@ -9254,12 +9266,12 @@ export namespace Prisma {
 
   export type DepartmentStateAdminAvgAggregateInputType = {
     stateResolutionRate?: true
-    systemicIssuesIdentified?: true
+    escalationCount?: true
   }
 
   export type DepartmentStateAdminSumAggregateInputType = {
     stateResolutionRate?: true
-    systemicIssuesIdentified?: true
+    escalationCount?: true
   }
 
   export type DepartmentStateAdminMinAggregateInputType = {
@@ -9277,7 +9289,7 @@ export namespace Prisma {
     status?: true
     lastLogin?: true
     stateResolutionRate?: true
-    systemicIssuesIdentified?: true
+    escalationCount?: true
     managedBySuperStateId?: true
   }
 
@@ -9296,7 +9308,7 @@ export namespace Prisma {
     status?: true
     lastLogin?: true
     stateResolutionRate?: true
-    systemicIssuesIdentified?: true
+    escalationCount?: true
     managedBySuperStateId?: true
   }
 
@@ -9315,7 +9327,7 @@ export namespace Prisma {
     status?: true
     lastLogin?: true
     stateResolutionRate?: true
-    systemicIssuesIdentified?: true
+    escalationCount?: true
     managedMunicipalities?: true
     managedBySuperStateId?: true
     _all?: true
@@ -9414,15 +9426,15 @@ export namespace Prisma {
     officialEmail: string
     password: string
     phoneNumber: string | null
-    department: string
+    department: $Enums.Department
     state: string
-    accessLevel: string
+    accessLevel: $Enums.AccessLevel
     dateOfCreation: Date
     lastUpdated: Date
-    status: string
+    status: $Enums.Status
     lastLogin: Date | null
     stateResolutionRate: number
-    systemicIssuesIdentified: number
+    escalationCount: number
     managedMunicipalities: string[]
     managedBySuperStateId: string | null
     _count: DepartmentStateAdminCountAggregateOutputType | null
@@ -9461,7 +9473,7 @@ export namespace Prisma {
     status?: boolean
     lastLogin?: boolean
     stateResolutionRate?: boolean
-    systemicIssuesIdentified?: boolean
+    escalationCount?: boolean
     managedMunicipalities?: boolean
     managedBySuperStateId?: boolean
     managedMunicipalAdmins?: boolean | DepartmentStateAdmin$managedMunicipalAdminsArgs<ExtArgs>
@@ -9487,7 +9499,7 @@ export namespace Prisma {
     status?: boolean
     lastLogin?: boolean
     stateResolutionRate?: boolean
-    systemicIssuesIdentified?: boolean
+    escalationCount?: boolean
     managedMunicipalities?: boolean
     managedBySuperStateId?: boolean
     managedBySuperState?: boolean | DepartmentStateAdmin$managedBySuperStateArgs<ExtArgs>
@@ -9508,7 +9520,7 @@ export namespace Prisma {
     status?: boolean
     lastLogin?: boolean
     stateResolutionRate?: boolean
-    systemicIssuesIdentified?: boolean
+    escalationCount?: boolean
     managedMunicipalities?: boolean
     managedBySuperStateId?: boolean
     managedBySuperState?: boolean | DepartmentStateAdmin$managedBySuperStateArgs<ExtArgs>
@@ -9529,12 +9541,12 @@ export namespace Prisma {
     status?: boolean
     lastLogin?: boolean
     stateResolutionRate?: boolean
-    systemicIssuesIdentified?: boolean
+    escalationCount?: boolean
     managedMunicipalities?: boolean
     managedBySuperStateId?: boolean
   }
 
-  export type DepartmentStateAdminOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fullName" | "adminId" | "officialEmail" | "password" | "phoneNumber" | "department" | "state" | "accessLevel" | "dateOfCreation" | "lastUpdated" | "status" | "lastLogin" | "stateResolutionRate" | "systemicIssuesIdentified" | "managedMunicipalities" | "managedBySuperStateId", ExtArgs["result"]["departmentStateAdmin"]>
+  export type DepartmentStateAdminOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fullName" | "adminId" | "officialEmail" | "password" | "phoneNumber" | "department" | "state" | "accessLevel" | "dateOfCreation" | "lastUpdated" | "status" | "lastLogin" | "stateResolutionRate" | "escalationCount" | "managedMunicipalities" | "managedBySuperStateId", ExtArgs["result"]["departmentStateAdmin"]>
   export type DepartmentStateAdminInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     managedMunicipalAdmins?: boolean | DepartmentStateAdmin$managedMunicipalAdminsArgs<ExtArgs>
     escalatedComplaints?: boolean | DepartmentStateAdmin$escalatedComplaintsArgs<ExtArgs>
@@ -9566,15 +9578,15 @@ export namespace Prisma {
       officialEmail: string
       password: string
       phoneNumber: string | null
-      department: string
+      department: $Enums.Department
       state: string
-      accessLevel: string
+      accessLevel: $Enums.AccessLevel
       dateOfCreation: Date
       lastUpdated: Date
-      status: string
+      status: $Enums.Status
       lastLogin: Date | null
       stateResolutionRate: number
-      systemicIssuesIdentified: number
+      escalationCount: number
       managedMunicipalities: string[]
       managedBySuperStateId: string | null
     }, ExtArgs["result"]["departmentStateAdmin"]>
@@ -10011,15 +10023,15 @@ export namespace Prisma {
     readonly officialEmail: FieldRef<"DepartmentStateAdmin", 'String'>
     readonly password: FieldRef<"DepartmentStateAdmin", 'String'>
     readonly phoneNumber: FieldRef<"DepartmentStateAdmin", 'String'>
-    readonly department: FieldRef<"DepartmentStateAdmin", 'String'>
+    readonly department: FieldRef<"DepartmentStateAdmin", 'Department'>
     readonly state: FieldRef<"DepartmentStateAdmin", 'String'>
-    readonly accessLevel: FieldRef<"DepartmentStateAdmin", 'String'>
+    readonly accessLevel: FieldRef<"DepartmentStateAdmin", 'AccessLevel'>
     readonly dateOfCreation: FieldRef<"DepartmentStateAdmin", 'DateTime'>
     readonly lastUpdated: FieldRef<"DepartmentStateAdmin", 'DateTime'>
-    readonly status: FieldRef<"DepartmentStateAdmin", 'String'>
+    readonly status: FieldRef<"DepartmentStateAdmin", 'Status'>
     readonly lastLogin: FieldRef<"DepartmentStateAdmin", 'DateTime'>
     readonly stateResolutionRate: FieldRef<"DepartmentStateAdmin", 'Float'>
-    readonly systemicIssuesIdentified: FieldRef<"DepartmentStateAdmin", 'Int'>
+    readonly escalationCount: FieldRef<"DepartmentStateAdmin", 'Int'>
     readonly managedMunicipalities: FieldRef<"DepartmentStateAdmin", 'String[]'>
     readonly managedBySuperStateId: FieldRef<"DepartmentStateAdmin", 'String'>
   }
@@ -10581,10 +10593,10 @@ export namespace Prisma {
     phoneNumber: string | null
     password: string | null
     state: string | null
-    accessLevel: string | null
+    accessLevel: $Enums.AccessLevel | null
     dateOfCreation: Date | null
     lastUpdated: Date | null
-    status: string | null
+    status: $Enums.Status | null
     lastLogin: Date | null
     stateResolutionRate: number | null
     crossDepartmentSuccess: number | null
@@ -10599,10 +10611,10 @@ export namespace Prisma {
     phoneNumber: string | null
     password: string | null
     state: string | null
-    accessLevel: string | null
+    accessLevel: $Enums.AccessLevel | null
     dateOfCreation: Date | null
     lastUpdated: Date | null
-    status: string | null
+    status: $Enums.Status | null
     lastLogin: Date | null
     stateResolutionRate: number | null
     crossDepartmentSuccess: number | null
@@ -10788,10 +10800,10 @@ export namespace Prisma {
     phoneNumber: string | null
     password: string
     state: string
-    accessLevel: string
+    accessLevel: $Enums.AccessLevel
     dateOfCreation: Date
     lastUpdated: Date
-    status: string
+    status: $Enums.Status
     lastLogin: Date | null
     stateResolutionRate: number
     crossDepartmentSuccess: number
@@ -10927,10 +10939,10 @@ export namespace Prisma {
       phoneNumber: string | null
       password: string
       state: string
-      accessLevel: string
+      accessLevel: $Enums.AccessLevel
       dateOfCreation: Date
       lastUpdated: Date
-      status: string
+      status: $Enums.Status
       lastLogin: Date | null
       stateResolutionRate: number
       crossDepartmentSuccess: number
@@ -11369,10 +11381,10 @@ export namespace Prisma {
     readonly phoneNumber: FieldRef<"SuperStateAdmin", 'String'>
     readonly password: FieldRef<"SuperStateAdmin", 'String'>
     readonly state: FieldRef<"SuperStateAdmin", 'String'>
-    readonly accessLevel: FieldRef<"SuperStateAdmin", 'String'>
+    readonly accessLevel: FieldRef<"SuperStateAdmin", 'AccessLevel'>
     readonly dateOfCreation: FieldRef<"SuperStateAdmin", 'DateTime'>
     readonly lastUpdated: FieldRef<"SuperStateAdmin", 'DateTime'>
-    readonly status: FieldRef<"SuperStateAdmin", 'String'>
+    readonly status: FieldRef<"SuperStateAdmin", 'Status'>
     readonly lastLogin: FieldRef<"SuperStateAdmin", 'DateTime'>
     readonly stateResolutionRate: FieldRef<"SuperStateAdmin", 'Float'>
     readonly crossDepartmentSuccess: FieldRef<"SuperStateAdmin", 'Int'>
@@ -11899,10 +11911,10 @@ export namespace Prisma {
     officialEmail: string | null
     phoneNumber: string | null
     password: string | null
-    accessLevel: string | null
+    accessLevel: $Enums.AccessLevel | null
     dateOfCreation: Date | null
     lastUpdated: Date | null
-    status: string | null
+    status: $Enums.Status | null
     lastLogin: Date | null
   }
 
@@ -11913,10 +11925,10 @@ export namespace Prisma {
     officialEmail: string | null
     phoneNumber: string | null
     password: string | null
-    accessLevel: string | null
+    accessLevel: $Enums.AccessLevel | null
     dateOfCreation: Date | null
     lastUpdated: Date | null
-    status: string | null
+    status: $Enums.Status | null
     lastLogin: Date | null
   }
 
@@ -12058,10 +12070,10 @@ export namespace Prisma {
     officialEmail: string
     phoneNumber: string | null
     password: string
-    accessLevel: string
+    accessLevel: $Enums.AccessLevel
     dateOfCreation: Date
     lastUpdated: Date
-    status: string
+    status: $Enums.Status
     lastLogin: Date | null
     _count: SuperAdminCountAggregateOutputType | null
     _min: SuperAdminMinAggregateOutputType | null
@@ -12166,10 +12178,10 @@ export namespace Prisma {
       officialEmail: string
       phoneNumber: string | null
       password: string
-      accessLevel: string
+      accessLevel: $Enums.AccessLevel
       dateOfCreation: Date
       lastUpdated: Date
-      status: string
+      status: $Enums.Status
       lastLogin: Date | null
     }, ExtArgs["result"]["superAdmin"]>
     composites: {}
@@ -12603,10 +12615,10 @@ export namespace Prisma {
     readonly officialEmail: FieldRef<"SuperAdmin", 'String'>
     readonly phoneNumber: FieldRef<"SuperAdmin", 'String'>
     readonly password: FieldRef<"SuperAdmin", 'String'>
-    readonly accessLevel: FieldRef<"SuperAdmin", 'String'>
+    readonly accessLevel: FieldRef<"SuperAdmin", 'AccessLevel'>
     readonly dateOfCreation: FieldRef<"SuperAdmin", 'DateTime'>
     readonly lastUpdated: FieldRef<"SuperAdmin", 'DateTime'>
-    readonly status: FieldRef<"SuperAdmin", 'String'>
+    readonly status: FieldRef<"SuperAdmin", 'Status'>
     readonly lastLogin: FieldRef<"SuperAdmin", 'DateTime'>
   }
     
@@ -13275,7 +13287,6 @@ export namespace Prisma {
     createdBySuperAdminId?: boolean
     managedByDeptStateAdminId?: boolean
     complaints?: boolean | Category$complaintsArgs<ExtArgs>
-    subCategoryMappings?: boolean | Category$subCategoryMappingsArgs<ExtArgs>
     createdBySuperAdmin?: boolean | Category$createdBySuperAdminArgs<ExtArgs>
     managedByDeptStateAdmin?: boolean | Category$managedByDeptStateAdminArgs<ExtArgs>
     _count?: boolean | CategoryCountOutputTypeDefaultArgs<ExtArgs>
@@ -13324,7 +13335,6 @@ export namespace Prisma {
   export type CategoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "subCategories" | "learnedSubCategories" | "assignedDepartment" | "creationDate" | "lastUpdated" | "createdBySuperAdminId" | "managedByDeptStateAdminId", ExtArgs["result"]["category"]>
   export type CategoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     complaints?: boolean | Category$complaintsArgs<ExtArgs>
-    subCategoryMappings?: boolean | Category$subCategoryMappingsArgs<ExtArgs>
     createdBySuperAdmin?: boolean | Category$createdBySuperAdminArgs<ExtArgs>
     managedByDeptStateAdmin?: boolean | Category$managedByDeptStateAdminArgs<ExtArgs>
     _count?: boolean | CategoryCountOutputTypeDefaultArgs<ExtArgs>
@@ -13342,7 +13352,6 @@ export namespace Prisma {
     name: "Category"
     objects: {
       complaints: Prisma.$ComplaintPayload<ExtArgs>[]
-      subCategoryMappings: Prisma.$SubCategoryMappingPayload<ExtArgs>[]
       createdBySuperAdmin: Prisma.$SuperAdminPayload<ExtArgs> | null
       managedByDeptStateAdmin: Prisma.$DepartmentStateAdminPayload<ExtArgs> | null
     }
@@ -13751,7 +13760,6 @@ export namespace Prisma {
   export interface Prisma__CategoryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     complaints<T extends Category$complaintsArgs<ExtArgs> = {}>(args?: Subset<T, Category$complaintsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ComplaintPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    subCategoryMappings<T extends Category$subCategoryMappingsArgs<ExtArgs> = {}>(args?: Subset<T, Category$subCategoryMappingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubCategoryMappingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     createdBySuperAdmin<T extends Category$createdBySuperAdminArgs<ExtArgs> = {}>(args?: Subset<T, Category$createdBySuperAdminArgs<ExtArgs>>): Prisma__SuperAdminClient<$Result.GetResult<Prisma.$SuperAdminPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     managedByDeptStateAdmin<T extends Category$managedByDeptStateAdminArgs<ExtArgs> = {}>(args?: Subset<T, Category$managedByDeptStateAdminArgs<ExtArgs>>): Prisma__DepartmentStateAdminClient<$Result.GetResult<Prisma.$DepartmentStateAdminPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
@@ -14212,30 +14220,6 @@ export namespace Prisma {
   }
 
   /**
-   * Category.subCategoryMappings
-   */
-  export type Category$subCategoryMappingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SubCategoryMapping
-     */
-    select?: SubCategoryMappingSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the SubCategoryMapping
-     */
-    omit?: SubCategoryMappingOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SubCategoryMappingInclude<ExtArgs> | null
-    where?: SubCategoryMappingWhereInput
-    orderBy?: SubCategoryMappingOrderByWithRelationInput | SubCategoryMappingOrderByWithRelationInput[]
-    cursor?: SubCategoryMappingWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: SubCategoryMappingScalarFieldEnum | SubCategoryMappingScalarFieldEnum[]
-  }
-
-  /**
    * Category.createdBySuperAdmin
    */
   export type Category$createdBySuperAdminArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -14293,1090 +14277,6 @@ export namespace Prisma {
 
 
   /**
-   * Model SubCategoryMapping
-   */
-
-  export type AggregateSubCategoryMapping = {
-    _count: SubCategoryMappingCountAggregateOutputType | null
-    _min: SubCategoryMappingMinAggregateOutputType | null
-    _max: SubCategoryMappingMaxAggregateOutputType | null
-  }
-
-  export type SubCategoryMappingMinAggregateOutputType = {
-    id: string | null
-    categoryId: string | null
-    originalSubCategory: string | null
-    standardizedSubCategory: string | null
-    createdBy: string | null
-    creationDate: Date | null
-    lastUpdated: Date | null
-  }
-
-  export type SubCategoryMappingMaxAggregateOutputType = {
-    id: string | null
-    categoryId: string | null
-    originalSubCategory: string | null
-    standardizedSubCategory: string | null
-    createdBy: string | null
-    creationDate: Date | null
-    lastUpdated: Date | null
-  }
-
-  export type SubCategoryMappingCountAggregateOutputType = {
-    id: number
-    categoryId: number
-    originalSubCategory: number
-    standardizedSubCategory: number
-    createdBy: number
-    creationDate: number
-    lastUpdated: number
-    _all: number
-  }
-
-
-  export type SubCategoryMappingMinAggregateInputType = {
-    id?: true
-    categoryId?: true
-    originalSubCategory?: true
-    standardizedSubCategory?: true
-    createdBy?: true
-    creationDate?: true
-    lastUpdated?: true
-  }
-
-  export type SubCategoryMappingMaxAggregateInputType = {
-    id?: true
-    categoryId?: true
-    originalSubCategory?: true
-    standardizedSubCategory?: true
-    createdBy?: true
-    creationDate?: true
-    lastUpdated?: true
-  }
-
-  export type SubCategoryMappingCountAggregateInputType = {
-    id?: true
-    categoryId?: true
-    originalSubCategory?: true
-    standardizedSubCategory?: true
-    createdBy?: true
-    creationDate?: true
-    lastUpdated?: true
-    _all?: true
-  }
-
-  export type SubCategoryMappingAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which SubCategoryMapping to aggregate.
-     */
-    where?: SubCategoryMappingWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of SubCategoryMappings to fetch.
-     */
-    orderBy?: SubCategoryMappingOrderByWithRelationInput | SubCategoryMappingOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: SubCategoryMappingWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` SubCategoryMappings from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` SubCategoryMappings.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned SubCategoryMappings
-    **/
-    _count?: true | SubCategoryMappingCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: SubCategoryMappingMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: SubCategoryMappingMaxAggregateInputType
-  }
-
-  export type GetSubCategoryMappingAggregateType<T extends SubCategoryMappingAggregateArgs> = {
-        [P in keyof T & keyof AggregateSubCategoryMapping]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateSubCategoryMapping[P]>
-      : GetScalarType<T[P], AggregateSubCategoryMapping[P]>
-  }
-
-
-
-
-  export type SubCategoryMappingGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: SubCategoryMappingWhereInput
-    orderBy?: SubCategoryMappingOrderByWithAggregationInput | SubCategoryMappingOrderByWithAggregationInput[]
-    by: SubCategoryMappingScalarFieldEnum[] | SubCategoryMappingScalarFieldEnum
-    having?: SubCategoryMappingScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: SubCategoryMappingCountAggregateInputType | true
-    _min?: SubCategoryMappingMinAggregateInputType
-    _max?: SubCategoryMappingMaxAggregateInputType
-  }
-
-  export type SubCategoryMappingGroupByOutputType = {
-    id: string
-    categoryId: string
-    originalSubCategory: string
-    standardizedSubCategory: string
-    createdBy: string
-    creationDate: Date
-    lastUpdated: Date
-    _count: SubCategoryMappingCountAggregateOutputType | null
-    _min: SubCategoryMappingMinAggregateOutputType | null
-    _max: SubCategoryMappingMaxAggregateOutputType | null
-  }
-
-  type GetSubCategoryMappingGroupByPayload<T extends SubCategoryMappingGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<SubCategoryMappingGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof SubCategoryMappingGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], SubCategoryMappingGroupByOutputType[P]>
-            : GetScalarType<T[P], SubCategoryMappingGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type SubCategoryMappingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    categoryId?: boolean
-    originalSubCategory?: boolean
-    standardizedSubCategory?: boolean
-    createdBy?: boolean
-    creationDate?: boolean
-    lastUpdated?: boolean
-    category?: boolean | CategoryDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["subCategoryMapping"]>
-
-  export type SubCategoryMappingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    categoryId?: boolean
-    originalSubCategory?: boolean
-    standardizedSubCategory?: boolean
-    createdBy?: boolean
-    creationDate?: boolean
-    lastUpdated?: boolean
-    category?: boolean | CategoryDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["subCategoryMapping"]>
-
-  export type SubCategoryMappingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    categoryId?: boolean
-    originalSubCategory?: boolean
-    standardizedSubCategory?: boolean
-    createdBy?: boolean
-    creationDate?: boolean
-    lastUpdated?: boolean
-    category?: boolean | CategoryDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["subCategoryMapping"]>
-
-  export type SubCategoryMappingSelectScalar = {
-    id?: boolean
-    categoryId?: boolean
-    originalSubCategory?: boolean
-    standardizedSubCategory?: boolean
-    createdBy?: boolean
-    creationDate?: boolean
-    lastUpdated?: boolean
-  }
-
-  export type SubCategoryMappingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "categoryId" | "originalSubCategory" | "standardizedSubCategory" | "createdBy" | "creationDate" | "lastUpdated", ExtArgs["result"]["subCategoryMapping"]>
-  export type SubCategoryMappingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    category?: boolean | CategoryDefaultArgs<ExtArgs>
-  }
-  export type SubCategoryMappingIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    category?: boolean | CategoryDefaultArgs<ExtArgs>
-  }
-  export type SubCategoryMappingIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    category?: boolean | CategoryDefaultArgs<ExtArgs>
-  }
-
-  export type $SubCategoryMappingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "SubCategoryMapping"
-    objects: {
-      category: Prisma.$CategoryPayload<ExtArgs>
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      categoryId: string
-      originalSubCategory: string
-      standardizedSubCategory: string
-      createdBy: string
-      creationDate: Date
-      lastUpdated: Date
-    }, ExtArgs["result"]["subCategoryMapping"]>
-    composites: {}
-  }
-
-  type SubCategoryMappingGetPayload<S extends boolean | null | undefined | SubCategoryMappingDefaultArgs> = $Result.GetResult<Prisma.$SubCategoryMappingPayload, S>
-
-  type SubCategoryMappingCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<SubCategoryMappingFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: SubCategoryMappingCountAggregateInputType | true
-    }
-
-  export interface SubCategoryMappingDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SubCategoryMapping'], meta: { name: 'SubCategoryMapping' } }
-    /**
-     * Find zero or one SubCategoryMapping that matches the filter.
-     * @param {SubCategoryMappingFindUniqueArgs} args - Arguments to find a SubCategoryMapping
-     * @example
-     * // Get one SubCategoryMapping
-     * const subCategoryMapping = await prisma.subCategoryMapping.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends SubCategoryMappingFindUniqueArgs>(args: SelectSubset<T, SubCategoryMappingFindUniqueArgs<ExtArgs>>): Prisma__SubCategoryMappingClient<$Result.GetResult<Prisma.$SubCategoryMappingPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one SubCategoryMapping that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {SubCategoryMappingFindUniqueOrThrowArgs} args - Arguments to find a SubCategoryMapping
-     * @example
-     * // Get one SubCategoryMapping
-     * const subCategoryMapping = await prisma.subCategoryMapping.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends SubCategoryMappingFindUniqueOrThrowArgs>(args: SelectSubset<T, SubCategoryMappingFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SubCategoryMappingClient<$Result.GetResult<Prisma.$SubCategoryMappingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first SubCategoryMapping that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {SubCategoryMappingFindFirstArgs} args - Arguments to find a SubCategoryMapping
-     * @example
-     * // Get one SubCategoryMapping
-     * const subCategoryMapping = await prisma.subCategoryMapping.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends SubCategoryMappingFindFirstArgs>(args?: SelectSubset<T, SubCategoryMappingFindFirstArgs<ExtArgs>>): Prisma__SubCategoryMappingClient<$Result.GetResult<Prisma.$SubCategoryMappingPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first SubCategoryMapping that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {SubCategoryMappingFindFirstOrThrowArgs} args - Arguments to find a SubCategoryMapping
-     * @example
-     * // Get one SubCategoryMapping
-     * const subCategoryMapping = await prisma.subCategoryMapping.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends SubCategoryMappingFindFirstOrThrowArgs>(args?: SelectSubset<T, SubCategoryMappingFindFirstOrThrowArgs<ExtArgs>>): Prisma__SubCategoryMappingClient<$Result.GetResult<Prisma.$SubCategoryMappingPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more SubCategoryMappings that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {SubCategoryMappingFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all SubCategoryMappings
-     * const subCategoryMappings = await prisma.subCategoryMapping.findMany()
-     * 
-     * // Get first 10 SubCategoryMappings
-     * const subCategoryMappings = await prisma.subCategoryMapping.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const subCategoryMappingWithIdOnly = await prisma.subCategoryMapping.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends SubCategoryMappingFindManyArgs>(args?: SelectSubset<T, SubCategoryMappingFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubCategoryMappingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a SubCategoryMapping.
-     * @param {SubCategoryMappingCreateArgs} args - Arguments to create a SubCategoryMapping.
-     * @example
-     * // Create one SubCategoryMapping
-     * const SubCategoryMapping = await prisma.subCategoryMapping.create({
-     *   data: {
-     *     // ... data to create a SubCategoryMapping
-     *   }
-     * })
-     * 
-     */
-    create<T extends SubCategoryMappingCreateArgs>(args: SelectSubset<T, SubCategoryMappingCreateArgs<ExtArgs>>): Prisma__SubCategoryMappingClient<$Result.GetResult<Prisma.$SubCategoryMappingPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many SubCategoryMappings.
-     * @param {SubCategoryMappingCreateManyArgs} args - Arguments to create many SubCategoryMappings.
-     * @example
-     * // Create many SubCategoryMappings
-     * const subCategoryMapping = await prisma.subCategoryMapping.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends SubCategoryMappingCreateManyArgs>(args?: SelectSubset<T, SubCategoryMappingCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many SubCategoryMappings and returns the data saved in the database.
-     * @param {SubCategoryMappingCreateManyAndReturnArgs} args - Arguments to create many SubCategoryMappings.
-     * @example
-     * // Create many SubCategoryMappings
-     * const subCategoryMapping = await prisma.subCategoryMapping.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many SubCategoryMappings and only return the `id`
-     * const subCategoryMappingWithIdOnly = await prisma.subCategoryMapping.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends SubCategoryMappingCreateManyAndReturnArgs>(args?: SelectSubset<T, SubCategoryMappingCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubCategoryMappingPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a SubCategoryMapping.
-     * @param {SubCategoryMappingDeleteArgs} args - Arguments to delete one SubCategoryMapping.
-     * @example
-     * // Delete one SubCategoryMapping
-     * const SubCategoryMapping = await prisma.subCategoryMapping.delete({
-     *   where: {
-     *     // ... filter to delete one SubCategoryMapping
-     *   }
-     * })
-     * 
-     */
-    delete<T extends SubCategoryMappingDeleteArgs>(args: SelectSubset<T, SubCategoryMappingDeleteArgs<ExtArgs>>): Prisma__SubCategoryMappingClient<$Result.GetResult<Prisma.$SubCategoryMappingPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one SubCategoryMapping.
-     * @param {SubCategoryMappingUpdateArgs} args - Arguments to update one SubCategoryMapping.
-     * @example
-     * // Update one SubCategoryMapping
-     * const subCategoryMapping = await prisma.subCategoryMapping.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends SubCategoryMappingUpdateArgs>(args: SelectSubset<T, SubCategoryMappingUpdateArgs<ExtArgs>>): Prisma__SubCategoryMappingClient<$Result.GetResult<Prisma.$SubCategoryMappingPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more SubCategoryMappings.
-     * @param {SubCategoryMappingDeleteManyArgs} args - Arguments to filter SubCategoryMappings to delete.
-     * @example
-     * // Delete a few SubCategoryMappings
-     * const { count } = await prisma.subCategoryMapping.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends SubCategoryMappingDeleteManyArgs>(args?: SelectSubset<T, SubCategoryMappingDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more SubCategoryMappings.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {SubCategoryMappingUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many SubCategoryMappings
-     * const subCategoryMapping = await prisma.subCategoryMapping.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends SubCategoryMappingUpdateManyArgs>(args: SelectSubset<T, SubCategoryMappingUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more SubCategoryMappings and returns the data updated in the database.
-     * @param {SubCategoryMappingUpdateManyAndReturnArgs} args - Arguments to update many SubCategoryMappings.
-     * @example
-     * // Update many SubCategoryMappings
-     * const subCategoryMapping = await prisma.subCategoryMapping.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more SubCategoryMappings and only return the `id`
-     * const subCategoryMappingWithIdOnly = await prisma.subCategoryMapping.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends SubCategoryMappingUpdateManyAndReturnArgs>(args: SelectSubset<T, SubCategoryMappingUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubCategoryMappingPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one SubCategoryMapping.
-     * @param {SubCategoryMappingUpsertArgs} args - Arguments to update or create a SubCategoryMapping.
-     * @example
-     * // Update or create a SubCategoryMapping
-     * const subCategoryMapping = await prisma.subCategoryMapping.upsert({
-     *   create: {
-     *     // ... data to create a SubCategoryMapping
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the SubCategoryMapping we want to update
-     *   }
-     * })
-     */
-    upsert<T extends SubCategoryMappingUpsertArgs>(args: SelectSubset<T, SubCategoryMappingUpsertArgs<ExtArgs>>): Prisma__SubCategoryMappingClient<$Result.GetResult<Prisma.$SubCategoryMappingPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of SubCategoryMappings.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {SubCategoryMappingCountArgs} args - Arguments to filter SubCategoryMappings to count.
-     * @example
-     * // Count the number of SubCategoryMappings
-     * const count = await prisma.subCategoryMapping.count({
-     *   where: {
-     *     // ... the filter for the SubCategoryMappings we want to count
-     *   }
-     * })
-    **/
-    count<T extends SubCategoryMappingCountArgs>(
-      args?: Subset<T, SubCategoryMappingCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], SubCategoryMappingCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a SubCategoryMapping.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {SubCategoryMappingAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends SubCategoryMappingAggregateArgs>(args: Subset<T, SubCategoryMappingAggregateArgs>): Prisma.PrismaPromise<GetSubCategoryMappingAggregateType<T>>
-
-    /**
-     * Group by SubCategoryMapping.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {SubCategoryMappingGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends SubCategoryMappingGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: SubCategoryMappingGroupByArgs['orderBy'] }
-        : { orderBy?: SubCategoryMappingGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, SubCategoryMappingGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSubCategoryMappingGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the SubCategoryMapping model
-   */
-  readonly fields: SubCategoryMappingFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for SubCategoryMapping.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__SubCategoryMappingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    category<T extends CategoryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CategoryDefaultArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the SubCategoryMapping model
-   */
-  interface SubCategoryMappingFieldRefs {
-    readonly id: FieldRef<"SubCategoryMapping", 'String'>
-    readonly categoryId: FieldRef<"SubCategoryMapping", 'String'>
-    readonly originalSubCategory: FieldRef<"SubCategoryMapping", 'String'>
-    readonly standardizedSubCategory: FieldRef<"SubCategoryMapping", 'String'>
-    readonly createdBy: FieldRef<"SubCategoryMapping", 'String'>
-    readonly creationDate: FieldRef<"SubCategoryMapping", 'DateTime'>
-    readonly lastUpdated: FieldRef<"SubCategoryMapping", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * SubCategoryMapping findUnique
-   */
-  export type SubCategoryMappingFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SubCategoryMapping
-     */
-    select?: SubCategoryMappingSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the SubCategoryMapping
-     */
-    omit?: SubCategoryMappingOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SubCategoryMappingInclude<ExtArgs> | null
-    /**
-     * Filter, which SubCategoryMapping to fetch.
-     */
-    where: SubCategoryMappingWhereUniqueInput
-  }
-
-  /**
-   * SubCategoryMapping findUniqueOrThrow
-   */
-  export type SubCategoryMappingFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SubCategoryMapping
-     */
-    select?: SubCategoryMappingSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the SubCategoryMapping
-     */
-    omit?: SubCategoryMappingOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SubCategoryMappingInclude<ExtArgs> | null
-    /**
-     * Filter, which SubCategoryMapping to fetch.
-     */
-    where: SubCategoryMappingWhereUniqueInput
-  }
-
-  /**
-   * SubCategoryMapping findFirst
-   */
-  export type SubCategoryMappingFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SubCategoryMapping
-     */
-    select?: SubCategoryMappingSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the SubCategoryMapping
-     */
-    omit?: SubCategoryMappingOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SubCategoryMappingInclude<ExtArgs> | null
-    /**
-     * Filter, which SubCategoryMapping to fetch.
-     */
-    where?: SubCategoryMappingWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of SubCategoryMappings to fetch.
-     */
-    orderBy?: SubCategoryMappingOrderByWithRelationInput | SubCategoryMappingOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for SubCategoryMappings.
-     */
-    cursor?: SubCategoryMappingWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` SubCategoryMappings from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` SubCategoryMappings.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of SubCategoryMappings.
-     */
-    distinct?: SubCategoryMappingScalarFieldEnum | SubCategoryMappingScalarFieldEnum[]
-  }
-
-  /**
-   * SubCategoryMapping findFirstOrThrow
-   */
-  export type SubCategoryMappingFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SubCategoryMapping
-     */
-    select?: SubCategoryMappingSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the SubCategoryMapping
-     */
-    omit?: SubCategoryMappingOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SubCategoryMappingInclude<ExtArgs> | null
-    /**
-     * Filter, which SubCategoryMapping to fetch.
-     */
-    where?: SubCategoryMappingWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of SubCategoryMappings to fetch.
-     */
-    orderBy?: SubCategoryMappingOrderByWithRelationInput | SubCategoryMappingOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for SubCategoryMappings.
-     */
-    cursor?: SubCategoryMappingWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` SubCategoryMappings from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` SubCategoryMappings.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of SubCategoryMappings.
-     */
-    distinct?: SubCategoryMappingScalarFieldEnum | SubCategoryMappingScalarFieldEnum[]
-  }
-
-  /**
-   * SubCategoryMapping findMany
-   */
-  export type SubCategoryMappingFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SubCategoryMapping
-     */
-    select?: SubCategoryMappingSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the SubCategoryMapping
-     */
-    omit?: SubCategoryMappingOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SubCategoryMappingInclude<ExtArgs> | null
-    /**
-     * Filter, which SubCategoryMappings to fetch.
-     */
-    where?: SubCategoryMappingWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of SubCategoryMappings to fetch.
-     */
-    orderBy?: SubCategoryMappingOrderByWithRelationInput | SubCategoryMappingOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing SubCategoryMappings.
-     */
-    cursor?: SubCategoryMappingWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` SubCategoryMappings from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` SubCategoryMappings.
-     */
-    skip?: number
-    distinct?: SubCategoryMappingScalarFieldEnum | SubCategoryMappingScalarFieldEnum[]
-  }
-
-  /**
-   * SubCategoryMapping create
-   */
-  export type SubCategoryMappingCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SubCategoryMapping
-     */
-    select?: SubCategoryMappingSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the SubCategoryMapping
-     */
-    omit?: SubCategoryMappingOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SubCategoryMappingInclude<ExtArgs> | null
-    /**
-     * The data needed to create a SubCategoryMapping.
-     */
-    data: XOR<SubCategoryMappingCreateInput, SubCategoryMappingUncheckedCreateInput>
-  }
-
-  /**
-   * SubCategoryMapping createMany
-   */
-  export type SubCategoryMappingCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many SubCategoryMappings.
-     */
-    data: SubCategoryMappingCreateManyInput | SubCategoryMappingCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * SubCategoryMapping createManyAndReturn
-   */
-  export type SubCategoryMappingCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SubCategoryMapping
-     */
-    select?: SubCategoryMappingSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the SubCategoryMapping
-     */
-    omit?: SubCategoryMappingOmit<ExtArgs> | null
-    /**
-     * The data used to create many SubCategoryMappings.
-     */
-    data: SubCategoryMappingCreateManyInput | SubCategoryMappingCreateManyInput[]
-    skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SubCategoryMappingIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * SubCategoryMapping update
-   */
-  export type SubCategoryMappingUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SubCategoryMapping
-     */
-    select?: SubCategoryMappingSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the SubCategoryMapping
-     */
-    omit?: SubCategoryMappingOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SubCategoryMappingInclude<ExtArgs> | null
-    /**
-     * The data needed to update a SubCategoryMapping.
-     */
-    data: XOR<SubCategoryMappingUpdateInput, SubCategoryMappingUncheckedUpdateInput>
-    /**
-     * Choose, which SubCategoryMapping to update.
-     */
-    where: SubCategoryMappingWhereUniqueInput
-  }
-
-  /**
-   * SubCategoryMapping updateMany
-   */
-  export type SubCategoryMappingUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update SubCategoryMappings.
-     */
-    data: XOR<SubCategoryMappingUpdateManyMutationInput, SubCategoryMappingUncheckedUpdateManyInput>
-    /**
-     * Filter which SubCategoryMappings to update
-     */
-    where?: SubCategoryMappingWhereInput
-    /**
-     * Limit how many SubCategoryMappings to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * SubCategoryMapping updateManyAndReturn
-   */
-  export type SubCategoryMappingUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SubCategoryMapping
-     */
-    select?: SubCategoryMappingSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the SubCategoryMapping
-     */
-    omit?: SubCategoryMappingOmit<ExtArgs> | null
-    /**
-     * The data used to update SubCategoryMappings.
-     */
-    data: XOR<SubCategoryMappingUpdateManyMutationInput, SubCategoryMappingUncheckedUpdateManyInput>
-    /**
-     * Filter which SubCategoryMappings to update
-     */
-    where?: SubCategoryMappingWhereInput
-    /**
-     * Limit how many SubCategoryMappings to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SubCategoryMappingIncludeUpdateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * SubCategoryMapping upsert
-   */
-  export type SubCategoryMappingUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SubCategoryMapping
-     */
-    select?: SubCategoryMappingSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the SubCategoryMapping
-     */
-    omit?: SubCategoryMappingOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SubCategoryMappingInclude<ExtArgs> | null
-    /**
-     * The filter to search for the SubCategoryMapping to update in case it exists.
-     */
-    where: SubCategoryMappingWhereUniqueInput
-    /**
-     * In case the SubCategoryMapping found by the `where` argument doesn't exist, create a new SubCategoryMapping with this data.
-     */
-    create: XOR<SubCategoryMappingCreateInput, SubCategoryMappingUncheckedCreateInput>
-    /**
-     * In case the SubCategoryMapping was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<SubCategoryMappingUpdateInput, SubCategoryMappingUncheckedUpdateInput>
-  }
-
-  /**
-   * SubCategoryMapping delete
-   */
-  export type SubCategoryMappingDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SubCategoryMapping
-     */
-    select?: SubCategoryMappingSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the SubCategoryMapping
-     */
-    omit?: SubCategoryMappingOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SubCategoryMappingInclude<ExtArgs> | null
-    /**
-     * Filter which SubCategoryMapping to delete.
-     */
-    where: SubCategoryMappingWhereUniqueInput
-  }
-
-  /**
-   * SubCategoryMapping deleteMany
-   */
-  export type SubCategoryMappingDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which SubCategoryMappings to delete
-     */
-    where?: SubCategoryMappingWhereInput
-    /**
-     * Limit how many SubCategoryMappings to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * SubCategoryMapping without action
-   */
-  export type SubCategoryMappingDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SubCategoryMapping
-     */
-    select?: SubCategoryMappingSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the SubCategoryMapping
-     */
-    omit?: SubCategoryMappingOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SubCategoryMappingInclude<ExtArgs> | null
-  }
-
-
-  /**
    * Model Complaint
    */
 
@@ -15389,22 +14289,25 @@ export namespace Prisma {
   }
 
   export type ComplaintAvgAggregateOutputType = {
+    seq: number | null
     upvoteCount: number | null
   }
 
   export type ComplaintSumAggregateOutputType = {
+    seq: number | null
     upvoteCount: number | null
   }
 
   export type ComplaintMinAggregateOutputType = {
     id: string | null
     submissionDate: Date | null
+    seq: number | null
     complainantId: string | null
     categoryId: string | null
     subCategory: string | null
     standardizedSubCategory: string | null
     description: string | null
-    urgency: string | null
+    urgency: $Enums.ComplaintUrgency | null
     attachmentUrl: string | null
     assignedDepartment: string | null
     status: $Enums.ComplaintStatus | null
@@ -15425,12 +14328,13 @@ export namespace Prisma {
   export type ComplaintMaxAggregateOutputType = {
     id: string | null
     submissionDate: Date | null
+    seq: number | null
     complainantId: string | null
     categoryId: string | null
     subCategory: string | null
     standardizedSubCategory: string | null
     description: string | null
-    urgency: string | null
+    urgency: $Enums.ComplaintUrgency | null
     attachmentUrl: string | null
     assignedDepartment: string | null
     status: $Enums.ComplaintStatus | null
@@ -15451,6 +14355,7 @@ export namespace Prisma {
   export type ComplaintCountAggregateOutputType = {
     id: number
     submissionDate: number
+    seq: number
     complainantId: number
     categoryId: number
     subCategory: number
@@ -15477,16 +14382,19 @@ export namespace Prisma {
 
 
   export type ComplaintAvgAggregateInputType = {
+    seq?: true
     upvoteCount?: true
   }
 
   export type ComplaintSumAggregateInputType = {
+    seq?: true
     upvoteCount?: true
   }
 
   export type ComplaintMinAggregateInputType = {
     id?: true
     submissionDate?: true
+    seq?: true
     complainantId?: true
     categoryId?: true
     subCategory?: true
@@ -15513,6 +14421,7 @@ export namespace Prisma {
   export type ComplaintMaxAggregateInputType = {
     id?: true
     submissionDate?: true
+    seq?: true
     complainantId?: true
     categoryId?: true
     subCategory?: true
@@ -15539,6 +14448,7 @@ export namespace Prisma {
   export type ComplaintCountAggregateInputType = {
     id?: true
     submissionDate?: true
+    seq?: true
     complainantId?: true
     categoryId?: true
     subCategory?: true
@@ -15652,12 +14562,13 @@ export namespace Prisma {
   export type ComplaintGroupByOutputType = {
     id: string
     submissionDate: Date
+    seq: number
     complainantId: string
     categoryId: string
     subCategory: string
     standardizedSubCategory: string | null
     description: string
-    urgency: string
+    urgency: $Enums.ComplaintUrgency
     attachmentUrl: string | null
     assignedDepartment: string
     status: $Enums.ComplaintStatus
@@ -15697,6 +14608,7 @@ export namespace Prisma {
   export type ComplaintSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     submissionDate?: boolean
+    seq?: boolean
     complainantId?: boolean
     categoryId?: boolean
     subCategory?: boolean
@@ -15737,6 +14649,7 @@ export namespace Prisma {
   export type ComplaintSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     submissionDate?: boolean
+    seq?: boolean
     complainantId?: boolean
     categoryId?: boolean
     subCategory?: boolean
@@ -15772,6 +14685,7 @@ export namespace Prisma {
   export type ComplaintSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     submissionDate?: boolean
+    seq?: boolean
     complainantId?: boolean
     categoryId?: boolean
     subCategory?: boolean
@@ -15807,6 +14721,7 @@ export namespace Prisma {
   export type ComplaintSelectScalar = {
     id?: boolean
     submissionDate?: boolean
+    seq?: boolean
     complainantId?: boolean
     categoryId?: boolean
     subCategory?: boolean
@@ -15830,7 +14745,7 @@ export namespace Prisma {
     managedBySuperAdminId?: boolean
   }
 
-  export type ComplaintOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "submissionDate" | "complainantId" | "categoryId" | "subCategory" | "standardizedSubCategory" | "description" | "urgency" | "attachmentUrl" | "assignedDepartment" | "status" | "sla" | "upvoteCount" | "isPublic" | "escalationLevel" | "dateOfResolution" | "assignedAgentId" | "managedByMunicipalAdminId" | "moderatedByMunicipalAdminId" | "crossDeptIssueSuperMunicipalId" | "escalatedToStateAdminId" | "escalatedToSuperStateAdminId" | "managedBySuperAdminId", ExtArgs["result"]["complaint"]>
+  export type ComplaintOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "submissionDate" | "seq" | "complainantId" | "categoryId" | "subCategory" | "standardizedSubCategory" | "description" | "urgency" | "attachmentUrl" | "assignedDepartment" | "status" | "sla" | "upvoteCount" | "isPublic" | "escalationLevel" | "dateOfResolution" | "assignedAgentId" | "managedByMunicipalAdminId" | "moderatedByMunicipalAdminId" | "crossDeptIssueSuperMunicipalId" | "escalatedToStateAdminId" | "escalatedToSuperStateAdminId" | "managedBySuperAdminId", ExtArgs["result"]["complaint"]>
   export type ComplaintInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     complainant?: boolean | UserDefaultArgs<ExtArgs>
     category?: boolean | CategoryDefaultArgs<ExtArgs>
@@ -15890,12 +14805,13 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       submissionDate: Date
+      seq: number
       complainantId: string
       categoryId: string
       subCategory: string
       standardizedSubCategory: string | null
       description: string
-      urgency: string
+      urgency: $Enums.ComplaintUrgency
       attachmentUrl: string | null
       assignedDepartment: string
       status: $Enums.ComplaintStatus
@@ -16349,12 +15265,13 @@ export namespace Prisma {
   interface ComplaintFieldRefs {
     readonly id: FieldRef<"Complaint", 'String'>
     readonly submissionDate: FieldRef<"Complaint", 'DateTime'>
+    readonly seq: FieldRef<"Complaint", 'Int'>
     readonly complainantId: FieldRef<"Complaint", 'String'>
     readonly categoryId: FieldRef<"Complaint", 'String'>
     readonly subCategory: FieldRef<"Complaint", 'String'>
     readonly standardizedSubCategory: FieldRef<"Complaint", 'String'>
     readonly description: FieldRef<"Complaint", 'String'>
-    readonly urgency: FieldRef<"Complaint", 'String'>
+    readonly urgency: FieldRef<"Complaint", 'ComplaintUrgency'>
     readonly attachmentUrl: FieldRef<"Complaint", 'String'>
     readonly assignedDepartment: FieldRef<"Complaint", 'String'>
     readonly status: FieldRef<"Complaint", 'ComplaintStatus'>
@@ -17207,7 +16124,7 @@ export namespace Prisma {
     pin: string
     district: string
     city: string
-    locality: string | null
+    locality: string
     street: string | null
     latitude: number | null
     longitude: number | null
@@ -17305,7 +16222,7 @@ export namespace Prisma {
       pin: string
       district: string
       city: string
-      locality: string | null
+      locality: string
       street: string | null
       latitude: number | null
       longitude: number | null
@@ -22525,6 +21442,8 @@ export namespace Prisma {
     lastUpdated: 'lastUpdated',
     status: 'status',
     lastLogin: 'lastLogin',
+    workloadLimit: 'workloadLimit',
+    currentWorkload: 'currentWorkload',
     resolutionRate: 'resolutionRate',
     slaComplianceRate: 'slaComplianceRate',
     escalationCount: 'escalationCount',
@@ -22571,7 +21490,7 @@ export namespace Prisma {
     status: 'status',
     lastLogin: 'lastLogin',
     stateResolutionRate: 'stateResolutionRate',
-    systemicIssuesIdentified: 'systemicIssuesIdentified',
+    escalationCount: 'escalationCount',
     managedMunicipalities: 'managedMunicipalities',
     managedBySuperStateId: 'managedBySuperStateId'
   };
@@ -22632,22 +21551,10 @@ export namespace Prisma {
   export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
 
 
-  export const SubCategoryMappingScalarFieldEnum: {
-    id: 'id',
-    categoryId: 'categoryId',
-    originalSubCategory: 'originalSubCategory',
-    standardizedSubCategory: 'standardizedSubCategory',
-    createdBy: 'createdBy',
-    creationDate: 'creationDate',
-    lastUpdated: 'lastUpdated'
-  };
-
-  export type SubCategoryMappingScalarFieldEnum = (typeof SubCategoryMappingScalarFieldEnum)[keyof typeof SubCategoryMappingScalarFieldEnum]
-
-
   export const ComplaintScalarFieldEnum: {
     id: 'id',
     submissionDate: 'submissionDate',
+    seq: 'seq',
     complainantId: 'complainantId',
     categoryId: 'categoryId',
     subCategory: 'subCategory',
@@ -22799,6 +21706,34 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'userStatus'
+   */
+  export type EnumuserStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'userStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'userStatus[]'
+   */
+  export type ListEnumuserStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'userStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Department'
+   */
+  export type EnumDepartmentFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Department'>
+    
+
+
+  /**
+   * Reference to a field of type 'Department[]'
+   */
+  export type ListEnumDepartmentFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Department[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -22813,6 +21748,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Status'
+   */
+  export type EnumStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Status'>
+    
+
+
+  /**
+   * Reference to a field of type 'Status[]'
+   */
+  export type ListEnumStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Status[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -22823,6 +21772,34 @@ export namespace Prisma {
    * Reference to a field of type 'Float[]'
    */
   export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'AccessLevel'
+   */
+  export type EnumAccessLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AccessLevel'>
+    
+
+
+  /**
+   * Reference to a field of type 'AccessLevel[]'
+   */
+  export type ListEnumAccessLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AccessLevel[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'ComplaintUrgency'
+   */
+  export type EnumComplaintUrgencyFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ComplaintUrgency'>
+    
+
+
+  /**
+   * Reference to a field of type 'ComplaintUrgency[]'
+   */
+  export type ListEnumComplaintUrgencyFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ComplaintUrgency[]'>
     
 
 
@@ -22859,7 +21836,7 @@ export namespace Prisma {
     consentDataCollection?: BoolFilter<"User"> | boolean
     dateOfCreation?: DateTimeFilter<"User"> | Date | string
     lastUpdated?: DateTimeFilter<"User"> | Date | string
-    status?: StringFilter<"User"> | string
+    status?: EnumuserStatusFilter<"User"> | $Enums.userStatus
     location?: XOR<UserLocationNullableScalarRelationFilter, UserLocationWhereInput> | null
     complaints?: ComplaintListRelationFilter
     upvotes?: UpvoteListRelationFilter
@@ -22902,7 +21879,7 @@ export namespace Prisma {
     consentDataCollection?: BoolFilter<"User"> | boolean
     dateOfCreation?: DateTimeFilter<"User"> | Date | string
     lastUpdated?: DateTimeFilter<"User"> | Date | string
-    status?: StringFilter<"User"> | string
+    status?: EnumuserStatusFilter<"User"> | $Enums.userStatus
     location?: XOR<UserLocationNullableScalarRelationFilter, UserLocationWhereInput> | null
     complaints?: ComplaintListRelationFilter
     upvotes?: UpvoteListRelationFilter
@@ -22944,7 +21921,7 @@ export namespace Prisma {
     consentDataCollection?: BoolWithAggregatesFilter<"User"> | boolean
     dateOfCreation?: DateTimeWithAggregatesFilter<"User"> | Date | string
     lastUpdated?: DateTimeWithAggregatesFilter<"User"> | Date | string
-    status?: StringWithAggregatesFilter<"User"> | string
+    status?: EnumuserStatusWithAggregatesFilter<"User"> | $Enums.userStatus
   }
 
   export type UserLocationWhereInput = {
@@ -23028,7 +22005,7 @@ export namespace Prisma {
     password?: StringFilter<"Agent"> | string
     phoneNumber?: StringFilter<"Agent"> | string
     officialEmail?: StringFilter<"Agent"> | string
-    department?: StringFilter<"Agent"> | string
+    department?: EnumDepartmentFilter<"Agent"> | $Enums.Department
     municipality?: StringFilter<"Agent"> | string
     autonomyLevel?: StringFilter<"Agent"> | string
     accessLevel?: StringFilter<"Agent"> | string
@@ -23036,7 +22013,7 @@ export namespace Prisma {
     currentWorkload?: IntFilter<"Agent"> | number
     availabilityStatus?: StringFilter<"Agent"> | string
     dateOfCreation?: DateTimeFilter<"Agent"> | Date | string
-    lastUpdated?: DateTimeFilter<"Agent"> | Date | string
+    lastUpdated?: EnumStatusFilter<"Agent"> | $Enums.Status
     status?: StringFilter<"Agent"> | string
     lastLogin?: DateTimeNullableFilter<"Agent"> | Date | string | null
     resolutionRate?: FloatFilter<"Agent"> | number
@@ -23087,7 +22064,7 @@ export namespace Prisma {
     fullName?: StringFilter<"Agent"> | string
     password?: StringFilter<"Agent"> | string
     phoneNumber?: StringFilter<"Agent"> | string
-    department?: StringFilter<"Agent"> | string
+    department?: EnumDepartmentFilter<"Agent"> | $Enums.Department
     municipality?: StringFilter<"Agent"> | string
     autonomyLevel?: StringFilter<"Agent"> | string
     accessLevel?: StringFilter<"Agent"> | string
@@ -23095,7 +22072,7 @@ export namespace Prisma {
     currentWorkload?: IntFilter<"Agent"> | number
     availabilityStatus?: StringFilter<"Agent"> | string
     dateOfCreation?: DateTimeFilter<"Agent"> | Date | string
-    lastUpdated?: DateTimeFilter<"Agent"> | Date | string
+    lastUpdated?: EnumStatusFilter<"Agent"> | $Enums.Status
     status?: StringFilter<"Agent"> | string
     lastLogin?: DateTimeNullableFilter<"Agent"> | Date | string | null
     resolutionRate?: FloatFilter<"Agent"> | number
@@ -23148,7 +22125,7 @@ export namespace Prisma {
     password?: StringWithAggregatesFilter<"Agent"> | string
     phoneNumber?: StringWithAggregatesFilter<"Agent"> | string
     officialEmail?: StringWithAggregatesFilter<"Agent"> | string
-    department?: StringWithAggregatesFilter<"Agent"> | string
+    department?: EnumDepartmentWithAggregatesFilter<"Agent"> | $Enums.Department
     municipality?: StringWithAggregatesFilter<"Agent"> | string
     autonomyLevel?: StringWithAggregatesFilter<"Agent"> | string
     accessLevel?: StringWithAggregatesFilter<"Agent"> | string
@@ -23156,7 +22133,7 @@ export namespace Prisma {
     currentWorkload?: IntWithAggregatesFilter<"Agent"> | number
     availabilityStatus?: StringWithAggregatesFilter<"Agent"> | string
     dateOfCreation?: DateTimeWithAggregatesFilter<"Agent"> | Date | string
-    lastUpdated?: DateTimeWithAggregatesFilter<"Agent"> | Date | string
+    lastUpdated?: EnumStatusWithAggregatesFilter<"Agent"> | $Enums.Status
     status?: StringWithAggregatesFilter<"Agent"> | string
     lastLogin?: DateTimeNullableWithAggregatesFilter<"Agent"> | Date | string | null
     resolutionRate?: FloatWithAggregatesFilter<"Agent"> | number
@@ -23175,13 +22152,15 @@ export namespace Prisma {
     officialEmail?: StringFilter<"DepartmentMunicipalAdmin"> | string
     phoneNumber?: StringFilter<"DepartmentMunicipalAdmin"> | string
     password?: StringFilter<"DepartmentMunicipalAdmin"> | string
-    department?: StringFilter<"DepartmentMunicipalAdmin"> | string
+    department?: EnumDepartmentFilter<"DepartmentMunicipalAdmin"> | $Enums.Department
     municipality?: StringFilter<"DepartmentMunicipalAdmin"> | string
-    accessLevel?: StringFilter<"DepartmentMunicipalAdmin"> | string
+    accessLevel?: EnumAccessLevelFilter<"DepartmentMunicipalAdmin"> | $Enums.AccessLevel
     dateOfCreation?: DateTimeFilter<"DepartmentMunicipalAdmin"> | Date | string
     lastUpdated?: DateTimeFilter<"DepartmentMunicipalAdmin"> | Date | string
-    status?: StringFilter<"DepartmentMunicipalAdmin"> | string
+    status?: EnumStatusFilter<"DepartmentMunicipalAdmin"> | $Enums.Status
     lastLogin?: DateTimeNullableFilter<"DepartmentMunicipalAdmin"> | Date | string | null
+    workloadLimit?: IntFilter<"DepartmentMunicipalAdmin"> | number
+    currentWorkload?: IntFilter<"DepartmentMunicipalAdmin"> | number
     resolutionRate?: FloatFilter<"DepartmentMunicipalAdmin"> | number
     slaComplianceRate?: FloatNullableFilter<"DepartmentMunicipalAdmin"> | number | null
     escalationCount?: IntFilter<"DepartmentMunicipalAdmin"> | number
@@ -23209,6 +22188,8 @@ export namespace Prisma {
     lastUpdated?: SortOrder
     status?: SortOrder
     lastLogin?: SortOrderInput | SortOrder
+    workloadLimit?: SortOrder
+    currentWorkload?: SortOrder
     resolutionRate?: SortOrder
     slaComplianceRate?: SortOrderInput | SortOrder
     escalationCount?: SortOrder
@@ -23224,21 +22205,23 @@ export namespace Prisma {
 
   export type DepartmentMunicipalAdminWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    adminId?: string
     officialEmail?: string
     AND?: DepartmentMunicipalAdminWhereInput | DepartmentMunicipalAdminWhereInput[]
     OR?: DepartmentMunicipalAdminWhereInput[]
     NOT?: DepartmentMunicipalAdminWhereInput | DepartmentMunicipalAdminWhereInput[]
     fullName?: StringFilter<"DepartmentMunicipalAdmin"> | string
+    adminId?: StringFilter<"DepartmentMunicipalAdmin"> | string
     phoneNumber?: StringFilter<"DepartmentMunicipalAdmin"> | string
     password?: StringFilter<"DepartmentMunicipalAdmin"> | string
-    department?: StringFilter<"DepartmentMunicipalAdmin"> | string
+    department?: EnumDepartmentFilter<"DepartmentMunicipalAdmin"> | $Enums.Department
     municipality?: StringFilter<"DepartmentMunicipalAdmin"> | string
-    accessLevel?: StringFilter<"DepartmentMunicipalAdmin"> | string
+    accessLevel?: EnumAccessLevelFilter<"DepartmentMunicipalAdmin"> | $Enums.AccessLevel
     dateOfCreation?: DateTimeFilter<"DepartmentMunicipalAdmin"> | Date | string
     lastUpdated?: DateTimeFilter<"DepartmentMunicipalAdmin"> | Date | string
-    status?: StringFilter<"DepartmentMunicipalAdmin"> | string
+    status?: EnumStatusFilter<"DepartmentMunicipalAdmin"> | $Enums.Status
     lastLogin?: DateTimeNullableFilter<"DepartmentMunicipalAdmin"> | Date | string | null
+    workloadLimit?: IntFilter<"DepartmentMunicipalAdmin"> | number
+    currentWorkload?: IntFilter<"DepartmentMunicipalAdmin"> | number
     resolutionRate?: FloatFilter<"DepartmentMunicipalAdmin"> | number
     slaComplianceRate?: FloatNullableFilter<"DepartmentMunicipalAdmin"> | number | null
     escalationCount?: IntFilter<"DepartmentMunicipalAdmin"> | number
@@ -23250,7 +22233,7 @@ export namespace Prisma {
     newsUpdates?: NewsUpdateListRelationFilter
     managedByStateAdmin?: XOR<DepartmentStateAdminNullableScalarRelationFilter, DepartmentStateAdminWhereInput> | null
     managedBySuperMunicipal?: XOR<SuperMunicipalAdminNullableScalarRelationFilter, SuperMunicipalAdminWhereInput> | null
-  }, "id" | "adminId" | "officialEmail">
+  }, "id" | "officialEmail">
 
   export type DepartmentMunicipalAdminOrderByWithAggregationInput = {
     id?: SortOrder
@@ -23266,6 +22249,8 @@ export namespace Prisma {
     lastUpdated?: SortOrder
     status?: SortOrder
     lastLogin?: SortOrderInput | SortOrder
+    workloadLimit?: SortOrder
+    currentWorkload?: SortOrder
     resolutionRate?: SortOrder
     slaComplianceRate?: SortOrderInput | SortOrder
     escalationCount?: SortOrder
@@ -23288,13 +22273,15 @@ export namespace Prisma {
     officialEmail?: StringWithAggregatesFilter<"DepartmentMunicipalAdmin"> | string
     phoneNumber?: StringWithAggregatesFilter<"DepartmentMunicipalAdmin"> | string
     password?: StringWithAggregatesFilter<"DepartmentMunicipalAdmin"> | string
-    department?: StringWithAggregatesFilter<"DepartmentMunicipalAdmin"> | string
+    department?: EnumDepartmentWithAggregatesFilter<"DepartmentMunicipalAdmin"> | $Enums.Department
     municipality?: StringWithAggregatesFilter<"DepartmentMunicipalAdmin"> | string
-    accessLevel?: StringWithAggregatesFilter<"DepartmentMunicipalAdmin"> | string
+    accessLevel?: EnumAccessLevelWithAggregatesFilter<"DepartmentMunicipalAdmin"> | $Enums.AccessLevel
     dateOfCreation?: DateTimeWithAggregatesFilter<"DepartmentMunicipalAdmin"> | Date | string
     lastUpdated?: DateTimeWithAggregatesFilter<"DepartmentMunicipalAdmin"> | Date | string
-    status?: StringWithAggregatesFilter<"DepartmentMunicipalAdmin"> | string
+    status?: EnumStatusWithAggregatesFilter<"DepartmentMunicipalAdmin"> | $Enums.Status
     lastLogin?: DateTimeNullableWithAggregatesFilter<"DepartmentMunicipalAdmin"> | Date | string | null
+    workloadLimit?: IntWithAggregatesFilter<"DepartmentMunicipalAdmin"> | number
+    currentWorkload?: IntWithAggregatesFilter<"DepartmentMunicipalAdmin"> | number
     resolutionRate?: FloatWithAggregatesFilter<"DepartmentMunicipalAdmin"> | number
     slaComplianceRate?: FloatNullableWithAggregatesFilter<"DepartmentMunicipalAdmin"> | number | null
     escalationCount?: IntWithAggregatesFilter<"DepartmentMunicipalAdmin"> | number
@@ -23313,10 +22300,10 @@ export namespace Prisma {
     password?: StringFilter<"SuperMunicipalAdmin"> | string
     phoneNumber?: StringNullableFilter<"SuperMunicipalAdmin"> | string | null
     municipality?: StringFilter<"SuperMunicipalAdmin"> | string
-    accessLevel?: StringFilter<"SuperMunicipalAdmin"> | string
+    accessLevel?: EnumAccessLevelFilter<"SuperMunicipalAdmin"> | $Enums.AccessLevel
     dateOfCreation?: DateTimeFilter<"SuperMunicipalAdmin"> | Date | string
     lastUpdated?: DateTimeFilter<"SuperMunicipalAdmin"> | Date | string
-    status?: StringFilter<"SuperMunicipalAdmin"> | string
+    status?: EnumStatusFilter<"SuperMunicipalAdmin"> | $Enums.Status
     lastLogin?: DateTimeNullableFilter<"SuperMunicipalAdmin"> | Date | string | null
     municipalityResolutionRate?: FloatFilter<"SuperMunicipalAdmin"> | number
     crossDepartmentSuccess?: IntFilter<"SuperMunicipalAdmin"> | number
@@ -23349,19 +22336,19 @@ export namespace Prisma {
 
   export type SuperMunicipalAdminWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    adminId?: string
     officialEmail?: string
     AND?: SuperMunicipalAdminWhereInput | SuperMunicipalAdminWhereInput[]
     OR?: SuperMunicipalAdminWhereInput[]
     NOT?: SuperMunicipalAdminWhereInput | SuperMunicipalAdminWhereInput[]
     fullName?: StringFilter<"SuperMunicipalAdmin"> | string
+    adminId?: StringFilter<"SuperMunicipalAdmin"> | string
     password?: StringFilter<"SuperMunicipalAdmin"> | string
     phoneNumber?: StringNullableFilter<"SuperMunicipalAdmin"> | string | null
     municipality?: StringFilter<"SuperMunicipalAdmin"> | string
-    accessLevel?: StringFilter<"SuperMunicipalAdmin"> | string
+    accessLevel?: EnumAccessLevelFilter<"SuperMunicipalAdmin"> | $Enums.AccessLevel
     dateOfCreation?: DateTimeFilter<"SuperMunicipalAdmin"> | Date | string
     lastUpdated?: DateTimeFilter<"SuperMunicipalAdmin"> | Date | string
-    status?: StringFilter<"SuperMunicipalAdmin"> | string
+    status?: EnumStatusFilter<"SuperMunicipalAdmin"> | $Enums.Status
     lastLogin?: DateTimeNullableFilter<"SuperMunicipalAdmin"> | Date | string | null
     municipalityResolutionRate?: FloatFilter<"SuperMunicipalAdmin"> | number
     crossDepartmentSuccess?: IntFilter<"SuperMunicipalAdmin"> | number
@@ -23369,7 +22356,7 @@ export namespace Prisma {
     managedDepartmentAdmins?: DepartmentMunicipalAdminListRelationFilter
     crossDepartmentIssues?: ComplaintListRelationFilter
     managedBySuperState?: XOR<SuperStateAdminNullableScalarRelationFilter, SuperStateAdminWhereInput> | null
-  }, "id" | "adminId" | "officialEmail">
+  }, "id" | "officialEmail">
 
   export type SuperMunicipalAdminOrderByWithAggregationInput = {
     id?: SortOrder
@@ -23405,10 +22392,10 @@ export namespace Prisma {
     password?: StringWithAggregatesFilter<"SuperMunicipalAdmin"> | string
     phoneNumber?: StringNullableWithAggregatesFilter<"SuperMunicipalAdmin"> | string | null
     municipality?: StringWithAggregatesFilter<"SuperMunicipalAdmin"> | string
-    accessLevel?: StringWithAggregatesFilter<"SuperMunicipalAdmin"> | string
+    accessLevel?: EnumAccessLevelWithAggregatesFilter<"SuperMunicipalAdmin"> | $Enums.AccessLevel
     dateOfCreation?: DateTimeWithAggregatesFilter<"SuperMunicipalAdmin"> | Date | string
     lastUpdated?: DateTimeWithAggregatesFilter<"SuperMunicipalAdmin"> | Date | string
-    status?: StringWithAggregatesFilter<"SuperMunicipalAdmin"> | string
+    status?: EnumStatusWithAggregatesFilter<"SuperMunicipalAdmin"> | $Enums.Status
     lastLogin?: DateTimeNullableWithAggregatesFilter<"SuperMunicipalAdmin"> | Date | string | null
     municipalityResolutionRate?: FloatWithAggregatesFilter<"SuperMunicipalAdmin"> | number
     crossDepartmentSuccess?: IntWithAggregatesFilter<"SuperMunicipalAdmin"> | number
@@ -23425,15 +22412,15 @@ export namespace Prisma {
     officialEmail?: StringFilter<"DepartmentStateAdmin"> | string
     password?: StringFilter<"DepartmentStateAdmin"> | string
     phoneNumber?: StringNullableFilter<"DepartmentStateAdmin"> | string | null
-    department?: StringFilter<"DepartmentStateAdmin"> | string
+    department?: EnumDepartmentFilter<"DepartmentStateAdmin"> | $Enums.Department
     state?: StringFilter<"DepartmentStateAdmin"> | string
-    accessLevel?: StringFilter<"DepartmentStateAdmin"> | string
+    accessLevel?: EnumAccessLevelFilter<"DepartmentStateAdmin"> | $Enums.AccessLevel
     dateOfCreation?: DateTimeFilter<"DepartmentStateAdmin"> | Date | string
     lastUpdated?: DateTimeFilter<"DepartmentStateAdmin"> | Date | string
-    status?: StringFilter<"DepartmentStateAdmin"> | string
+    status?: EnumStatusFilter<"DepartmentStateAdmin"> | $Enums.Status
     lastLogin?: DateTimeNullableFilter<"DepartmentStateAdmin"> | Date | string | null
     stateResolutionRate?: FloatFilter<"DepartmentStateAdmin"> | number
-    systemicIssuesIdentified?: IntFilter<"DepartmentStateAdmin"> | number
+    escalationCount?: IntFilter<"DepartmentStateAdmin"> | number
     managedMunicipalities?: StringNullableListFilter<"DepartmentStateAdmin">
     managedBySuperStateId?: StringNullableFilter<"DepartmentStateAdmin"> | string | null
     managedMunicipalAdmins?: DepartmentMunicipalAdminListRelationFilter
@@ -23458,7 +22445,7 @@ export namespace Prisma {
     status?: SortOrder
     lastLogin?: SortOrderInput | SortOrder
     stateResolutionRate?: SortOrder
-    systemicIssuesIdentified?: SortOrder
+    escalationCount?: SortOrder
     managedMunicipalities?: SortOrder
     managedBySuperStateId?: SortOrderInput | SortOrder
     managedMunicipalAdmins?: DepartmentMunicipalAdminOrderByRelationAggregateInput
@@ -23470,23 +22457,23 @@ export namespace Prisma {
 
   export type DepartmentStateAdminWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    adminId?: string
     officialEmail?: string
     AND?: DepartmentStateAdminWhereInput | DepartmentStateAdminWhereInput[]
     OR?: DepartmentStateAdminWhereInput[]
     NOT?: DepartmentStateAdminWhereInput | DepartmentStateAdminWhereInput[]
     fullName?: StringFilter<"DepartmentStateAdmin"> | string
+    adminId?: StringFilter<"DepartmentStateAdmin"> | string
     password?: StringFilter<"DepartmentStateAdmin"> | string
     phoneNumber?: StringNullableFilter<"DepartmentStateAdmin"> | string | null
-    department?: StringFilter<"DepartmentStateAdmin"> | string
+    department?: EnumDepartmentFilter<"DepartmentStateAdmin"> | $Enums.Department
     state?: StringFilter<"DepartmentStateAdmin"> | string
-    accessLevel?: StringFilter<"DepartmentStateAdmin"> | string
+    accessLevel?: EnumAccessLevelFilter<"DepartmentStateAdmin"> | $Enums.AccessLevel
     dateOfCreation?: DateTimeFilter<"DepartmentStateAdmin"> | Date | string
     lastUpdated?: DateTimeFilter<"DepartmentStateAdmin"> | Date | string
-    status?: StringFilter<"DepartmentStateAdmin"> | string
+    status?: EnumStatusFilter<"DepartmentStateAdmin"> | $Enums.Status
     lastLogin?: DateTimeNullableFilter<"DepartmentStateAdmin"> | Date | string | null
     stateResolutionRate?: FloatFilter<"DepartmentStateAdmin"> | number
-    systemicIssuesIdentified?: IntFilter<"DepartmentStateAdmin"> | number
+    escalationCount?: IntFilter<"DepartmentStateAdmin"> | number
     managedMunicipalities?: StringNullableListFilter<"DepartmentStateAdmin">
     managedBySuperStateId?: StringNullableFilter<"DepartmentStateAdmin"> | string | null
     managedMunicipalAdmins?: DepartmentMunicipalAdminListRelationFilter
@@ -23494,7 +22481,7 @@ export namespace Prisma {
     regionalWorkflows?: RegionalWorkflowListRelationFilter
     managedCategories?: CategoryListRelationFilter
     managedBySuperState?: XOR<SuperStateAdminNullableScalarRelationFilter, SuperStateAdminWhereInput> | null
-  }, "id" | "adminId" | "officialEmail">
+  }, "id" | "officialEmail">
 
   export type DepartmentStateAdminOrderByWithAggregationInput = {
     id?: SortOrder
@@ -23511,7 +22498,7 @@ export namespace Prisma {
     status?: SortOrder
     lastLogin?: SortOrderInput | SortOrder
     stateResolutionRate?: SortOrder
-    systemicIssuesIdentified?: SortOrder
+    escalationCount?: SortOrder
     managedMunicipalities?: SortOrder
     managedBySuperStateId?: SortOrderInput | SortOrder
     _count?: DepartmentStateAdminCountOrderByAggregateInput
@@ -23531,15 +22518,15 @@ export namespace Prisma {
     officialEmail?: StringWithAggregatesFilter<"DepartmentStateAdmin"> | string
     password?: StringWithAggregatesFilter<"DepartmentStateAdmin"> | string
     phoneNumber?: StringNullableWithAggregatesFilter<"DepartmentStateAdmin"> | string | null
-    department?: StringWithAggregatesFilter<"DepartmentStateAdmin"> | string
+    department?: EnumDepartmentWithAggregatesFilter<"DepartmentStateAdmin"> | $Enums.Department
     state?: StringWithAggregatesFilter<"DepartmentStateAdmin"> | string
-    accessLevel?: StringWithAggregatesFilter<"DepartmentStateAdmin"> | string
+    accessLevel?: EnumAccessLevelWithAggregatesFilter<"DepartmentStateAdmin"> | $Enums.AccessLevel
     dateOfCreation?: DateTimeWithAggregatesFilter<"DepartmentStateAdmin"> | Date | string
     lastUpdated?: DateTimeWithAggregatesFilter<"DepartmentStateAdmin"> | Date | string
-    status?: StringWithAggregatesFilter<"DepartmentStateAdmin"> | string
+    status?: EnumStatusWithAggregatesFilter<"DepartmentStateAdmin"> | $Enums.Status
     lastLogin?: DateTimeNullableWithAggregatesFilter<"DepartmentStateAdmin"> | Date | string | null
     stateResolutionRate?: FloatWithAggregatesFilter<"DepartmentStateAdmin"> | number
-    systemicIssuesIdentified?: IntWithAggregatesFilter<"DepartmentStateAdmin"> | number
+    escalationCount?: IntWithAggregatesFilter<"DepartmentStateAdmin"> | number
     managedMunicipalities?: StringNullableListFilter<"DepartmentStateAdmin">
     managedBySuperStateId?: StringNullableWithAggregatesFilter<"DepartmentStateAdmin"> | string | null
   }
@@ -23555,10 +22542,10 @@ export namespace Prisma {
     phoneNumber?: StringNullableFilter<"SuperStateAdmin"> | string | null
     password?: StringFilter<"SuperStateAdmin"> | string
     state?: StringFilter<"SuperStateAdmin"> | string
-    accessLevel?: StringFilter<"SuperStateAdmin"> | string
+    accessLevel?: EnumAccessLevelFilter<"SuperStateAdmin"> | $Enums.AccessLevel
     dateOfCreation?: DateTimeFilter<"SuperStateAdmin"> | Date | string
     lastUpdated?: DateTimeFilter<"SuperStateAdmin"> | Date | string
-    status?: StringFilter<"SuperStateAdmin"> | string
+    status?: EnumStatusFilter<"SuperStateAdmin"> | $Enums.Status
     lastLogin?: DateTimeNullableFilter<"SuperStateAdmin"> | Date | string | null
     stateResolutionRate?: FloatFilter<"SuperStateAdmin"> | number
     crossDepartmentSuccess?: IntFilter<"SuperStateAdmin"> | number
@@ -23593,19 +22580,19 @@ export namespace Prisma {
 
   export type SuperStateAdminWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    adminId?: string
     officialEmail?: string
     AND?: SuperStateAdminWhereInput | SuperStateAdminWhereInput[]
     OR?: SuperStateAdminWhereInput[]
     NOT?: SuperStateAdminWhereInput | SuperStateAdminWhereInput[]
     fullName?: StringFilter<"SuperStateAdmin"> | string
+    adminId?: StringFilter<"SuperStateAdmin"> | string
     phoneNumber?: StringNullableFilter<"SuperStateAdmin"> | string | null
     password?: StringFilter<"SuperStateAdmin"> | string
     state?: StringFilter<"SuperStateAdmin"> | string
-    accessLevel?: StringFilter<"SuperStateAdmin"> | string
+    accessLevel?: EnumAccessLevelFilter<"SuperStateAdmin"> | $Enums.AccessLevel
     dateOfCreation?: DateTimeFilter<"SuperStateAdmin"> | Date | string
     lastUpdated?: DateTimeFilter<"SuperStateAdmin"> | Date | string
-    status?: StringFilter<"SuperStateAdmin"> | string
+    status?: EnumStatusFilter<"SuperStateAdmin"> | $Enums.Status
     lastLogin?: DateTimeNullableFilter<"SuperStateAdmin"> | Date | string | null
     stateResolutionRate?: FloatFilter<"SuperStateAdmin"> | number
     crossDepartmentSuccess?: IntFilter<"SuperStateAdmin"> | number
@@ -23614,7 +22601,7 @@ export namespace Prisma {
     managedSuperMunicipalAdmins?: SuperMunicipalAdminListRelationFilter
     escalatedComplaints?: ComplaintListRelationFilter
     managedBySuperAdmin?: XOR<SuperAdminNullableScalarRelationFilter, SuperAdminWhereInput> | null
-  }, "id" | "adminId" | "officialEmail">
+  }, "id" | "officialEmail">
 
   export type SuperStateAdminOrderByWithAggregationInput = {
     id?: SortOrder
@@ -23650,10 +22637,10 @@ export namespace Prisma {
     phoneNumber?: StringNullableWithAggregatesFilter<"SuperStateAdmin"> | string | null
     password?: StringWithAggregatesFilter<"SuperStateAdmin"> | string
     state?: StringWithAggregatesFilter<"SuperStateAdmin"> | string
-    accessLevel?: StringWithAggregatesFilter<"SuperStateAdmin"> | string
+    accessLevel?: EnumAccessLevelWithAggregatesFilter<"SuperStateAdmin"> | $Enums.AccessLevel
     dateOfCreation?: DateTimeWithAggregatesFilter<"SuperStateAdmin"> | Date | string
     lastUpdated?: DateTimeWithAggregatesFilter<"SuperStateAdmin"> | Date | string
-    status?: StringWithAggregatesFilter<"SuperStateAdmin"> | string
+    status?: EnumStatusWithAggregatesFilter<"SuperStateAdmin"> | $Enums.Status
     lastLogin?: DateTimeNullableWithAggregatesFilter<"SuperStateAdmin"> | Date | string | null
     stateResolutionRate?: FloatWithAggregatesFilter<"SuperStateAdmin"> | number
     crossDepartmentSuccess?: IntWithAggregatesFilter<"SuperStateAdmin"> | number
@@ -23670,10 +22657,10 @@ export namespace Prisma {
     officialEmail?: StringFilter<"SuperAdmin"> | string
     phoneNumber?: StringNullableFilter<"SuperAdmin"> | string | null
     password?: StringFilter<"SuperAdmin"> | string
-    accessLevel?: StringFilter<"SuperAdmin"> | string
+    accessLevel?: EnumAccessLevelFilter<"SuperAdmin"> | $Enums.AccessLevel
     dateOfCreation?: DateTimeFilter<"SuperAdmin"> | Date | string
     lastUpdated?: DateTimeFilter<"SuperAdmin"> | Date | string
-    status?: StringFilter<"SuperAdmin"> | string
+    status?: EnumStatusFilter<"SuperAdmin"> | $Enums.Status
     lastLogin?: DateTimeNullableFilter<"SuperAdmin"> | Date | string | null
     managedCategories?: CategoryListRelationFilter
     managedSuperStateAdmins?: SuperStateAdminListRelationFilter
@@ -23699,23 +22686,23 @@ export namespace Prisma {
 
   export type SuperAdminWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    adminId?: string
     officialEmail?: string
     AND?: SuperAdminWhereInput | SuperAdminWhereInput[]
     OR?: SuperAdminWhereInput[]
     NOT?: SuperAdminWhereInput | SuperAdminWhereInput[]
     fullName?: StringFilter<"SuperAdmin"> | string
+    adminId?: StringFilter<"SuperAdmin"> | string
     phoneNumber?: StringNullableFilter<"SuperAdmin"> | string | null
     password?: StringFilter<"SuperAdmin"> | string
-    accessLevel?: StringFilter<"SuperAdmin"> | string
+    accessLevel?: EnumAccessLevelFilter<"SuperAdmin"> | $Enums.AccessLevel
     dateOfCreation?: DateTimeFilter<"SuperAdmin"> | Date | string
     lastUpdated?: DateTimeFilter<"SuperAdmin"> | Date | string
-    status?: StringFilter<"SuperAdmin"> | string
+    status?: EnumStatusFilter<"SuperAdmin"> | $Enums.Status
     lastLogin?: DateTimeNullableFilter<"SuperAdmin"> | Date | string | null
     managedCategories?: CategoryListRelationFilter
     managedSuperStateAdmins?: SuperStateAdminListRelationFilter
     managedComplaints?: ComplaintListRelationFilter
-  }, "id" | "adminId" | "officialEmail">
+  }, "id" | "officialEmail">
 
   export type SuperAdminOrderByWithAggregationInput = {
     id?: SortOrder
@@ -23744,10 +22731,10 @@ export namespace Prisma {
     officialEmail?: StringWithAggregatesFilter<"SuperAdmin"> | string
     phoneNumber?: StringNullableWithAggregatesFilter<"SuperAdmin"> | string | null
     password?: StringWithAggregatesFilter<"SuperAdmin"> | string
-    accessLevel?: StringWithAggregatesFilter<"SuperAdmin"> | string
+    accessLevel?: EnumAccessLevelWithAggregatesFilter<"SuperAdmin"> | $Enums.AccessLevel
     dateOfCreation?: DateTimeWithAggregatesFilter<"SuperAdmin"> | Date | string
     lastUpdated?: DateTimeWithAggregatesFilter<"SuperAdmin"> | Date | string
-    status?: StringWithAggregatesFilter<"SuperAdmin"> | string
+    status?: EnumStatusWithAggregatesFilter<"SuperAdmin"> | $Enums.Status
     lastLogin?: DateTimeNullableWithAggregatesFilter<"SuperAdmin"> | Date | string | null
   }
 
@@ -23765,7 +22752,6 @@ export namespace Prisma {
     createdBySuperAdminId?: StringNullableFilter<"Category"> | string | null
     managedByDeptStateAdminId?: StringNullableFilter<"Category"> | string | null
     complaints?: ComplaintListRelationFilter
-    subCategoryMappings?: SubCategoryMappingListRelationFilter
     createdBySuperAdmin?: XOR<SuperAdminNullableScalarRelationFilter, SuperAdminWhereInput> | null
     managedByDeptStateAdmin?: XOR<DepartmentStateAdminNullableScalarRelationFilter, DepartmentStateAdminWhereInput> | null
   }
@@ -23781,7 +22767,6 @@ export namespace Prisma {
     createdBySuperAdminId?: SortOrderInput | SortOrder
     managedByDeptStateAdminId?: SortOrderInput | SortOrder
     complaints?: ComplaintOrderByRelationAggregateInput
-    subCategoryMappings?: SubCategoryMappingOrderByRelationAggregateInput
     createdBySuperAdmin?: SuperAdminOrderByWithRelationInput
     managedByDeptStateAdmin?: DepartmentStateAdminOrderByWithRelationInput
   }
@@ -23800,7 +22785,6 @@ export namespace Prisma {
     createdBySuperAdminId?: StringNullableFilter<"Category"> | string | null
     managedByDeptStateAdminId?: StringNullableFilter<"Category"> | string | null
     complaints?: ComplaintListRelationFilter
-    subCategoryMappings?: SubCategoryMappingListRelationFilter
     createdBySuperAdmin?: XOR<SuperAdminNullableScalarRelationFilter, SuperAdminWhereInput> | null
     managedByDeptStateAdmin?: XOR<DepartmentStateAdminNullableScalarRelationFilter, DepartmentStateAdminWhereInput> | null
   }, "id" | "name">
@@ -23835,84 +22819,19 @@ export namespace Prisma {
     managedByDeptStateAdminId?: StringNullableWithAggregatesFilter<"Category"> | string | null
   }
 
-  export type SubCategoryMappingWhereInput = {
-    AND?: SubCategoryMappingWhereInput | SubCategoryMappingWhereInput[]
-    OR?: SubCategoryMappingWhereInput[]
-    NOT?: SubCategoryMappingWhereInput | SubCategoryMappingWhereInput[]
-    id?: StringFilter<"SubCategoryMapping"> | string
-    categoryId?: StringFilter<"SubCategoryMapping"> | string
-    originalSubCategory?: StringFilter<"SubCategoryMapping"> | string
-    standardizedSubCategory?: StringFilter<"SubCategoryMapping"> | string
-    createdBy?: StringFilter<"SubCategoryMapping"> | string
-    creationDate?: DateTimeFilter<"SubCategoryMapping"> | Date | string
-    lastUpdated?: DateTimeFilter<"SubCategoryMapping"> | Date | string
-    category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
-  }
-
-  export type SubCategoryMappingOrderByWithRelationInput = {
-    id?: SortOrder
-    categoryId?: SortOrder
-    originalSubCategory?: SortOrder
-    standardizedSubCategory?: SortOrder
-    createdBy?: SortOrder
-    creationDate?: SortOrder
-    lastUpdated?: SortOrder
-    category?: CategoryOrderByWithRelationInput
-  }
-
-  export type SubCategoryMappingWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    categoryId_originalSubCategory?: SubCategoryMappingCategoryIdOriginalSubCategoryCompoundUniqueInput
-    AND?: SubCategoryMappingWhereInput | SubCategoryMappingWhereInput[]
-    OR?: SubCategoryMappingWhereInput[]
-    NOT?: SubCategoryMappingWhereInput | SubCategoryMappingWhereInput[]
-    categoryId?: StringFilter<"SubCategoryMapping"> | string
-    originalSubCategory?: StringFilter<"SubCategoryMapping"> | string
-    standardizedSubCategory?: StringFilter<"SubCategoryMapping"> | string
-    createdBy?: StringFilter<"SubCategoryMapping"> | string
-    creationDate?: DateTimeFilter<"SubCategoryMapping"> | Date | string
-    lastUpdated?: DateTimeFilter<"SubCategoryMapping"> | Date | string
-    category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
-  }, "id" | "categoryId_originalSubCategory">
-
-  export type SubCategoryMappingOrderByWithAggregationInput = {
-    id?: SortOrder
-    categoryId?: SortOrder
-    originalSubCategory?: SortOrder
-    standardizedSubCategory?: SortOrder
-    createdBy?: SortOrder
-    creationDate?: SortOrder
-    lastUpdated?: SortOrder
-    _count?: SubCategoryMappingCountOrderByAggregateInput
-    _max?: SubCategoryMappingMaxOrderByAggregateInput
-    _min?: SubCategoryMappingMinOrderByAggregateInput
-  }
-
-  export type SubCategoryMappingScalarWhereWithAggregatesInput = {
-    AND?: SubCategoryMappingScalarWhereWithAggregatesInput | SubCategoryMappingScalarWhereWithAggregatesInput[]
-    OR?: SubCategoryMappingScalarWhereWithAggregatesInput[]
-    NOT?: SubCategoryMappingScalarWhereWithAggregatesInput | SubCategoryMappingScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"SubCategoryMapping"> | string
-    categoryId?: StringWithAggregatesFilter<"SubCategoryMapping"> | string
-    originalSubCategory?: StringWithAggregatesFilter<"SubCategoryMapping"> | string
-    standardizedSubCategory?: StringWithAggregatesFilter<"SubCategoryMapping"> | string
-    createdBy?: StringWithAggregatesFilter<"SubCategoryMapping"> | string
-    creationDate?: DateTimeWithAggregatesFilter<"SubCategoryMapping"> | Date | string
-    lastUpdated?: DateTimeWithAggregatesFilter<"SubCategoryMapping"> | Date | string
-  }
-
   export type ComplaintWhereInput = {
     AND?: ComplaintWhereInput | ComplaintWhereInput[]
     OR?: ComplaintWhereInput[]
     NOT?: ComplaintWhereInput | ComplaintWhereInput[]
     id?: StringFilter<"Complaint"> | string
     submissionDate?: DateTimeFilter<"Complaint"> | Date | string
+    seq?: IntFilter<"Complaint"> | number
     complainantId?: StringFilter<"Complaint"> | string
     categoryId?: StringFilter<"Complaint"> | string
     subCategory?: StringFilter<"Complaint"> | string
     standardizedSubCategory?: StringNullableFilter<"Complaint"> | string | null
     description?: StringFilter<"Complaint"> | string
-    urgency?: StringFilter<"Complaint"> | string
+    urgency?: EnumComplaintUrgencyFilter<"Complaint"> | $Enums.ComplaintUrgency
     attachmentUrl?: StringNullableFilter<"Complaint"> | string | null
     assignedDepartment?: StringFilter<"Complaint"> | string
     status?: EnumComplaintStatusFilter<"Complaint"> | $Enums.ComplaintStatus
@@ -23946,6 +22865,7 @@ export namespace Prisma {
   export type ComplaintOrderByWithRelationInput = {
     id?: SortOrder
     submissionDate?: SortOrder
+    seq?: SortOrder
     complainantId?: SortOrder
     categoryId?: SortOrder
     subCategory?: SortOrder
@@ -23984,6 +22904,7 @@ export namespace Prisma {
 
   export type ComplaintWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    seq?: number
     AND?: ComplaintWhereInput | ComplaintWhereInput[]
     OR?: ComplaintWhereInput[]
     NOT?: ComplaintWhereInput | ComplaintWhereInput[]
@@ -23993,7 +22914,7 @@ export namespace Prisma {
     subCategory?: StringFilter<"Complaint"> | string
     standardizedSubCategory?: StringNullableFilter<"Complaint"> | string | null
     description?: StringFilter<"Complaint"> | string
-    urgency?: StringFilter<"Complaint"> | string
+    urgency?: EnumComplaintUrgencyFilter<"Complaint"> | $Enums.ComplaintUrgency
     attachmentUrl?: StringNullableFilter<"Complaint"> | string | null
     assignedDepartment?: StringFilter<"Complaint"> | string
     status?: EnumComplaintStatusFilter<"Complaint"> | $Enums.ComplaintStatus
@@ -24022,11 +22943,12 @@ export namespace Prisma {
     managedBySuperAdmin?: XOR<SuperAdminNullableScalarRelationFilter, SuperAdminWhereInput> | null
     upvotes?: UpvoteListRelationFilter
     auditLogs?: AuditLogListRelationFilter
-  }, "id">
+  }, "id" | "seq">
 
   export type ComplaintOrderByWithAggregationInput = {
     id?: SortOrder
     submissionDate?: SortOrder
+    seq?: SortOrder
     complainantId?: SortOrder
     categoryId?: SortOrder
     subCategory?: SortOrder
@@ -24061,12 +22983,13 @@ export namespace Prisma {
     NOT?: ComplaintScalarWhereWithAggregatesInput | ComplaintScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Complaint"> | string
     submissionDate?: DateTimeWithAggregatesFilter<"Complaint"> | Date | string
+    seq?: IntWithAggregatesFilter<"Complaint"> | number
     complainantId?: StringWithAggregatesFilter<"Complaint"> | string
     categoryId?: StringWithAggregatesFilter<"Complaint"> | string
     subCategory?: StringWithAggregatesFilter<"Complaint"> | string
     standardizedSubCategory?: StringNullableWithAggregatesFilter<"Complaint"> | string | null
     description?: StringWithAggregatesFilter<"Complaint"> | string
-    urgency?: StringWithAggregatesFilter<"Complaint"> | string
+    urgency?: EnumComplaintUrgencyWithAggregatesFilter<"Complaint"> | $Enums.ComplaintUrgency
     attachmentUrl?: StringNullableWithAggregatesFilter<"Complaint"> | string | null
     assignedDepartment?: StringWithAggregatesFilter<"Complaint"> | string
     status?: EnumComplaintStatusWithAggregatesFilter<"Complaint"> | $Enums.ComplaintStatus
@@ -24093,7 +23016,7 @@ export namespace Prisma {
     pin?: StringFilter<"ComplaintLocation"> | string
     district?: StringFilter<"ComplaintLocation"> | string
     city?: StringFilter<"ComplaintLocation"> | string
-    locality?: StringNullableFilter<"ComplaintLocation"> | string | null
+    locality?: StringFilter<"ComplaintLocation"> | string
     street?: StringNullableFilter<"ComplaintLocation"> | string | null
     latitude?: FloatNullableFilter<"ComplaintLocation"> | number | null
     longitude?: FloatNullableFilter<"ComplaintLocation"> | number | null
@@ -24106,7 +23029,7 @@ export namespace Prisma {
     pin?: SortOrder
     district?: SortOrder
     city?: SortOrder
-    locality?: SortOrderInput | SortOrder
+    locality?: SortOrder
     street?: SortOrderInput | SortOrder
     latitude?: SortOrderInput | SortOrder
     longitude?: SortOrderInput | SortOrder
@@ -24122,7 +23045,7 @@ export namespace Prisma {
     pin?: StringFilter<"ComplaintLocation"> | string
     district?: StringFilter<"ComplaintLocation"> | string
     city?: StringFilter<"ComplaintLocation"> | string
-    locality?: StringNullableFilter<"ComplaintLocation"> | string | null
+    locality?: StringFilter<"ComplaintLocation"> | string
     street?: StringNullableFilter<"ComplaintLocation"> | string | null
     latitude?: FloatNullableFilter<"ComplaintLocation"> | number | null
     longitude?: FloatNullableFilter<"ComplaintLocation"> | number | null
@@ -24135,7 +23058,7 @@ export namespace Prisma {
     pin?: SortOrder
     district?: SortOrder
     city?: SortOrder
-    locality?: SortOrderInput | SortOrder
+    locality?: SortOrder
     street?: SortOrderInput | SortOrder
     latitude?: SortOrderInput | SortOrder
     longitude?: SortOrderInput | SortOrder
@@ -24155,7 +23078,7 @@ export namespace Prisma {
     pin?: StringWithAggregatesFilter<"ComplaintLocation"> | string
     district?: StringWithAggregatesFilter<"ComplaintLocation"> | string
     city?: StringWithAggregatesFilter<"ComplaintLocation"> | string
-    locality?: StringNullableWithAggregatesFilter<"ComplaintLocation"> | string | null
+    locality?: StringWithAggregatesFilter<"ComplaintLocation"> | string
     street?: StringNullableWithAggregatesFilter<"ComplaintLocation"> | string | null
     latitude?: FloatNullableWithAggregatesFilter<"ComplaintLocation"> | number | null
     longitude?: FloatNullableWithAggregatesFilter<"ComplaintLocation"> | number | null
@@ -24406,7 +23329,7 @@ export namespace Prisma {
     consentDataCollection?: boolean
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.userStatus
     location?: UserLocationCreateNestedOneWithoutUserInput
     complaints?: ComplaintCreateNestedManyWithoutComplainantInput
     upvotes?: UpvoteCreateNestedManyWithoutUserInput
@@ -24426,7 +23349,7 @@ export namespace Prisma {
     consentDataCollection?: boolean
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.userStatus
     location?: UserLocationUncheckedCreateNestedOneWithoutUserInput
     complaints?: ComplaintUncheckedCreateNestedManyWithoutComplainantInput
     upvotes?: UpvoteUncheckedCreateNestedManyWithoutUserInput
@@ -24446,7 +23369,7 @@ export namespace Prisma {
     consentDataCollection?: BoolFieldUpdateOperationsInput | boolean
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumuserStatusFieldUpdateOperationsInput | $Enums.userStatus
     location?: UserLocationUpdateOneWithoutUserNestedInput
     complaints?: ComplaintUpdateManyWithoutComplainantNestedInput
     upvotes?: UpvoteUpdateManyWithoutUserNestedInput
@@ -24466,7 +23389,7 @@ export namespace Prisma {
     consentDataCollection?: BoolFieldUpdateOperationsInput | boolean
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumuserStatusFieldUpdateOperationsInput | $Enums.userStatus
     location?: UserLocationUncheckedUpdateOneWithoutUserNestedInput
     complaints?: ComplaintUncheckedUpdateManyWithoutComplainantNestedInput
     upvotes?: UpvoteUncheckedUpdateManyWithoutUserNestedInput
@@ -24486,7 +23409,7 @@ export namespace Prisma {
     consentDataCollection?: boolean
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.userStatus
   }
 
   export type UserUpdateManyMutationInput = {
@@ -24502,7 +23425,7 @@ export namespace Prisma {
     consentDataCollection?: BoolFieldUpdateOperationsInput | boolean
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumuserStatusFieldUpdateOperationsInput | $Enums.userStatus
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -24518,7 +23441,7 @@ export namespace Prisma {
     consentDataCollection?: BoolFieldUpdateOperationsInput | boolean
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumuserStatusFieldUpdateOperationsInput | $Enums.userStatus
   }
 
   export type UserLocationCreateInput = {
@@ -24605,7 +23528,7 @@ export namespace Prisma {
     password: string
     phoneNumber: string
     officialEmail: string
-    department: string
+    department: $Enums.Department
     municipality: string
     autonomyLevel: string
     accessLevel: string
@@ -24613,7 +23536,7 @@ export namespace Prisma {
     currentWorkload?: number
     availabilityStatus?: string
     dateOfCreation?: Date | string
-    lastUpdated?: Date | string
+    lastUpdated?: $Enums.Status
     status?: string
     lastLogin?: Date | string | null
     resolutionRate?: number
@@ -24632,7 +23555,7 @@ export namespace Prisma {
     password: string
     phoneNumber: string
     officialEmail: string
-    department: string
+    department: $Enums.Department
     municipality: string
     autonomyLevel: string
     accessLevel: string
@@ -24640,7 +23563,7 @@ export namespace Prisma {
     currentWorkload?: number
     availabilityStatus?: string
     dateOfCreation?: Date | string
-    lastUpdated?: Date | string
+    lastUpdated?: $Enums.Status
     status?: string
     lastLogin?: Date | string | null
     resolutionRate?: number
@@ -24659,7 +23582,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
     officialEmail?: StringFieldUpdateOperationsInput | string
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     municipality?: StringFieldUpdateOperationsInput | string
     autonomyLevel?: StringFieldUpdateOperationsInput | string
     accessLevel?: StringFieldUpdateOperationsInput | string
@@ -24667,7 +23590,7 @@ export namespace Prisma {
     currentWorkload?: IntFieldUpdateOperationsInput | number
     availabilityStatus?: StringFieldUpdateOperationsInput | string
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
-    lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUpdated?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     status?: StringFieldUpdateOperationsInput | string
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     resolutionRate?: FloatFieldUpdateOperationsInput | number
@@ -24686,7 +23609,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
     officialEmail?: StringFieldUpdateOperationsInput | string
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     municipality?: StringFieldUpdateOperationsInput | string
     autonomyLevel?: StringFieldUpdateOperationsInput | string
     accessLevel?: StringFieldUpdateOperationsInput | string
@@ -24694,7 +23617,7 @@ export namespace Prisma {
     currentWorkload?: IntFieldUpdateOperationsInput | number
     availabilityStatus?: StringFieldUpdateOperationsInput | string
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
-    lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUpdated?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     status?: StringFieldUpdateOperationsInput | string
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     resolutionRate?: FloatFieldUpdateOperationsInput | number
@@ -24713,7 +23636,7 @@ export namespace Prisma {
     password: string
     phoneNumber: string
     officialEmail: string
-    department: string
+    department: $Enums.Department
     municipality: string
     autonomyLevel: string
     accessLevel: string
@@ -24721,7 +23644,7 @@ export namespace Prisma {
     currentWorkload?: number
     availabilityStatus?: string
     dateOfCreation?: Date | string
-    lastUpdated?: Date | string
+    lastUpdated?: $Enums.Status
     status?: string
     lastLogin?: Date | string | null
     resolutionRate?: number
@@ -24738,7 +23661,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
     officialEmail?: StringFieldUpdateOperationsInput | string
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     municipality?: StringFieldUpdateOperationsInput | string
     autonomyLevel?: StringFieldUpdateOperationsInput | string
     accessLevel?: StringFieldUpdateOperationsInput | string
@@ -24746,7 +23669,7 @@ export namespace Prisma {
     currentWorkload?: IntFieldUpdateOperationsInput | number
     availabilityStatus?: StringFieldUpdateOperationsInput | string
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
-    lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUpdated?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     status?: StringFieldUpdateOperationsInput | string
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     resolutionRate?: FloatFieldUpdateOperationsInput | number
@@ -24762,7 +23685,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
     officialEmail?: StringFieldUpdateOperationsInput | string
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     municipality?: StringFieldUpdateOperationsInput | string
     autonomyLevel?: StringFieldUpdateOperationsInput | string
     accessLevel?: StringFieldUpdateOperationsInput | string
@@ -24770,7 +23693,7 @@ export namespace Prisma {
     currentWorkload?: IntFieldUpdateOperationsInput | number
     availabilityStatus?: StringFieldUpdateOperationsInput | string
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
-    lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUpdated?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     status?: StringFieldUpdateOperationsInput | string
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     resolutionRate?: FloatFieldUpdateOperationsInput | number
@@ -24782,17 +23705,19 @@ export namespace Prisma {
   export type DepartmentMunicipalAdminCreateInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     phoneNumber: string
     password: string
-    department: string
+    department: $Enums.Department
     municipality: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
+    workloadLimit?: number
+    currentWorkload?: number
     resolutionRate?: number
     slaComplianceRate?: number | null
     escalationCount?: number
@@ -24807,17 +23732,19 @@ export namespace Prisma {
   export type DepartmentMunicipalAdminUncheckedCreateInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     phoneNumber: string
     password: string
-    department: string
+    department: $Enums.Department
     municipality: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
+    workloadLimit?: number
+    currentWorkload?: number
     resolutionRate?: number
     slaComplianceRate?: number | null
     escalationCount?: number
@@ -24836,13 +23763,15 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     municipality?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workloadLimit?: IntFieldUpdateOperationsInput | number
+    currentWorkload?: IntFieldUpdateOperationsInput | number
     resolutionRate?: FloatFieldUpdateOperationsInput | number
     slaComplianceRate?: NullableFloatFieldUpdateOperationsInput | number | null
     escalationCount?: IntFieldUpdateOperationsInput | number
@@ -24861,13 +23790,15 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     municipality?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workloadLimit?: IntFieldUpdateOperationsInput | number
+    currentWorkload?: IntFieldUpdateOperationsInput | number
     resolutionRate?: FloatFieldUpdateOperationsInput | number
     slaComplianceRate?: NullableFloatFieldUpdateOperationsInput | number | null
     escalationCount?: IntFieldUpdateOperationsInput | number
@@ -24882,17 +23813,19 @@ export namespace Prisma {
   export type DepartmentMunicipalAdminCreateManyInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     phoneNumber: string
     password: string
-    department: string
+    department: $Enums.Department
     municipality: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
+    workloadLimit?: number
+    currentWorkload?: number
     resolutionRate?: number
     slaComplianceRate?: number | null
     escalationCount?: number
@@ -24907,13 +23840,15 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     municipality?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workloadLimit?: IntFieldUpdateOperationsInput | number
+    currentWorkload?: IntFieldUpdateOperationsInput | number
     resolutionRate?: FloatFieldUpdateOperationsInput | number
     slaComplianceRate?: NullableFloatFieldUpdateOperationsInput | number | null
     escalationCount?: IntFieldUpdateOperationsInput | number
@@ -24926,13 +23861,15 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     municipality?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workloadLimit?: IntFieldUpdateOperationsInput | number
+    currentWorkload?: IntFieldUpdateOperationsInput | number
     resolutionRate?: FloatFieldUpdateOperationsInput | number
     slaComplianceRate?: NullableFloatFieldUpdateOperationsInput | number | null
     escalationCount?: IntFieldUpdateOperationsInput | number
@@ -24943,15 +23880,15 @@ export namespace Prisma {
   export type SuperMunicipalAdminCreateInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     password: string
     phoneNumber?: string | null
     municipality: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     municipalityResolutionRate?: number
     crossDepartmentSuccess?: number
@@ -24963,15 +23900,15 @@ export namespace Prisma {
   export type SuperMunicipalAdminUncheckedCreateInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     password: string
     phoneNumber?: string | null
     municipality: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     municipalityResolutionRate?: number
     crossDepartmentSuccess?: number
@@ -24988,10 +23925,10 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     municipality?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     municipalityResolutionRate?: FloatFieldUpdateOperationsInput | number
     crossDepartmentSuccess?: IntFieldUpdateOperationsInput | number
@@ -25008,10 +23945,10 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     municipality?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     municipalityResolutionRate?: FloatFieldUpdateOperationsInput | number
     crossDepartmentSuccess?: IntFieldUpdateOperationsInput | number
@@ -25023,15 +23960,15 @@ export namespace Prisma {
   export type SuperMunicipalAdminCreateManyInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     password: string
     phoneNumber?: string | null
     municipality: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     municipalityResolutionRate?: number
     crossDepartmentSuccess?: number
@@ -25046,10 +23983,10 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     municipality?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     municipalityResolutionRate?: FloatFieldUpdateOperationsInput | number
     crossDepartmentSuccess?: IntFieldUpdateOperationsInput | number
@@ -25063,10 +24000,10 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     municipality?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     municipalityResolutionRate?: FloatFieldUpdateOperationsInput | number
     crossDepartmentSuccess?: IntFieldUpdateOperationsInput | number
@@ -25076,19 +24013,19 @@ export namespace Prisma {
   export type DepartmentStateAdminCreateInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     password: string
     phoneNumber?: string | null
-    department: string
+    department: $Enums.Department
     state: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     stateResolutionRate?: number
-    systemicIssuesIdentified?: number
+    escalationCount?: number
     managedMunicipalities?: DepartmentStateAdminCreatemanagedMunicipalitiesInput | string[]
     managedMunicipalAdmins?: DepartmentMunicipalAdminCreateNestedManyWithoutManagedByStateAdminInput
     escalatedComplaints?: ComplaintCreateNestedManyWithoutEscalatedToStateAdminInput
@@ -25100,19 +24037,19 @@ export namespace Prisma {
   export type DepartmentStateAdminUncheckedCreateInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     password: string
     phoneNumber?: string | null
-    department: string
+    department: $Enums.Department
     state: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     stateResolutionRate?: number
-    systemicIssuesIdentified?: number
+    escalationCount?: number
     managedMunicipalities?: DepartmentStateAdminCreatemanagedMunicipalitiesInput | string[]
     managedBySuperStateId?: string | null
     managedMunicipalAdmins?: DepartmentMunicipalAdminUncheckedCreateNestedManyWithoutManagedByStateAdminInput
@@ -25128,15 +24065,15 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     state?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stateResolutionRate?: FloatFieldUpdateOperationsInput | number
-    systemicIssuesIdentified?: IntFieldUpdateOperationsInput | number
+    escalationCount?: IntFieldUpdateOperationsInput | number
     managedMunicipalities?: DepartmentStateAdminUpdatemanagedMunicipalitiesInput | string[]
     managedMunicipalAdmins?: DepartmentMunicipalAdminUpdateManyWithoutManagedByStateAdminNestedInput
     escalatedComplaints?: ComplaintUpdateManyWithoutEscalatedToStateAdminNestedInput
@@ -25152,15 +24089,15 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     state?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stateResolutionRate?: FloatFieldUpdateOperationsInput | number
-    systemicIssuesIdentified?: IntFieldUpdateOperationsInput | number
+    escalationCount?: IntFieldUpdateOperationsInput | number
     managedMunicipalities?: DepartmentStateAdminUpdatemanagedMunicipalitiesInput | string[]
     managedBySuperStateId?: NullableStringFieldUpdateOperationsInput | string | null
     managedMunicipalAdmins?: DepartmentMunicipalAdminUncheckedUpdateManyWithoutManagedByStateAdminNestedInput
@@ -25172,19 +24109,19 @@ export namespace Prisma {
   export type DepartmentStateAdminCreateManyInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     password: string
     phoneNumber?: string | null
-    department: string
+    department: $Enums.Department
     state: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     stateResolutionRate?: number
-    systemicIssuesIdentified?: number
+    escalationCount?: number
     managedMunicipalities?: DepartmentStateAdminCreatemanagedMunicipalitiesInput | string[]
     managedBySuperStateId?: string | null
   }
@@ -25196,15 +24133,15 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     state?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stateResolutionRate?: FloatFieldUpdateOperationsInput | number
-    systemicIssuesIdentified?: IntFieldUpdateOperationsInput | number
+    escalationCount?: IntFieldUpdateOperationsInput | number
     managedMunicipalities?: DepartmentStateAdminUpdatemanagedMunicipalitiesInput | string[]
   }
 
@@ -25215,15 +24152,15 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     state?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stateResolutionRate?: FloatFieldUpdateOperationsInput | number
-    systemicIssuesIdentified?: IntFieldUpdateOperationsInput | number
+    escalationCount?: IntFieldUpdateOperationsInput | number
     managedMunicipalities?: DepartmentStateAdminUpdatemanagedMunicipalitiesInput | string[]
     managedBySuperStateId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -25231,15 +24168,15 @@ export namespace Prisma {
   export type SuperStateAdminCreateInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     phoneNumber?: string | null
     password: string
     state: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     stateResolutionRate?: number
     crossDepartmentSuccess?: number
@@ -25252,15 +24189,15 @@ export namespace Prisma {
   export type SuperStateAdminUncheckedCreateInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     phoneNumber?: string | null
     password: string
     state: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     stateResolutionRate?: number
     crossDepartmentSuccess?: number
@@ -25278,10 +24215,10 @@ export namespace Prisma {
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     state?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stateResolutionRate?: FloatFieldUpdateOperationsInput | number
     crossDepartmentSuccess?: IntFieldUpdateOperationsInput | number
@@ -25299,10 +24236,10 @@ export namespace Prisma {
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     state?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stateResolutionRate?: FloatFieldUpdateOperationsInput | number
     crossDepartmentSuccess?: IntFieldUpdateOperationsInput | number
@@ -25315,15 +24252,15 @@ export namespace Prisma {
   export type SuperStateAdminCreateManyInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     phoneNumber?: string | null
     password: string
     state: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     stateResolutionRate?: number
     crossDepartmentSuccess?: number
@@ -25338,10 +24275,10 @@ export namespace Prisma {
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     state?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stateResolutionRate?: FloatFieldUpdateOperationsInput | number
     crossDepartmentSuccess?: IntFieldUpdateOperationsInput | number
@@ -25355,10 +24292,10 @@ export namespace Prisma {
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     state?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stateResolutionRate?: FloatFieldUpdateOperationsInput | number
     crossDepartmentSuccess?: IntFieldUpdateOperationsInput | number
@@ -25368,14 +24305,14 @@ export namespace Prisma {
   export type SuperAdminCreateInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     phoneNumber?: string | null
     password: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     managedCategories?: CategoryCreateNestedManyWithoutCreatedBySuperAdminInput
     managedSuperStateAdmins?: SuperStateAdminCreateNestedManyWithoutManagedBySuperAdminInput
@@ -25385,14 +24322,14 @@ export namespace Prisma {
   export type SuperAdminUncheckedCreateInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     phoneNumber?: string | null
     password: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     managedCategories?: CategoryUncheckedCreateNestedManyWithoutCreatedBySuperAdminInput
     managedSuperStateAdmins?: SuperStateAdminUncheckedCreateNestedManyWithoutManagedBySuperAdminInput
@@ -25406,10 +24343,10 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     managedCategories?: CategoryUpdateManyWithoutCreatedBySuperAdminNestedInput
     managedSuperStateAdmins?: SuperStateAdminUpdateManyWithoutManagedBySuperAdminNestedInput
@@ -25423,10 +24360,10 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     managedCategories?: CategoryUncheckedUpdateManyWithoutCreatedBySuperAdminNestedInput
     managedSuperStateAdmins?: SuperStateAdminUncheckedUpdateManyWithoutManagedBySuperAdminNestedInput
@@ -25436,14 +24373,14 @@ export namespace Prisma {
   export type SuperAdminCreateManyInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     phoneNumber?: string | null
     password: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
   }
 
@@ -25454,10 +24391,10 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
@@ -25468,10 +24405,10 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
@@ -25484,7 +24421,6 @@ export namespace Prisma {
     creationDate?: Date | string
     lastUpdated?: Date | string
     complaints?: ComplaintCreateNestedManyWithoutCategoryInput
-    subCategoryMappings?: SubCategoryMappingCreateNestedManyWithoutCategoryInput
     createdBySuperAdmin?: SuperAdminCreateNestedOneWithoutManagedCategoriesInput
     managedByDeptStateAdmin?: DepartmentStateAdminCreateNestedOneWithoutManagedCategoriesInput
   }
@@ -25500,7 +24436,6 @@ export namespace Prisma {
     createdBySuperAdminId?: string | null
     managedByDeptStateAdminId?: string | null
     complaints?: ComplaintUncheckedCreateNestedManyWithoutCategoryInput
-    subCategoryMappings?: SubCategoryMappingUncheckedCreateNestedManyWithoutCategoryInput
   }
 
   export type CategoryUpdateInput = {
@@ -25512,7 +24447,6 @@ export namespace Prisma {
     creationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
     complaints?: ComplaintUpdateManyWithoutCategoryNestedInput
-    subCategoryMappings?: SubCategoryMappingUpdateManyWithoutCategoryNestedInput
     createdBySuperAdmin?: SuperAdminUpdateOneWithoutManagedCategoriesNestedInput
     managedByDeptStateAdmin?: DepartmentStateAdminUpdateOneWithoutManagedCategoriesNestedInput
   }
@@ -25528,7 +24462,6 @@ export namespace Prisma {
     createdBySuperAdminId?: NullableStringFieldUpdateOperationsInput | string | null
     managedByDeptStateAdminId?: NullableStringFieldUpdateOperationsInput | string | null
     complaints?: ComplaintUncheckedUpdateManyWithoutCategoryNestedInput
-    subCategoryMappings?: SubCategoryMappingUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
   export type CategoryCreateManyInput = {
@@ -25565,88 +24498,20 @@ export namespace Prisma {
     managedByDeptStateAdminId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type SubCategoryMappingCreateInput = {
-    id?: string
-    originalSubCategory: string
-    standardizedSubCategory: string
-    createdBy: string
-    creationDate?: Date | string
-    lastUpdated?: Date | string
-    category: CategoryCreateNestedOneWithoutSubCategoryMappingsInput
-  }
-
-  export type SubCategoryMappingUncheckedCreateInput = {
-    id?: string
-    categoryId: string
-    originalSubCategory: string
-    standardizedSubCategory: string
-    createdBy: string
-    creationDate?: Date | string
-    lastUpdated?: Date | string
-  }
-
-  export type SubCategoryMappingUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    originalSubCategory?: StringFieldUpdateOperationsInput | string
-    standardizedSubCategory?: StringFieldUpdateOperationsInput | string
-    createdBy?: StringFieldUpdateOperationsInput | string
-    creationDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    category?: CategoryUpdateOneRequiredWithoutSubCategoryMappingsNestedInput
-  }
-
-  export type SubCategoryMappingUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    categoryId?: StringFieldUpdateOperationsInput | string
-    originalSubCategory?: StringFieldUpdateOperationsInput | string
-    standardizedSubCategory?: StringFieldUpdateOperationsInput | string
-    createdBy?: StringFieldUpdateOperationsInput | string
-    creationDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type SubCategoryMappingCreateManyInput = {
-    id?: string
-    categoryId: string
-    originalSubCategory: string
-    standardizedSubCategory: string
-    createdBy: string
-    creationDate?: Date | string
-    lastUpdated?: Date | string
-  }
-
-  export type SubCategoryMappingUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    originalSubCategory?: StringFieldUpdateOperationsInput | string
-    standardizedSubCategory?: StringFieldUpdateOperationsInput | string
-    createdBy?: StringFieldUpdateOperationsInput | string
-    creationDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type SubCategoryMappingUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    categoryId?: StringFieldUpdateOperationsInput | string
-    originalSubCategory?: StringFieldUpdateOperationsInput | string
-    standardizedSubCategory?: StringFieldUpdateOperationsInput | string
-    createdBy?: StringFieldUpdateOperationsInput | string
-    creationDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
   export type ComplaintCreateInput = {
     id?: string
     submissionDate?: Date | string
+    seq?: number
     subCategory: string
     standardizedSubCategory?: string | null
     description: string
-    urgency: string
+    urgency?: $Enums.ComplaintUrgency
     attachmentUrl?: string | null
     assignedDepartment: string
     status?: $Enums.ComplaintStatus
     sla?: string | null
     upvoteCount?: number
-    isPublic: boolean
+    isPublic?: boolean
     escalationLevel?: string | null
     dateOfResolution?: Date | string | null
     complainant: UserCreateNestedOneWithoutComplaintsInput
@@ -25667,18 +24532,19 @@ export namespace Prisma {
   export type ComplaintUncheckedCreateInput = {
     id?: string
     submissionDate?: Date | string
+    seq?: number
     complainantId: string
     categoryId: string
     subCategory: string
     standardizedSubCategory?: string | null
     description: string
-    urgency: string
+    urgency?: $Enums.ComplaintUrgency
     attachmentUrl?: string | null
     assignedDepartment: string
     status?: $Enums.ComplaintStatus
     sla?: string | null
     upvoteCount?: number
-    isPublic: boolean
+    isPublic?: boolean
     escalationLevel?: string | null
     dateOfResolution?: Date | string | null
     assignedAgentId?: string | null
@@ -25700,7 +24566,7 @@ export namespace Prisma {
     subCategory?: StringFieldUpdateOperationsInput | string
     standardizedSubCategory?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    urgency?: StringFieldUpdateOperationsInput | string
+    urgency?: EnumComplaintUrgencyFieldUpdateOperationsInput | $Enums.ComplaintUrgency
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assignedDepartment?: StringFieldUpdateOperationsInput | string
     status?: EnumComplaintStatusFieldUpdateOperationsInput | $Enums.ComplaintStatus
@@ -25727,12 +24593,13 @@ export namespace Prisma {
   export type ComplaintUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     submissionDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    seq?: IntFieldUpdateOperationsInput | number
     complainantId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     subCategory?: StringFieldUpdateOperationsInput | string
     standardizedSubCategory?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    urgency?: StringFieldUpdateOperationsInput | string
+    urgency?: EnumComplaintUrgencyFieldUpdateOperationsInput | $Enums.ComplaintUrgency
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assignedDepartment?: StringFieldUpdateOperationsInput | string
     status?: EnumComplaintStatusFieldUpdateOperationsInput | $Enums.ComplaintStatus
@@ -25757,18 +24624,19 @@ export namespace Prisma {
   export type ComplaintCreateManyInput = {
     id?: string
     submissionDate?: Date | string
+    seq?: number
     complainantId: string
     categoryId: string
     subCategory: string
     standardizedSubCategory?: string | null
     description: string
-    urgency: string
+    urgency?: $Enums.ComplaintUrgency
     attachmentUrl?: string | null
     assignedDepartment: string
     status?: $Enums.ComplaintStatus
     sla?: string | null
     upvoteCount?: number
-    isPublic: boolean
+    isPublic?: boolean
     escalationLevel?: string | null
     dateOfResolution?: Date | string | null
     assignedAgentId?: string | null
@@ -25786,7 +24654,7 @@ export namespace Prisma {
     subCategory?: StringFieldUpdateOperationsInput | string
     standardizedSubCategory?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    urgency?: StringFieldUpdateOperationsInput | string
+    urgency?: EnumComplaintUrgencyFieldUpdateOperationsInput | $Enums.ComplaintUrgency
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assignedDepartment?: StringFieldUpdateOperationsInput | string
     status?: EnumComplaintStatusFieldUpdateOperationsInput | $Enums.ComplaintStatus
@@ -25800,12 +24668,13 @@ export namespace Prisma {
   export type ComplaintUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     submissionDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    seq?: IntFieldUpdateOperationsInput | number
     complainantId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     subCategory?: StringFieldUpdateOperationsInput | string
     standardizedSubCategory?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    urgency?: StringFieldUpdateOperationsInput | string
+    urgency?: EnumComplaintUrgencyFieldUpdateOperationsInput | $Enums.ComplaintUrgency
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assignedDepartment?: StringFieldUpdateOperationsInput | string
     status?: EnumComplaintStatusFieldUpdateOperationsInput | $Enums.ComplaintStatus
@@ -25828,7 +24697,7 @@ export namespace Prisma {
     pin: string
     district: string
     city: string
-    locality?: string | null
+    locality: string
     street?: string | null
     latitude?: number | null
     longitude?: number | null
@@ -25841,7 +24710,7 @@ export namespace Prisma {
     pin: string
     district: string
     city: string
-    locality?: string | null
+    locality: string
     street?: string | null
     latitude?: number | null
     longitude?: number | null
@@ -25852,7 +24721,7 @@ export namespace Prisma {
     pin?: StringFieldUpdateOperationsInput | string
     district?: StringFieldUpdateOperationsInput | string
     city?: StringFieldUpdateOperationsInput | string
-    locality?: NullableStringFieldUpdateOperationsInput | string | null
+    locality?: StringFieldUpdateOperationsInput | string
     street?: NullableStringFieldUpdateOperationsInput | string | null
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -25865,7 +24734,7 @@ export namespace Prisma {
     pin?: StringFieldUpdateOperationsInput | string
     district?: StringFieldUpdateOperationsInput | string
     city?: StringFieldUpdateOperationsInput | string
-    locality?: NullableStringFieldUpdateOperationsInput | string | null
+    locality?: StringFieldUpdateOperationsInput | string
     street?: NullableStringFieldUpdateOperationsInput | string | null
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -25877,7 +24746,7 @@ export namespace Prisma {
     pin: string
     district: string
     city: string
-    locality?: string | null
+    locality: string
     street?: string | null
     latitude?: number | null
     longitude?: number | null
@@ -25888,7 +24757,7 @@ export namespace Prisma {
     pin?: StringFieldUpdateOperationsInput | string
     district?: StringFieldUpdateOperationsInput | string
     city?: StringFieldUpdateOperationsInput | string
-    locality?: NullableStringFieldUpdateOperationsInput | string | null
+    locality?: StringFieldUpdateOperationsInput | string
     street?: NullableStringFieldUpdateOperationsInput | string | null
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -25900,7 +24769,7 @@ export namespace Prisma {
     pin?: StringFieldUpdateOperationsInput | string
     district?: StringFieldUpdateOperationsInput | string
     city?: StringFieldUpdateOperationsInput | string
-    locality?: NullableStringFieldUpdateOperationsInput | string | null
+    locality?: StringFieldUpdateOperationsInput | string
     street?: NullableStringFieldUpdateOperationsInput | string | null
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -26177,6 +25046,13 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type EnumuserStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.userStatus | EnumuserStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.userStatus[] | ListEnumuserStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.userStatus[] | ListEnumuserStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumuserStatusFilter<$PrismaModel> | $Enums.userStatus
+  }
+
   export type UserLocationNullableScalarRelationFilter = {
     is?: UserLocationWhereInput | null
     isNot?: UserLocationWhereInput | null
@@ -26323,6 +25199,16 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type EnumuserStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.userStatus | EnumuserStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.userStatus[] | ListEnumuserStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.userStatus[] | ListEnumuserStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumuserStatusWithAggregatesFilter<$PrismaModel> | $Enums.userStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumuserStatusFilter<$PrismaModel>
+    _max?: NestedEnumuserStatusFilter<$PrismaModel>
+  }
+
   export type UserScalarRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
@@ -26361,6 +25247,13 @@ export namespace Prisma {
     municipal?: SortOrder
   }
 
+  export type EnumDepartmentFilter<$PrismaModel = never> = {
+    equals?: $Enums.Department | EnumDepartmentFieldRefInput<$PrismaModel>
+    in?: $Enums.Department[] | ListEnumDepartmentFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Department[] | ListEnumDepartmentFieldRefInput<$PrismaModel>
+    not?: NestedEnumDepartmentFilter<$PrismaModel> | $Enums.Department
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -26370,6 +25263,13 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type EnumStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.Status | EnumStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumStatusFilter<$PrismaModel> | $Enums.Status
   }
 
   export type DateTimeNullableFilter<$PrismaModel = never> = {
@@ -26488,6 +25388,16 @@ export namespace Prisma {
     collaborationMetric?: SortOrder
   }
 
+  export type EnumDepartmentWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Department | EnumDepartmentFieldRefInput<$PrismaModel>
+    in?: $Enums.Department[] | ListEnumDepartmentFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Department[] | ListEnumDepartmentFieldRefInput<$PrismaModel>
+    not?: NestedEnumDepartmentWithAggregatesFilter<$PrismaModel> | $Enums.Department
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDepartmentFilter<$PrismaModel>
+    _max?: NestedEnumDepartmentFilter<$PrismaModel>
+  }
+
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -26502,6 +25412,16 @@ export namespace Prisma {
     _sum?: NestedIntFilter<$PrismaModel>
     _min?: NestedIntFilter<$PrismaModel>
     _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type EnumStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Status | EnumStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumStatusWithAggregatesFilter<$PrismaModel> | $Enums.Status
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumStatusFilter<$PrismaModel>
+    _max?: NestedEnumStatusFilter<$PrismaModel>
   }
 
   export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -26532,6 +25452,13 @@ export namespace Prisma {
     _sum?: NestedFloatFilter<$PrismaModel>
     _min?: NestedFloatFilter<$PrismaModel>
     _max?: NestedFloatFilter<$PrismaModel>
+  }
+
+  export type EnumAccessLevelFilter<$PrismaModel = never> = {
+    equals?: $Enums.AccessLevel | EnumAccessLevelFieldRefInput<$PrismaModel>
+    in?: $Enums.AccessLevel[] | ListEnumAccessLevelFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AccessLevel[] | ListEnumAccessLevelFieldRefInput<$PrismaModel>
+    not?: NestedEnumAccessLevelFilter<$PrismaModel> | $Enums.AccessLevel
   }
 
   export type FloatNullableFilter<$PrismaModel = never> = {
@@ -26589,6 +25516,8 @@ export namespace Prisma {
     lastUpdated?: SortOrder
     status?: SortOrder
     lastLogin?: SortOrder
+    workloadLimit?: SortOrder
+    currentWorkload?: SortOrder
     resolutionRate?: SortOrder
     slaComplianceRate?: SortOrder
     escalationCount?: SortOrder
@@ -26597,6 +25526,8 @@ export namespace Prisma {
   }
 
   export type DepartmentMunicipalAdminAvgOrderByAggregateInput = {
+    workloadLimit?: SortOrder
+    currentWorkload?: SortOrder
     resolutionRate?: SortOrder
     slaComplianceRate?: SortOrder
     escalationCount?: SortOrder
@@ -26616,6 +25547,8 @@ export namespace Prisma {
     lastUpdated?: SortOrder
     status?: SortOrder
     lastLogin?: SortOrder
+    workloadLimit?: SortOrder
+    currentWorkload?: SortOrder
     resolutionRate?: SortOrder
     slaComplianceRate?: SortOrder
     escalationCount?: SortOrder
@@ -26637,6 +25570,8 @@ export namespace Prisma {
     lastUpdated?: SortOrder
     status?: SortOrder
     lastLogin?: SortOrder
+    workloadLimit?: SortOrder
+    currentWorkload?: SortOrder
     resolutionRate?: SortOrder
     slaComplianceRate?: SortOrder
     escalationCount?: SortOrder
@@ -26645,9 +25580,21 @@ export namespace Prisma {
   }
 
   export type DepartmentMunicipalAdminSumOrderByAggregateInput = {
+    workloadLimit?: SortOrder
+    currentWorkload?: SortOrder
     resolutionRate?: SortOrder
     slaComplianceRate?: SortOrder
     escalationCount?: SortOrder
+  }
+
+  export type EnumAccessLevelWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AccessLevel | EnumAccessLevelFieldRefInput<$PrismaModel>
+    in?: $Enums.AccessLevel[] | ListEnumAccessLevelFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AccessLevel[] | ListEnumAccessLevelFieldRefInput<$PrismaModel>
+    not?: NestedEnumAccessLevelWithAggregatesFilter<$PrismaModel> | $Enums.AccessLevel
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAccessLevelFilter<$PrismaModel>
+    _max?: NestedEnumAccessLevelFilter<$PrismaModel>
   }
 
   export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -26788,14 +25735,14 @@ export namespace Prisma {
     status?: SortOrder
     lastLogin?: SortOrder
     stateResolutionRate?: SortOrder
-    systemicIssuesIdentified?: SortOrder
+    escalationCount?: SortOrder
     managedMunicipalities?: SortOrder
     managedBySuperStateId?: SortOrder
   }
 
   export type DepartmentStateAdminAvgOrderByAggregateInput = {
     stateResolutionRate?: SortOrder
-    systemicIssuesIdentified?: SortOrder
+    escalationCount?: SortOrder
   }
 
   export type DepartmentStateAdminMaxOrderByAggregateInput = {
@@ -26813,7 +25760,7 @@ export namespace Prisma {
     status?: SortOrder
     lastLogin?: SortOrder
     stateResolutionRate?: SortOrder
-    systemicIssuesIdentified?: SortOrder
+    escalationCount?: SortOrder
     managedBySuperStateId?: SortOrder
   }
 
@@ -26832,13 +25779,13 @@ export namespace Prisma {
     status?: SortOrder
     lastLogin?: SortOrder
     stateResolutionRate?: SortOrder
-    systemicIssuesIdentified?: SortOrder
+    escalationCount?: SortOrder
     managedBySuperStateId?: SortOrder
   }
 
   export type DepartmentStateAdminSumOrderByAggregateInput = {
     stateResolutionRate?: SortOrder
-    systemicIssuesIdentified?: SortOrder
+    escalationCount?: SortOrder
   }
 
   export type DepartmentStateAdminListRelationFilter = {
@@ -26982,16 +25929,6 @@ export namespace Prisma {
     lastLogin?: SortOrder
   }
 
-  export type SubCategoryMappingListRelationFilter = {
-    every?: SubCategoryMappingWhereInput
-    some?: SubCategoryMappingWhereInput
-    none?: SubCategoryMappingWhereInput
-  }
-
-  export type SubCategoryMappingOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
   export type CategoryCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
@@ -27024,44 +25961,11 @@ export namespace Prisma {
     managedByDeptStateAdminId?: SortOrder
   }
 
-  export type CategoryScalarRelationFilter = {
-    is?: CategoryWhereInput
-    isNot?: CategoryWhereInput
-  }
-
-  export type SubCategoryMappingCategoryIdOriginalSubCategoryCompoundUniqueInput = {
-    categoryId: string
-    originalSubCategory: string
-  }
-
-  export type SubCategoryMappingCountOrderByAggregateInput = {
-    id?: SortOrder
-    categoryId?: SortOrder
-    originalSubCategory?: SortOrder
-    standardizedSubCategory?: SortOrder
-    createdBy?: SortOrder
-    creationDate?: SortOrder
-    lastUpdated?: SortOrder
-  }
-
-  export type SubCategoryMappingMaxOrderByAggregateInput = {
-    id?: SortOrder
-    categoryId?: SortOrder
-    originalSubCategory?: SortOrder
-    standardizedSubCategory?: SortOrder
-    createdBy?: SortOrder
-    creationDate?: SortOrder
-    lastUpdated?: SortOrder
-  }
-
-  export type SubCategoryMappingMinOrderByAggregateInput = {
-    id?: SortOrder
-    categoryId?: SortOrder
-    originalSubCategory?: SortOrder
-    standardizedSubCategory?: SortOrder
-    createdBy?: SortOrder
-    creationDate?: SortOrder
-    lastUpdated?: SortOrder
+  export type EnumComplaintUrgencyFilter<$PrismaModel = never> = {
+    equals?: $Enums.ComplaintUrgency | EnumComplaintUrgencyFieldRefInput<$PrismaModel>
+    in?: $Enums.ComplaintUrgency[] | ListEnumComplaintUrgencyFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ComplaintUrgency[] | ListEnumComplaintUrgencyFieldRefInput<$PrismaModel>
+    not?: NestedEnumComplaintUrgencyFilter<$PrismaModel> | $Enums.ComplaintUrgency
   }
 
   export type EnumComplaintStatusFilter<$PrismaModel = never> = {
@@ -27069,6 +25973,11 @@ export namespace Prisma {
     in?: $Enums.ComplaintStatus[] | ListEnumComplaintStatusFieldRefInput<$PrismaModel>
     notIn?: $Enums.ComplaintStatus[] | ListEnumComplaintStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumComplaintStatusFilter<$PrismaModel> | $Enums.ComplaintStatus
+  }
+
+  export type CategoryScalarRelationFilter = {
+    is?: CategoryWhereInput
+    isNot?: CategoryWhereInput
   }
 
   export type ComplaintLocationNullableScalarRelationFilter = {
@@ -27084,6 +25993,7 @@ export namespace Prisma {
   export type ComplaintCountOrderByAggregateInput = {
     id?: SortOrder
     submissionDate?: SortOrder
+    seq?: SortOrder
     complainantId?: SortOrder
     categoryId?: SortOrder
     subCategory?: SortOrder
@@ -27108,12 +26018,14 @@ export namespace Prisma {
   }
 
   export type ComplaintAvgOrderByAggregateInput = {
+    seq?: SortOrder
     upvoteCount?: SortOrder
   }
 
   export type ComplaintMaxOrderByAggregateInput = {
     id?: SortOrder
     submissionDate?: SortOrder
+    seq?: SortOrder
     complainantId?: SortOrder
     categoryId?: SortOrder
     subCategory?: SortOrder
@@ -27140,6 +26052,7 @@ export namespace Prisma {
   export type ComplaintMinOrderByAggregateInput = {
     id?: SortOrder
     submissionDate?: SortOrder
+    seq?: SortOrder
     complainantId?: SortOrder
     categoryId?: SortOrder
     subCategory?: SortOrder
@@ -27164,7 +26077,18 @@ export namespace Prisma {
   }
 
   export type ComplaintSumOrderByAggregateInput = {
+    seq?: SortOrder
     upvoteCount?: SortOrder
+  }
+
+  export type EnumComplaintUrgencyWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ComplaintUrgency | EnumComplaintUrgencyFieldRefInput<$PrismaModel>
+    in?: $Enums.ComplaintUrgency[] | ListEnumComplaintUrgencyFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ComplaintUrgency[] | ListEnumComplaintUrgencyFieldRefInput<$PrismaModel>
+    not?: NestedEnumComplaintUrgencyWithAggregatesFilter<$PrismaModel> | $Enums.ComplaintUrgency
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumComplaintUrgencyFilter<$PrismaModel>
+    _max?: NestedEnumComplaintUrgencyFilter<$PrismaModel>
   }
 
   export type EnumComplaintStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -27417,6 +26341,10 @@ export namespace Prisma {
     set?: boolean
   }
 
+  export type EnumuserStatusFieldUpdateOperationsInput = {
+    set?: $Enums.userStatus
+  }
+
   export type UserLocationUpdateOneWithoutUserNestedInput = {
     create?: XOR<UserLocationCreateWithoutUserInput, UserLocationUncheckedCreateWithoutUserInput>
     connectOrCreate?: UserLocationCreateOrConnectWithoutUserInput
@@ -27567,12 +26495,20 @@ export namespace Prisma {
     connect?: ComplaintWhereUniqueInput | ComplaintWhereUniqueInput[]
   }
 
+  export type EnumDepartmentFieldUpdateOperationsInput = {
+    set?: $Enums.Department
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type EnumStatusFieldUpdateOperationsInput = {
+    set?: $Enums.Status
   }
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -27717,6 +26653,10 @@ export namespace Prisma {
     connectOrCreate?: NewsUpdateCreateOrConnectWithoutCreatedByInput | NewsUpdateCreateOrConnectWithoutCreatedByInput[]
     createMany?: NewsUpdateCreateManyCreatedByInputEnvelope
     connect?: NewsUpdateWhereUniqueInput | NewsUpdateWhereUniqueInput[]
+  }
+
+  export type EnumAccessLevelFieldUpdateOperationsInput = {
+    set?: $Enums.AccessLevel
   }
 
   export type NullableFloatFieldUpdateOperationsInput = {
@@ -28435,13 +27375,6 @@ export namespace Prisma {
     connect?: ComplaintWhereUniqueInput | ComplaintWhereUniqueInput[]
   }
 
-  export type SubCategoryMappingCreateNestedManyWithoutCategoryInput = {
-    create?: XOR<SubCategoryMappingCreateWithoutCategoryInput, SubCategoryMappingUncheckedCreateWithoutCategoryInput> | SubCategoryMappingCreateWithoutCategoryInput[] | SubCategoryMappingUncheckedCreateWithoutCategoryInput[]
-    connectOrCreate?: SubCategoryMappingCreateOrConnectWithoutCategoryInput | SubCategoryMappingCreateOrConnectWithoutCategoryInput[]
-    createMany?: SubCategoryMappingCreateManyCategoryInputEnvelope
-    connect?: SubCategoryMappingWhereUniqueInput | SubCategoryMappingWhereUniqueInput[]
-  }
-
   export type SuperAdminCreateNestedOneWithoutManagedCategoriesInput = {
     create?: XOR<SuperAdminCreateWithoutManagedCategoriesInput, SuperAdminUncheckedCreateWithoutManagedCategoriesInput>
     connectOrCreate?: SuperAdminCreateOrConnectWithoutManagedCategoriesInput
@@ -28459,13 +27392,6 @@ export namespace Prisma {
     connectOrCreate?: ComplaintCreateOrConnectWithoutCategoryInput | ComplaintCreateOrConnectWithoutCategoryInput[]
     createMany?: ComplaintCreateManyCategoryInputEnvelope
     connect?: ComplaintWhereUniqueInput | ComplaintWhereUniqueInput[]
-  }
-
-  export type SubCategoryMappingUncheckedCreateNestedManyWithoutCategoryInput = {
-    create?: XOR<SubCategoryMappingCreateWithoutCategoryInput, SubCategoryMappingUncheckedCreateWithoutCategoryInput> | SubCategoryMappingCreateWithoutCategoryInput[] | SubCategoryMappingUncheckedCreateWithoutCategoryInput[]
-    connectOrCreate?: SubCategoryMappingCreateOrConnectWithoutCategoryInput | SubCategoryMappingCreateOrConnectWithoutCategoryInput[]
-    createMany?: SubCategoryMappingCreateManyCategoryInputEnvelope
-    connect?: SubCategoryMappingWhereUniqueInput | SubCategoryMappingWhereUniqueInput[]
   }
 
   export type CategoryUpdatesubCategoriesInput = {
@@ -28490,20 +27416,6 @@ export namespace Prisma {
     update?: ComplaintUpdateWithWhereUniqueWithoutCategoryInput | ComplaintUpdateWithWhereUniqueWithoutCategoryInput[]
     updateMany?: ComplaintUpdateManyWithWhereWithoutCategoryInput | ComplaintUpdateManyWithWhereWithoutCategoryInput[]
     deleteMany?: ComplaintScalarWhereInput | ComplaintScalarWhereInput[]
-  }
-
-  export type SubCategoryMappingUpdateManyWithoutCategoryNestedInput = {
-    create?: XOR<SubCategoryMappingCreateWithoutCategoryInput, SubCategoryMappingUncheckedCreateWithoutCategoryInput> | SubCategoryMappingCreateWithoutCategoryInput[] | SubCategoryMappingUncheckedCreateWithoutCategoryInput[]
-    connectOrCreate?: SubCategoryMappingCreateOrConnectWithoutCategoryInput | SubCategoryMappingCreateOrConnectWithoutCategoryInput[]
-    upsert?: SubCategoryMappingUpsertWithWhereUniqueWithoutCategoryInput | SubCategoryMappingUpsertWithWhereUniqueWithoutCategoryInput[]
-    createMany?: SubCategoryMappingCreateManyCategoryInputEnvelope
-    set?: SubCategoryMappingWhereUniqueInput | SubCategoryMappingWhereUniqueInput[]
-    disconnect?: SubCategoryMappingWhereUniqueInput | SubCategoryMappingWhereUniqueInput[]
-    delete?: SubCategoryMappingWhereUniqueInput | SubCategoryMappingWhereUniqueInput[]
-    connect?: SubCategoryMappingWhereUniqueInput | SubCategoryMappingWhereUniqueInput[]
-    update?: SubCategoryMappingUpdateWithWhereUniqueWithoutCategoryInput | SubCategoryMappingUpdateWithWhereUniqueWithoutCategoryInput[]
-    updateMany?: SubCategoryMappingUpdateManyWithWhereWithoutCategoryInput | SubCategoryMappingUpdateManyWithWhereWithoutCategoryInput[]
-    deleteMany?: SubCategoryMappingScalarWhereInput | SubCategoryMappingScalarWhereInput[]
   }
 
   export type SuperAdminUpdateOneWithoutManagedCategoriesNestedInput = {
@@ -28538,34 +27450,6 @@ export namespace Prisma {
     update?: ComplaintUpdateWithWhereUniqueWithoutCategoryInput | ComplaintUpdateWithWhereUniqueWithoutCategoryInput[]
     updateMany?: ComplaintUpdateManyWithWhereWithoutCategoryInput | ComplaintUpdateManyWithWhereWithoutCategoryInput[]
     deleteMany?: ComplaintScalarWhereInput | ComplaintScalarWhereInput[]
-  }
-
-  export type SubCategoryMappingUncheckedUpdateManyWithoutCategoryNestedInput = {
-    create?: XOR<SubCategoryMappingCreateWithoutCategoryInput, SubCategoryMappingUncheckedCreateWithoutCategoryInput> | SubCategoryMappingCreateWithoutCategoryInput[] | SubCategoryMappingUncheckedCreateWithoutCategoryInput[]
-    connectOrCreate?: SubCategoryMappingCreateOrConnectWithoutCategoryInput | SubCategoryMappingCreateOrConnectWithoutCategoryInput[]
-    upsert?: SubCategoryMappingUpsertWithWhereUniqueWithoutCategoryInput | SubCategoryMappingUpsertWithWhereUniqueWithoutCategoryInput[]
-    createMany?: SubCategoryMappingCreateManyCategoryInputEnvelope
-    set?: SubCategoryMappingWhereUniqueInput | SubCategoryMappingWhereUniqueInput[]
-    disconnect?: SubCategoryMappingWhereUniqueInput | SubCategoryMappingWhereUniqueInput[]
-    delete?: SubCategoryMappingWhereUniqueInput | SubCategoryMappingWhereUniqueInput[]
-    connect?: SubCategoryMappingWhereUniqueInput | SubCategoryMappingWhereUniqueInput[]
-    update?: SubCategoryMappingUpdateWithWhereUniqueWithoutCategoryInput | SubCategoryMappingUpdateWithWhereUniqueWithoutCategoryInput[]
-    updateMany?: SubCategoryMappingUpdateManyWithWhereWithoutCategoryInput | SubCategoryMappingUpdateManyWithWhereWithoutCategoryInput[]
-    deleteMany?: SubCategoryMappingScalarWhereInput | SubCategoryMappingScalarWhereInput[]
-  }
-
-  export type CategoryCreateNestedOneWithoutSubCategoryMappingsInput = {
-    create?: XOR<CategoryCreateWithoutSubCategoryMappingsInput, CategoryUncheckedCreateWithoutSubCategoryMappingsInput>
-    connectOrCreate?: CategoryCreateOrConnectWithoutSubCategoryMappingsInput
-    connect?: CategoryWhereUniqueInput
-  }
-
-  export type CategoryUpdateOneRequiredWithoutSubCategoryMappingsNestedInput = {
-    create?: XOR<CategoryCreateWithoutSubCategoryMappingsInput, CategoryUncheckedCreateWithoutSubCategoryMappingsInput>
-    connectOrCreate?: CategoryCreateOrConnectWithoutSubCategoryMappingsInput
-    upsert?: CategoryUpsertWithoutSubCategoryMappingsInput
-    connect?: CategoryWhereUniqueInput
-    update?: XOR<XOR<CategoryUpdateToOneWithWhereWithoutSubCategoryMappingsInput, CategoryUpdateWithoutSubCategoryMappingsInput>, CategoryUncheckedUpdateWithoutSubCategoryMappingsInput>
   }
 
   export type UserCreateNestedOneWithoutComplaintsInput = {
@@ -28672,6 +27556,10 @@ export namespace Prisma {
     connectOrCreate?: AuditLogCreateOrConnectWithoutComplaintInput | AuditLogCreateOrConnectWithoutComplaintInput[]
     createMany?: AuditLogCreateManyComplaintInputEnvelope
     connect?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
+  }
+
+  export type EnumComplaintUrgencyFieldUpdateOperationsInput = {
+    set?: $Enums.ComplaintUrgency
   }
 
   export type EnumComplaintStatusFieldUpdateOperationsInput = {
@@ -29010,6 +27898,13 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type NestedEnumuserStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.userStatus | EnumuserStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.userStatus[] | ListEnumuserStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.userStatus[] | ListEnumuserStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumuserStatusFilter<$PrismaModel> | $Enums.userStatus
+  }
+
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -29088,6 +27983,30 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type NestedEnumuserStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.userStatus | EnumuserStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.userStatus[] | ListEnumuserStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.userStatus[] | ListEnumuserStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumuserStatusWithAggregatesFilter<$PrismaModel> | $Enums.userStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumuserStatusFilter<$PrismaModel>
+    _max?: NestedEnumuserStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumDepartmentFilter<$PrismaModel = never> = {
+    equals?: $Enums.Department | EnumDepartmentFieldRefInput<$PrismaModel>
+    in?: $Enums.Department[] | ListEnumDepartmentFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Department[] | ListEnumDepartmentFieldRefInput<$PrismaModel>
+    not?: NestedEnumDepartmentFilter<$PrismaModel> | $Enums.Department
+  }
+
+  export type NestedEnumStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.Status | EnumStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumStatusFilter<$PrismaModel> | $Enums.Status
+  }
+
   export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -29110,6 +28029,16 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
+  export type NestedEnumDepartmentWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Department | EnumDepartmentFieldRefInput<$PrismaModel>
+    in?: $Enums.Department[] | ListEnumDepartmentFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Department[] | ListEnumDepartmentFieldRefInput<$PrismaModel>
+    not?: NestedEnumDepartmentWithAggregatesFilter<$PrismaModel> | $Enums.Department
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDepartmentFilter<$PrismaModel>
+    _max?: NestedEnumDepartmentFilter<$PrismaModel>
+  }
+
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -29124,6 +28053,16 @@ export namespace Prisma {
     _sum?: NestedIntFilter<$PrismaModel>
     _min?: NestedIntFilter<$PrismaModel>
     _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedEnumStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Status | EnumStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumStatusWithAggregatesFilter<$PrismaModel> | $Enums.Status
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumStatusFilter<$PrismaModel>
+    _max?: NestedEnumStatusFilter<$PrismaModel>
   }
 
   export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -29156,6 +28095,13 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
+  export type NestedEnumAccessLevelFilter<$PrismaModel = never> = {
+    equals?: $Enums.AccessLevel | EnumAccessLevelFieldRefInput<$PrismaModel>
+    in?: $Enums.AccessLevel[] | ListEnumAccessLevelFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AccessLevel[] | ListEnumAccessLevelFieldRefInput<$PrismaModel>
+    not?: NestedEnumAccessLevelFilter<$PrismaModel> | $Enums.AccessLevel
+  }
+
   export type NestedFloatNullableFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel> | null
     in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
@@ -29165,6 +28111,16 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedEnumAccessLevelWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AccessLevel | EnumAccessLevelFieldRefInput<$PrismaModel>
+    in?: $Enums.AccessLevel[] | ListEnumAccessLevelFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AccessLevel[] | ListEnumAccessLevelFieldRefInput<$PrismaModel>
+    not?: NestedEnumAccessLevelWithAggregatesFilter<$PrismaModel> | $Enums.AccessLevel
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAccessLevelFilter<$PrismaModel>
+    _max?: NestedEnumAccessLevelFilter<$PrismaModel>
   }
 
   export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -29183,11 +28139,28 @@ export namespace Prisma {
     _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
+  export type NestedEnumComplaintUrgencyFilter<$PrismaModel = never> = {
+    equals?: $Enums.ComplaintUrgency | EnumComplaintUrgencyFieldRefInput<$PrismaModel>
+    in?: $Enums.ComplaintUrgency[] | ListEnumComplaintUrgencyFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ComplaintUrgency[] | ListEnumComplaintUrgencyFieldRefInput<$PrismaModel>
+    not?: NestedEnumComplaintUrgencyFilter<$PrismaModel> | $Enums.ComplaintUrgency
+  }
+
   export type NestedEnumComplaintStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.ComplaintStatus | EnumComplaintStatusFieldRefInput<$PrismaModel>
     in?: $Enums.ComplaintStatus[] | ListEnumComplaintStatusFieldRefInput<$PrismaModel>
     notIn?: $Enums.ComplaintStatus[] | ListEnumComplaintStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumComplaintStatusFilter<$PrismaModel> | $Enums.ComplaintStatus
+  }
+
+  export type NestedEnumComplaintUrgencyWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ComplaintUrgency | EnumComplaintUrgencyFieldRefInput<$PrismaModel>
+    in?: $Enums.ComplaintUrgency[] | ListEnumComplaintUrgencyFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ComplaintUrgency[] | ListEnumComplaintUrgencyFieldRefInput<$PrismaModel>
+    not?: NestedEnumComplaintUrgencyWithAggregatesFilter<$PrismaModel> | $Enums.ComplaintUrgency
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumComplaintUrgencyFilter<$PrismaModel>
+    _max?: NestedEnumComplaintUrgencyFilter<$PrismaModel>
   }
 
   export type NestedEnumComplaintStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -29228,16 +28201,17 @@ export namespace Prisma {
   export type ComplaintCreateWithoutComplainantInput = {
     id?: string
     submissionDate?: Date | string
+    seq?: number
     subCategory: string
     standardizedSubCategory?: string | null
     description: string
-    urgency: string
+    urgency?: $Enums.ComplaintUrgency
     attachmentUrl?: string | null
     assignedDepartment: string
     status?: $Enums.ComplaintStatus
     sla?: string | null
     upvoteCount?: number
-    isPublic: boolean
+    isPublic?: boolean
     escalationLevel?: string | null
     dateOfResolution?: Date | string | null
     category: CategoryCreateNestedOneWithoutComplaintsInput
@@ -29257,17 +28231,18 @@ export namespace Prisma {
   export type ComplaintUncheckedCreateWithoutComplainantInput = {
     id?: string
     submissionDate?: Date | string
+    seq?: number
     categoryId: string
     subCategory: string
     standardizedSubCategory?: string | null
     description: string
-    urgency: string
+    urgency?: $Enums.ComplaintUrgency
     attachmentUrl?: string | null
     assignedDepartment: string
     status?: $Enums.ComplaintStatus
     sla?: string | null
     upvoteCount?: number
-    isPublic: boolean
+    isPublic?: boolean
     escalationLevel?: string | null
     dateOfResolution?: Date | string | null
     assignedAgentId?: string | null
@@ -29394,12 +28369,13 @@ export namespace Prisma {
     NOT?: ComplaintScalarWhereInput | ComplaintScalarWhereInput[]
     id?: StringFilter<"Complaint"> | string
     submissionDate?: DateTimeFilter<"Complaint"> | Date | string
+    seq?: IntFilter<"Complaint"> | number
     complainantId?: StringFilter<"Complaint"> | string
     categoryId?: StringFilter<"Complaint"> | string
     subCategory?: StringFilter<"Complaint"> | string
     standardizedSubCategory?: StringNullableFilter<"Complaint"> | string | null
     description?: StringFilter<"Complaint"> | string
-    urgency?: StringFilter<"Complaint"> | string
+    urgency?: EnumComplaintUrgencyFilter<"Complaint"> | $Enums.ComplaintUrgency
     attachmentUrl?: StringNullableFilter<"Complaint"> | string | null
     assignedDepartment?: StringFilter<"Complaint"> | string
     status?: EnumComplaintStatusFilter<"Complaint"> | $Enums.ComplaintStatus
@@ -29484,7 +28460,7 @@ export namespace Prisma {
     consentDataCollection?: boolean
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.userStatus
     complaints?: ComplaintCreateNestedManyWithoutComplainantInput
     upvotes?: UpvoteCreateNestedManyWithoutUserInput
     auditLogsCreated?: AuditLogCreateNestedManyWithoutUserInput
@@ -29503,7 +28479,7 @@ export namespace Prisma {
     consentDataCollection?: boolean
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.userStatus
     complaints?: ComplaintUncheckedCreateNestedManyWithoutComplainantInput
     upvotes?: UpvoteUncheckedCreateNestedManyWithoutUserInput
     auditLogsCreated?: AuditLogUncheckedCreateNestedManyWithoutUserInput
@@ -29538,7 +28514,7 @@ export namespace Prisma {
     consentDataCollection?: BoolFieldUpdateOperationsInput | boolean
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumuserStatusFieldUpdateOperationsInput | $Enums.userStatus
     complaints?: ComplaintUpdateManyWithoutComplainantNestedInput
     upvotes?: UpvoteUpdateManyWithoutUserNestedInput
     auditLogsCreated?: AuditLogUpdateManyWithoutUserNestedInput
@@ -29557,7 +28533,7 @@ export namespace Prisma {
     consentDataCollection?: BoolFieldUpdateOperationsInput | boolean
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumuserStatusFieldUpdateOperationsInput | $Enums.userStatus
     complaints?: ComplaintUncheckedUpdateManyWithoutComplainantNestedInput
     upvotes?: UpvoteUncheckedUpdateManyWithoutUserNestedInput
     auditLogsCreated?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
@@ -29566,16 +28542,17 @@ export namespace Prisma {
   export type ComplaintCreateWithoutAssignedAgentInput = {
     id?: string
     submissionDate?: Date | string
+    seq?: number
     subCategory: string
     standardizedSubCategory?: string | null
     description: string
-    urgency: string
+    urgency?: $Enums.ComplaintUrgency
     attachmentUrl?: string | null
     assignedDepartment: string
     status?: $Enums.ComplaintStatus
     sla?: string | null
     upvoteCount?: number
-    isPublic: boolean
+    isPublic?: boolean
     escalationLevel?: string | null
     dateOfResolution?: Date | string | null
     complainant: UserCreateNestedOneWithoutComplaintsInput
@@ -29595,18 +28572,19 @@ export namespace Prisma {
   export type ComplaintUncheckedCreateWithoutAssignedAgentInput = {
     id?: string
     submissionDate?: Date | string
+    seq?: number
     complainantId: string
     categoryId: string
     subCategory: string
     standardizedSubCategory?: string | null
     description: string
-    urgency: string
+    urgency?: $Enums.ComplaintUrgency
     attachmentUrl?: string | null
     assignedDepartment: string
     status?: $Enums.ComplaintStatus
     sla?: string | null
     upvoteCount?: number
-    isPublic: boolean
+    isPublic?: boolean
     escalationLevel?: string | null
     dateOfResolution?: Date | string | null
     managedByMunicipalAdminId?: string | null
@@ -29634,16 +28612,17 @@ export namespace Prisma {
   export type ComplaintCreateWithoutCoAssignedAgentsInput = {
     id?: string
     submissionDate?: Date | string
+    seq?: number
     subCategory: string
     standardizedSubCategory?: string | null
     description: string
-    urgency: string
+    urgency?: $Enums.ComplaintUrgency
     attachmentUrl?: string | null
     assignedDepartment: string
     status?: $Enums.ComplaintStatus
     sla?: string | null
     upvoteCount?: number
-    isPublic: boolean
+    isPublic?: boolean
     escalationLevel?: string | null
     dateOfResolution?: Date | string | null
     complainant: UserCreateNestedOneWithoutComplaintsInput
@@ -29663,18 +28642,19 @@ export namespace Prisma {
   export type ComplaintUncheckedCreateWithoutCoAssignedAgentsInput = {
     id?: string
     submissionDate?: Date | string
+    seq?: number
     complainantId: string
     categoryId: string
     subCategory: string
     standardizedSubCategory?: string | null
     description: string
-    urgency: string
+    urgency?: $Enums.ComplaintUrgency
     attachmentUrl?: string | null
     assignedDepartment: string
     status?: $Enums.ComplaintStatus
     sla?: string | null
     upvoteCount?: number
-    isPublic: boolean
+    isPublic?: boolean
     escalationLevel?: string | null
     dateOfResolution?: Date | string | null
     assignedAgentId?: string | null
@@ -29697,17 +28677,19 @@ export namespace Prisma {
   export type DepartmentMunicipalAdminCreateWithoutManagedAgentsInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     phoneNumber: string
     password: string
-    department: string
+    department: $Enums.Department
     municipality: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
+    workloadLimit?: number
+    currentWorkload?: number
     resolutionRate?: number
     slaComplianceRate?: number | null
     escalationCount?: number
@@ -29721,17 +28703,19 @@ export namespace Prisma {
   export type DepartmentMunicipalAdminUncheckedCreateWithoutManagedAgentsInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     phoneNumber: string
     password: string
-    department: string
+    department: $Enums.Department
     municipality: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
+    workloadLimit?: number
+    currentWorkload?: number
     resolutionRate?: number
     slaComplianceRate?: number | null
     escalationCount?: number
@@ -29797,13 +28781,15 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     municipality?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workloadLimit?: IntFieldUpdateOperationsInput | number
+    currentWorkload?: IntFieldUpdateOperationsInput | number
     resolutionRate?: FloatFieldUpdateOperationsInput | number
     slaComplianceRate?: NullableFloatFieldUpdateOperationsInput | number | null
     escalationCount?: IntFieldUpdateOperationsInput | number
@@ -29821,13 +28807,15 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     municipality?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workloadLimit?: IntFieldUpdateOperationsInput | number
+    currentWorkload?: IntFieldUpdateOperationsInput | number
     resolutionRate?: FloatFieldUpdateOperationsInput | number
     slaComplianceRate?: NullableFloatFieldUpdateOperationsInput | number | null
     escalationCount?: IntFieldUpdateOperationsInput | number
@@ -29846,7 +28834,7 @@ export namespace Prisma {
     password: string
     phoneNumber: string
     officialEmail: string
-    department: string
+    department: $Enums.Department
     municipality: string
     autonomyLevel: string
     accessLevel: string
@@ -29854,7 +28842,7 @@ export namespace Prisma {
     currentWorkload?: number
     availabilityStatus?: string
     dateOfCreation?: Date | string
-    lastUpdated?: Date | string
+    lastUpdated?: $Enums.Status
     status?: string
     lastLogin?: Date | string | null
     resolutionRate?: number
@@ -29872,7 +28860,7 @@ export namespace Prisma {
     password: string
     phoneNumber: string
     officialEmail: string
-    department: string
+    department: $Enums.Department
     municipality: string
     autonomyLevel: string
     accessLevel: string
@@ -29880,7 +28868,7 @@ export namespace Prisma {
     currentWorkload?: number
     availabilityStatus?: string
     dateOfCreation?: Date | string
-    lastUpdated?: Date | string
+    lastUpdated?: $Enums.Status
     status?: string
     lastLogin?: Date | string | null
     resolutionRate?: number
@@ -29903,16 +28891,17 @@ export namespace Prisma {
   export type ComplaintCreateWithoutManagedByMunicipalAdminInput = {
     id?: string
     submissionDate?: Date | string
+    seq?: number
     subCategory: string
     standardizedSubCategory?: string | null
     description: string
-    urgency: string
+    urgency?: $Enums.ComplaintUrgency
     attachmentUrl?: string | null
     assignedDepartment: string
     status?: $Enums.ComplaintStatus
     sla?: string | null
     upvoteCount?: number
-    isPublic: boolean
+    isPublic?: boolean
     escalationLevel?: string | null
     dateOfResolution?: Date | string | null
     complainant: UserCreateNestedOneWithoutComplaintsInput
@@ -29932,18 +28921,19 @@ export namespace Prisma {
   export type ComplaintUncheckedCreateWithoutManagedByMunicipalAdminInput = {
     id?: string
     submissionDate?: Date | string
+    seq?: number
     complainantId: string
     categoryId: string
     subCategory: string
     standardizedSubCategory?: string | null
     description: string
-    urgency: string
+    urgency?: $Enums.ComplaintUrgency
     attachmentUrl?: string | null
     assignedDepartment: string
     status?: $Enums.ComplaintStatus
     sla?: string | null
     upvoteCount?: number
-    isPublic: boolean
+    isPublic?: boolean
     escalationLevel?: string | null
     dateOfResolution?: Date | string | null
     assignedAgentId?: string | null
@@ -29971,16 +28961,17 @@ export namespace Prisma {
   export type ComplaintCreateWithoutModeratedByMunicipalAdminInput = {
     id?: string
     submissionDate?: Date | string
+    seq?: number
     subCategory: string
     standardizedSubCategory?: string | null
     description: string
-    urgency: string
+    urgency?: $Enums.ComplaintUrgency
     attachmentUrl?: string | null
     assignedDepartment: string
     status?: $Enums.ComplaintStatus
     sla?: string | null
     upvoteCount?: number
-    isPublic: boolean
+    isPublic?: boolean
     escalationLevel?: string | null
     dateOfResolution?: Date | string | null
     complainant: UserCreateNestedOneWithoutComplaintsInput
@@ -30000,18 +28991,19 @@ export namespace Prisma {
   export type ComplaintUncheckedCreateWithoutModeratedByMunicipalAdminInput = {
     id?: string
     submissionDate?: Date | string
+    seq?: number
     complainantId: string
     categoryId: string
     subCategory: string
     standardizedSubCategory?: string | null
     description: string
-    urgency: string
+    urgency?: $Enums.ComplaintUrgency
     attachmentUrl?: string | null
     assignedDepartment: string
     status?: $Enums.ComplaintStatus
     sla?: string | null
     upvoteCount?: number
-    isPublic: boolean
+    isPublic?: boolean
     escalationLevel?: string | null
     dateOfResolution?: Date | string | null
     assignedAgentId?: string | null
@@ -30063,19 +29055,19 @@ export namespace Prisma {
   export type DepartmentStateAdminCreateWithoutManagedMunicipalAdminsInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     password: string
     phoneNumber?: string | null
-    department: string
+    department: $Enums.Department
     state: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     stateResolutionRate?: number
-    systemicIssuesIdentified?: number
+    escalationCount?: number
     managedMunicipalities?: DepartmentStateAdminCreatemanagedMunicipalitiesInput | string[]
     escalatedComplaints?: ComplaintCreateNestedManyWithoutEscalatedToStateAdminInput
     regionalWorkflows?: RegionalWorkflowCreateNestedManyWithoutCreatedByInput
@@ -30086,19 +29078,19 @@ export namespace Prisma {
   export type DepartmentStateAdminUncheckedCreateWithoutManagedMunicipalAdminsInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     password: string
     phoneNumber?: string | null
-    department: string
+    department: $Enums.Department
     state: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     stateResolutionRate?: number
-    systemicIssuesIdentified?: number
+    escalationCount?: number
     managedMunicipalities?: DepartmentStateAdminCreatemanagedMunicipalitiesInput | string[]
     managedBySuperStateId?: string | null
     escalatedComplaints?: ComplaintUncheckedCreateNestedManyWithoutEscalatedToStateAdminInput
@@ -30114,15 +29106,15 @@ export namespace Prisma {
   export type SuperMunicipalAdminCreateWithoutManagedDepartmentAdminsInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     password: string
     phoneNumber?: string | null
     municipality: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     municipalityResolutionRate?: number
     crossDepartmentSuccess?: number
@@ -30133,15 +29125,15 @@ export namespace Prisma {
   export type SuperMunicipalAdminUncheckedCreateWithoutManagedDepartmentAdminsInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     password: string
     phoneNumber?: string | null
     municipality: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     municipalityResolutionRate?: number
     crossDepartmentSuccess?: number
@@ -30181,7 +29173,7 @@ export namespace Prisma {
     password?: StringFilter<"Agent"> | string
     phoneNumber?: StringFilter<"Agent"> | string
     officialEmail?: StringFilter<"Agent"> | string
-    department?: StringFilter<"Agent"> | string
+    department?: EnumDepartmentFilter<"Agent"> | $Enums.Department
     municipality?: StringFilter<"Agent"> | string
     autonomyLevel?: StringFilter<"Agent"> | string
     accessLevel?: StringFilter<"Agent"> | string
@@ -30189,7 +29181,7 @@ export namespace Prisma {
     currentWorkload?: IntFilter<"Agent"> | number
     availabilityStatus?: StringFilter<"Agent"> | string
     dateOfCreation?: DateTimeFilter<"Agent"> | Date | string
-    lastUpdated?: DateTimeFilter<"Agent"> | Date | string
+    lastUpdated?: EnumStatusFilter<"Agent"> | $Enums.Status
     status?: StringFilter<"Agent"> | string
     lastLogin?: DateTimeNullableFilter<"Agent"> | Date | string | null
     resolutionRate?: FloatFilter<"Agent"> | number
@@ -30275,15 +29267,15 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     state?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stateResolutionRate?: FloatFieldUpdateOperationsInput | number
-    systemicIssuesIdentified?: IntFieldUpdateOperationsInput | number
+    escalationCount?: IntFieldUpdateOperationsInput | number
     managedMunicipalities?: DepartmentStateAdminUpdatemanagedMunicipalitiesInput | string[]
     escalatedComplaints?: ComplaintUpdateManyWithoutEscalatedToStateAdminNestedInput
     regionalWorkflows?: RegionalWorkflowUpdateManyWithoutCreatedByNestedInput
@@ -30298,15 +29290,15 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     state?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stateResolutionRate?: FloatFieldUpdateOperationsInput | number
-    systemicIssuesIdentified?: IntFieldUpdateOperationsInput | number
+    escalationCount?: IntFieldUpdateOperationsInput | number
     managedMunicipalities?: DepartmentStateAdminUpdatemanagedMunicipalitiesInput | string[]
     managedBySuperStateId?: NullableStringFieldUpdateOperationsInput | string | null
     escalatedComplaints?: ComplaintUncheckedUpdateManyWithoutEscalatedToStateAdminNestedInput
@@ -30333,10 +29325,10 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     municipality?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     municipalityResolutionRate?: FloatFieldUpdateOperationsInput | number
     crossDepartmentSuccess?: IntFieldUpdateOperationsInput | number
@@ -30352,10 +29344,10 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     municipality?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     municipalityResolutionRate?: FloatFieldUpdateOperationsInput | number
     crossDepartmentSuccess?: IntFieldUpdateOperationsInput | number
@@ -30366,17 +29358,19 @@ export namespace Prisma {
   export type DepartmentMunicipalAdminCreateWithoutManagedBySuperMunicipalInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     phoneNumber: string
     password: string
-    department: string
+    department: $Enums.Department
     municipality: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
+    workloadLimit?: number
+    currentWorkload?: number
     resolutionRate?: number
     slaComplianceRate?: number | null
     escalationCount?: number
@@ -30390,17 +29384,19 @@ export namespace Prisma {
   export type DepartmentMunicipalAdminUncheckedCreateWithoutManagedBySuperMunicipalInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     phoneNumber: string
     password: string
-    department: string
+    department: $Enums.Department
     municipality: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
+    workloadLimit?: number
+    currentWorkload?: number
     resolutionRate?: number
     slaComplianceRate?: number | null
     escalationCount?: number
@@ -30424,16 +29420,17 @@ export namespace Prisma {
   export type ComplaintCreateWithoutCrossDeptIssueSuperMunicipalInput = {
     id?: string
     submissionDate?: Date | string
+    seq?: number
     subCategory: string
     standardizedSubCategory?: string | null
     description: string
-    urgency: string
+    urgency?: $Enums.ComplaintUrgency
     attachmentUrl?: string | null
     assignedDepartment: string
     status?: $Enums.ComplaintStatus
     sla?: string | null
     upvoteCount?: number
-    isPublic: boolean
+    isPublic?: boolean
     escalationLevel?: string | null
     dateOfResolution?: Date | string | null
     complainant: UserCreateNestedOneWithoutComplaintsInput
@@ -30453,18 +29450,19 @@ export namespace Prisma {
   export type ComplaintUncheckedCreateWithoutCrossDeptIssueSuperMunicipalInput = {
     id?: string
     submissionDate?: Date | string
+    seq?: number
     complainantId: string
     categoryId: string
     subCategory: string
     standardizedSubCategory?: string | null
     description: string
-    urgency: string
+    urgency?: $Enums.ComplaintUrgency
     attachmentUrl?: string | null
     assignedDepartment: string
     status?: $Enums.ComplaintStatus
     sla?: string | null
     upvoteCount?: number
-    isPublic: boolean
+    isPublic?: boolean
     escalationLevel?: string | null
     dateOfResolution?: Date | string | null
     assignedAgentId?: string | null
@@ -30492,15 +29490,15 @@ export namespace Prisma {
   export type SuperStateAdminCreateWithoutManagedSuperMunicipalAdminsInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     phoneNumber?: string | null
     password: string
     state: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     stateResolutionRate?: number
     crossDepartmentSuccess?: number
@@ -30512,15 +29510,15 @@ export namespace Prisma {
   export type SuperStateAdminUncheckedCreateWithoutManagedSuperMunicipalAdminsInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     phoneNumber?: string | null
     password: string
     state: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     stateResolutionRate?: number
     crossDepartmentSuccess?: number
@@ -30560,13 +29558,15 @@ export namespace Prisma {
     officialEmail?: StringFilter<"DepartmentMunicipalAdmin"> | string
     phoneNumber?: StringFilter<"DepartmentMunicipalAdmin"> | string
     password?: StringFilter<"DepartmentMunicipalAdmin"> | string
-    department?: StringFilter<"DepartmentMunicipalAdmin"> | string
+    department?: EnumDepartmentFilter<"DepartmentMunicipalAdmin"> | $Enums.Department
     municipality?: StringFilter<"DepartmentMunicipalAdmin"> | string
-    accessLevel?: StringFilter<"DepartmentMunicipalAdmin"> | string
+    accessLevel?: EnumAccessLevelFilter<"DepartmentMunicipalAdmin"> | $Enums.AccessLevel
     dateOfCreation?: DateTimeFilter<"DepartmentMunicipalAdmin"> | Date | string
     lastUpdated?: DateTimeFilter<"DepartmentMunicipalAdmin"> | Date | string
-    status?: StringFilter<"DepartmentMunicipalAdmin"> | string
+    status?: EnumStatusFilter<"DepartmentMunicipalAdmin"> | $Enums.Status
     lastLogin?: DateTimeNullableFilter<"DepartmentMunicipalAdmin"> | Date | string | null
+    workloadLimit?: IntFilter<"DepartmentMunicipalAdmin"> | number
+    currentWorkload?: IntFilter<"DepartmentMunicipalAdmin"> | number
     resolutionRate?: FloatFilter<"DepartmentMunicipalAdmin"> | number
     slaComplianceRate?: FloatNullableFilter<"DepartmentMunicipalAdmin"> | number | null
     escalationCount?: IntFilter<"DepartmentMunicipalAdmin"> | number
@@ -30609,10 +29609,10 @@ export namespace Prisma {
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     state?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stateResolutionRate?: FloatFieldUpdateOperationsInput | number
     crossDepartmentSuccess?: IntFieldUpdateOperationsInput | number
@@ -30629,10 +29629,10 @@ export namespace Prisma {
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     state?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stateResolutionRate?: FloatFieldUpdateOperationsInput | number
     crossDepartmentSuccess?: IntFieldUpdateOperationsInput | number
@@ -30644,17 +29644,19 @@ export namespace Prisma {
   export type DepartmentMunicipalAdminCreateWithoutManagedByStateAdminInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     phoneNumber: string
     password: string
-    department: string
+    department: $Enums.Department
     municipality: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
+    workloadLimit?: number
+    currentWorkload?: number
     resolutionRate?: number
     slaComplianceRate?: number | null
     escalationCount?: number
@@ -30668,17 +29670,19 @@ export namespace Prisma {
   export type DepartmentMunicipalAdminUncheckedCreateWithoutManagedByStateAdminInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     phoneNumber: string
     password: string
-    department: string
+    department: $Enums.Department
     municipality: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
+    workloadLimit?: number
+    currentWorkload?: number
     resolutionRate?: number
     slaComplianceRate?: number | null
     escalationCount?: number
@@ -30702,16 +29706,17 @@ export namespace Prisma {
   export type ComplaintCreateWithoutEscalatedToStateAdminInput = {
     id?: string
     submissionDate?: Date | string
+    seq?: number
     subCategory: string
     standardizedSubCategory?: string | null
     description: string
-    urgency: string
+    urgency?: $Enums.ComplaintUrgency
     attachmentUrl?: string | null
     assignedDepartment: string
     status?: $Enums.ComplaintStatus
     sla?: string | null
     upvoteCount?: number
-    isPublic: boolean
+    isPublic?: boolean
     escalationLevel?: string | null
     dateOfResolution?: Date | string | null
     complainant: UserCreateNestedOneWithoutComplaintsInput
@@ -30731,18 +29736,19 @@ export namespace Prisma {
   export type ComplaintUncheckedCreateWithoutEscalatedToStateAdminInput = {
     id?: string
     submissionDate?: Date | string
+    seq?: number
     complainantId: string
     categoryId: string
     subCategory: string
     standardizedSubCategory?: string | null
     description: string
-    urgency: string
+    urgency?: $Enums.ComplaintUrgency
     attachmentUrl?: string | null
     assignedDepartment: string
     status?: $Enums.ComplaintStatus
     sla?: string | null
     upvoteCount?: number
-    isPublic: boolean
+    isPublic?: boolean
     escalationLevel?: string | null
     dateOfResolution?: Date | string | null
     assignedAgentId?: string | null
@@ -30802,7 +29808,6 @@ export namespace Prisma {
     creationDate?: Date | string
     lastUpdated?: Date | string
     complaints?: ComplaintCreateNestedManyWithoutCategoryInput
-    subCategoryMappings?: SubCategoryMappingCreateNestedManyWithoutCategoryInput
     createdBySuperAdmin?: SuperAdminCreateNestedOneWithoutManagedCategoriesInput
   }
 
@@ -30816,7 +29821,6 @@ export namespace Prisma {
     lastUpdated?: Date | string
     createdBySuperAdminId?: string | null
     complaints?: ComplaintUncheckedCreateNestedManyWithoutCategoryInput
-    subCategoryMappings?: SubCategoryMappingUncheckedCreateNestedManyWithoutCategoryInput
   }
 
   export type CategoryCreateOrConnectWithoutManagedByDeptStateAdminInput = {
@@ -30832,15 +29836,15 @@ export namespace Prisma {
   export type SuperStateAdminCreateWithoutManagedDepartmentAdminsInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     phoneNumber?: string | null
     password: string
     state: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     stateResolutionRate?: number
     crossDepartmentSuccess?: number
@@ -30852,15 +29856,15 @@ export namespace Prisma {
   export type SuperStateAdminUncheckedCreateWithoutManagedDepartmentAdminsInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     phoneNumber?: string | null
     password: string
     state: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     stateResolutionRate?: number
     crossDepartmentSuccess?: number
@@ -30984,10 +29988,10 @@ export namespace Prisma {
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     state?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stateResolutionRate?: FloatFieldUpdateOperationsInput | number
     crossDepartmentSuccess?: IntFieldUpdateOperationsInput | number
@@ -31004,10 +30008,10 @@ export namespace Prisma {
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     state?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stateResolutionRate?: FloatFieldUpdateOperationsInput | number
     crossDepartmentSuccess?: IntFieldUpdateOperationsInput | number
@@ -31019,19 +30023,19 @@ export namespace Prisma {
   export type DepartmentStateAdminCreateWithoutManagedBySuperStateInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     password: string
     phoneNumber?: string | null
-    department: string
+    department: $Enums.Department
     state: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     stateResolutionRate?: number
-    systemicIssuesIdentified?: number
+    escalationCount?: number
     managedMunicipalities?: DepartmentStateAdminCreatemanagedMunicipalitiesInput | string[]
     managedMunicipalAdmins?: DepartmentMunicipalAdminCreateNestedManyWithoutManagedByStateAdminInput
     escalatedComplaints?: ComplaintCreateNestedManyWithoutEscalatedToStateAdminInput
@@ -31042,19 +30046,19 @@ export namespace Prisma {
   export type DepartmentStateAdminUncheckedCreateWithoutManagedBySuperStateInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     password: string
     phoneNumber?: string | null
-    department: string
+    department: $Enums.Department
     state: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     stateResolutionRate?: number
-    systemicIssuesIdentified?: number
+    escalationCount?: number
     managedMunicipalities?: DepartmentStateAdminCreatemanagedMunicipalitiesInput | string[]
     managedMunicipalAdmins?: DepartmentMunicipalAdminUncheckedCreateNestedManyWithoutManagedByStateAdminInput
     escalatedComplaints?: ComplaintUncheckedCreateNestedManyWithoutEscalatedToStateAdminInput
@@ -31075,15 +30079,15 @@ export namespace Prisma {
   export type SuperMunicipalAdminCreateWithoutManagedBySuperStateInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     password: string
     phoneNumber?: string | null
     municipality: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     municipalityResolutionRate?: number
     crossDepartmentSuccess?: number
@@ -31094,15 +30098,15 @@ export namespace Prisma {
   export type SuperMunicipalAdminUncheckedCreateWithoutManagedBySuperStateInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     password: string
     phoneNumber?: string | null
     municipality: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     municipalityResolutionRate?: number
     crossDepartmentSuccess?: number
@@ -31123,16 +30127,17 @@ export namespace Prisma {
   export type ComplaintCreateWithoutEscalatedToSuperStateAdminInput = {
     id?: string
     submissionDate?: Date | string
+    seq?: number
     subCategory: string
     standardizedSubCategory?: string | null
     description: string
-    urgency: string
+    urgency?: $Enums.ComplaintUrgency
     attachmentUrl?: string | null
     assignedDepartment: string
     status?: $Enums.ComplaintStatus
     sla?: string | null
     upvoteCount?: number
-    isPublic: boolean
+    isPublic?: boolean
     escalationLevel?: string | null
     dateOfResolution?: Date | string | null
     complainant: UserCreateNestedOneWithoutComplaintsInput
@@ -31152,18 +30157,19 @@ export namespace Prisma {
   export type ComplaintUncheckedCreateWithoutEscalatedToSuperStateAdminInput = {
     id?: string
     submissionDate?: Date | string
+    seq?: number
     complainantId: string
     categoryId: string
     subCategory: string
     standardizedSubCategory?: string | null
     description: string
-    urgency: string
+    urgency?: $Enums.ComplaintUrgency
     attachmentUrl?: string | null
     assignedDepartment: string
     status?: $Enums.ComplaintStatus
     sla?: string | null
     upvoteCount?: number
-    isPublic: boolean
+    isPublic?: boolean
     escalationLevel?: string | null
     dateOfResolution?: Date | string | null
     assignedAgentId?: string | null
@@ -31191,14 +30197,14 @@ export namespace Prisma {
   export type SuperAdminCreateWithoutManagedSuperStateAdminsInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     phoneNumber?: string | null
     password: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     managedCategories?: CategoryCreateNestedManyWithoutCreatedBySuperAdminInput
     managedComplaints?: ComplaintCreateNestedManyWithoutManagedBySuperAdminInput
@@ -31207,14 +30213,14 @@ export namespace Prisma {
   export type SuperAdminUncheckedCreateWithoutManagedSuperStateAdminsInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     phoneNumber?: string | null
     password: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     managedCategories?: CategoryUncheckedCreateNestedManyWithoutCreatedBySuperAdminInput
     managedComplaints?: ComplaintUncheckedCreateNestedManyWithoutManagedBySuperAdminInput
@@ -31251,15 +30257,15 @@ export namespace Prisma {
     officialEmail?: StringFilter<"DepartmentStateAdmin"> | string
     password?: StringFilter<"DepartmentStateAdmin"> | string
     phoneNumber?: StringNullableFilter<"DepartmentStateAdmin"> | string | null
-    department?: StringFilter<"DepartmentStateAdmin"> | string
+    department?: EnumDepartmentFilter<"DepartmentStateAdmin"> | $Enums.Department
     state?: StringFilter<"DepartmentStateAdmin"> | string
-    accessLevel?: StringFilter<"DepartmentStateAdmin"> | string
+    accessLevel?: EnumAccessLevelFilter<"DepartmentStateAdmin"> | $Enums.AccessLevel
     dateOfCreation?: DateTimeFilter<"DepartmentStateAdmin"> | Date | string
     lastUpdated?: DateTimeFilter<"DepartmentStateAdmin"> | Date | string
-    status?: StringFilter<"DepartmentStateAdmin"> | string
+    status?: EnumStatusFilter<"DepartmentStateAdmin"> | $Enums.Status
     lastLogin?: DateTimeNullableFilter<"DepartmentStateAdmin"> | Date | string | null
     stateResolutionRate?: FloatFilter<"DepartmentStateAdmin"> | number
-    systemicIssuesIdentified?: IntFilter<"DepartmentStateAdmin"> | number
+    escalationCount?: IntFilter<"DepartmentStateAdmin"> | number
     managedMunicipalities?: StringNullableListFilter<"DepartmentStateAdmin">
     managedBySuperStateId?: StringNullableFilter<"DepartmentStateAdmin"> | string | null
   }
@@ -31291,10 +30297,10 @@ export namespace Prisma {
     password?: StringFilter<"SuperMunicipalAdmin"> | string
     phoneNumber?: StringNullableFilter<"SuperMunicipalAdmin"> | string | null
     municipality?: StringFilter<"SuperMunicipalAdmin"> | string
-    accessLevel?: StringFilter<"SuperMunicipalAdmin"> | string
+    accessLevel?: EnumAccessLevelFilter<"SuperMunicipalAdmin"> | $Enums.AccessLevel
     dateOfCreation?: DateTimeFilter<"SuperMunicipalAdmin"> | Date | string
     lastUpdated?: DateTimeFilter<"SuperMunicipalAdmin"> | Date | string
-    status?: StringFilter<"SuperMunicipalAdmin"> | string
+    status?: EnumStatusFilter<"SuperMunicipalAdmin"> | $Enums.Status
     lastLogin?: DateTimeNullableFilter<"SuperMunicipalAdmin"> | Date | string | null
     municipalityResolutionRate?: FloatFilter<"SuperMunicipalAdmin"> | number
     crossDepartmentSuccess?: IntFilter<"SuperMunicipalAdmin"> | number
@@ -31335,10 +30341,10 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     managedCategories?: CategoryUpdateManyWithoutCreatedBySuperAdminNestedInput
     managedComplaints?: ComplaintUpdateManyWithoutManagedBySuperAdminNestedInput
@@ -31351,10 +30357,10 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     managedCategories?: CategoryUncheckedUpdateManyWithoutCreatedBySuperAdminNestedInput
     managedComplaints?: ComplaintUncheckedUpdateManyWithoutManagedBySuperAdminNestedInput
@@ -31369,7 +30375,6 @@ export namespace Prisma {
     creationDate?: Date | string
     lastUpdated?: Date | string
     complaints?: ComplaintCreateNestedManyWithoutCategoryInput
-    subCategoryMappings?: SubCategoryMappingCreateNestedManyWithoutCategoryInput
     managedByDeptStateAdmin?: DepartmentStateAdminCreateNestedOneWithoutManagedCategoriesInput
   }
 
@@ -31383,7 +30388,6 @@ export namespace Prisma {
     lastUpdated?: Date | string
     managedByDeptStateAdminId?: string | null
     complaints?: ComplaintUncheckedCreateNestedManyWithoutCategoryInput
-    subCategoryMappings?: SubCategoryMappingUncheckedCreateNestedManyWithoutCategoryInput
   }
 
   export type CategoryCreateOrConnectWithoutCreatedBySuperAdminInput = {
@@ -31399,15 +30403,15 @@ export namespace Prisma {
   export type SuperStateAdminCreateWithoutManagedBySuperAdminInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     phoneNumber?: string | null
     password: string
     state: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     stateResolutionRate?: number
     crossDepartmentSuccess?: number
@@ -31419,15 +30423,15 @@ export namespace Prisma {
   export type SuperStateAdminUncheckedCreateWithoutManagedBySuperAdminInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     phoneNumber?: string | null
     password: string
     state: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     stateResolutionRate?: number
     crossDepartmentSuccess?: number
@@ -31449,16 +30453,17 @@ export namespace Prisma {
   export type ComplaintCreateWithoutManagedBySuperAdminInput = {
     id?: string
     submissionDate?: Date | string
+    seq?: number
     subCategory: string
     standardizedSubCategory?: string | null
     description: string
-    urgency: string
+    urgency?: $Enums.ComplaintUrgency
     attachmentUrl?: string | null
     assignedDepartment: string
     status?: $Enums.ComplaintStatus
     sla?: string | null
     upvoteCount?: number
-    isPublic: boolean
+    isPublic?: boolean
     escalationLevel?: string | null
     dateOfResolution?: Date | string | null
     complainant: UserCreateNestedOneWithoutComplaintsInput
@@ -31478,18 +30483,19 @@ export namespace Prisma {
   export type ComplaintUncheckedCreateWithoutManagedBySuperAdminInput = {
     id?: string
     submissionDate?: Date | string
+    seq?: number
     complainantId: string
     categoryId: string
     subCategory: string
     standardizedSubCategory?: string | null
     description: string
-    urgency: string
+    urgency?: $Enums.ComplaintUrgency
     attachmentUrl?: string | null
     assignedDepartment: string
     status?: $Enums.ComplaintStatus
     sla?: string | null
     upvoteCount?: number
-    isPublic: boolean
+    isPublic?: boolean
     escalationLevel?: string | null
     dateOfResolution?: Date | string | null
     assignedAgentId?: string | null
@@ -31557,10 +30563,10 @@ export namespace Prisma {
     phoneNumber?: StringNullableFilter<"SuperStateAdmin"> | string | null
     password?: StringFilter<"SuperStateAdmin"> | string
     state?: StringFilter<"SuperStateAdmin"> | string
-    accessLevel?: StringFilter<"SuperStateAdmin"> | string
+    accessLevel?: EnumAccessLevelFilter<"SuperStateAdmin"> | $Enums.AccessLevel
     dateOfCreation?: DateTimeFilter<"SuperStateAdmin"> | Date | string
     lastUpdated?: DateTimeFilter<"SuperStateAdmin"> | Date | string
-    status?: StringFilter<"SuperStateAdmin"> | string
+    status?: EnumStatusFilter<"SuperStateAdmin"> | $Enums.Status
     lastLogin?: DateTimeNullableFilter<"SuperStateAdmin"> | Date | string | null
     stateResolutionRate?: FloatFilter<"SuperStateAdmin"> | number
     crossDepartmentSuccess?: IntFilter<"SuperStateAdmin"> | number
@@ -31586,16 +30592,17 @@ export namespace Prisma {
   export type ComplaintCreateWithoutCategoryInput = {
     id?: string
     submissionDate?: Date | string
+    seq?: number
     subCategory: string
     standardizedSubCategory?: string | null
     description: string
-    urgency: string
+    urgency?: $Enums.ComplaintUrgency
     attachmentUrl?: string | null
     assignedDepartment: string
     status?: $Enums.ComplaintStatus
     sla?: string | null
     upvoteCount?: number
-    isPublic: boolean
+    isPublic?: boolean
     escalationLevel?: string | null
     dateOfResolution?: Date | string | null
     complainant: UserCreateNestedOneWithoutComplaintsInput
@@ -31615,17 +30622,18 @@ export namespace Prisma {
   export type ComplaintUncheckedCreateWithoutCategoryInput = {
     id?: string
     submissionDate?: Date | string
+    seq?: number
     complainantId: string
     subCategory: string
     standardizedSubCategory?: string | null
     description: string
-    urgency: string
+    urgency?: $Enums.ComplaintUrgency
     attachmentUrl?: string | null
     assignedDepartment: string
     status?: $Enums.ComplaintStatus
     sla?: string | null
     upvoteCount?: number
-    isPublic: boolean
+    isPublic?: boolean
     escalationLevel?: string | null
     dateOfResolution?: Date | string | null
     assignedAgentId?: string | null
@@ -31651,45 +30659,17 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type SubCategoryMappingCreateWithoutCategoryInput = {
-    id?: string
-    originalSubCategory: string
-    standardizedSubCategory: string
-    createdBy: string
-    creationDate?: Date | string
-    lastUpdated?: Date | string
-  }
-
-  export type SubCategoryMappingUncheckedCreateWithoutCategoryInput = {
-    id?: string
-    originalSubCategory: string
-    standardizedSubCategory: string
-    createdBy: string
-    creationDate?: Date | string
-    lastUpdated?: Date | string
-  }
-
-  export type SubCategoryMappingCreateOrConnectWithoutCategoryInput = {
-    where: SubCategoryMappingWhereUniqueInput
-    create: XOR<SubCategoryMappingCreateWithoutCategoryInput, SubCategoryMappingUncheckedCreateWithoutCategoryInput>
-  }
-
-  export type SubCategoryMappingCreateManyCategoryInputEnvelope = {
-    data: SubCategoryMappingCreateManyCategoryInput | SubCategoryMappingCreateManyCategoryInput[]
-    skipDuplicates?: boolean
-  }
-
   export type SuperAdminCreateWithoutManagedCategoriesInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     phoneNumber?: string | null
     password: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     managedSuperStateAdmins?: SuperStateAdminCreateNestedManyWithoutManagedBySuperAdminInput
     managedComplaints?: ComplaintCreateNestedManyWithoutManagedBySuperAdminInput
@@ -31698,14 +30678,14 @@ export namespace Prisma {
   export type SuperAdminUncheckedCreateWithoutManagedCategoriesInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     phoneNumber?: string | null
     password: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     managedSuperStateAdmins?: SuperStateAdminUncheckedCreateNestedManyWithoutManagedBySuperAdminInput
     managedComplaints?: ComplaintUncheckedCreateNestedManyWithoutManagedBySuperAdminInput
@@ -31719,19 +30699,19 @@ export namespace Prisma {
   export type DepartmentStateAdminCreateWithoutManagedCategoriesInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     password: string
     phoneNumber?: string | null
-    department: string
+    department: $Enums.Department
     state: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     stateResolutionRate?: number
-    systemicIssuesIdentified?: number
+    escalationCount?: number
     managedMunicipalities?: DepartmentStateAdminCreatemanagedMunicipalitiesInput | string[]
     managedMunicipalAdmins?: DepartmentMunicipalAdminCreateNestedManyWithoutManagedByStateAdminInput
     escalatedComplaints?: ComplaintCreateNestedManyWithoutEscalatedToStateAdminInput
@@ -31742,19 +30722,19 @@ export namespace Prisma {
   export type DepartmentStateAdminUncheckedCreateWithoutManagedCategoriesInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     password: string
     phoneNumber?: string | null
-    department: string
+    department: $Enums.Department
     state: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     stateResolutionRate?: number
-    systemicIssuesIdentified?: number
+    escalationCount?: number
     managedMunicipalities?: DepartmentStateAdminCreatemanagedMunicipalitiesInput | string[]
     managedBySuperStateId?: string | null
     managedMunicipalAdmins?: DepartmentMunicipalAdminUncheckedCreateNestedManyWithoutManagedByStateAdminInput
@@ -31783,35 +30763,6 @@ export namespace Prisma {
     data: XOR<ComplaintUpdateManyMutationInput, ComplaintUncheckedUpdateManyWithoutCategoryInput>
   }
 
-  export type SubCategoryMappingUpsertWithWhereUniqueWithoutCategoryInput = {
-    where: SubCategoryMappingWhereUniqueInput
-    update: XOR<SubCategoryMappingUpdateWithoutCategoryInput, SubCategoryMappingUncheckedUpdateWithoutCategoryInput>
-    create: XOR<SubCategoryMappingCreateWithoutCategoryInput, SubCategoryMappingUncheckedCreateWithoutCategoryInput>
-  }
-
-  export type SubCategoryMappingUpdateWithWhereUniqueWithoutCategoryInput = {
-    where: SubCategoryMappingWhereUniqueInput
-    data: XOR<SubCategoryMappingUpdateWithoutCategoryInput, SubCategoryMappingUncheckedUpdateWithoutCategoryInput>
-  }
-
-  export type SubCategoryMappingUpdateManyWithWhereWithoutCategoryInput = {
-    where: SubCategoryMappingScalarWhereInput
-    data: XOR<SubCategoryMappingUpdateManyMutationInput, SubCategoryMappingUncheckedUpdateManyWithoutCategoryInput>
-  }
-
-  export type SubCategoryMappingScalarWhereInput = {
-    AND?: SubCategoryMappingScalarWhereInput | SubCategoryMappingScalarWhereInput[]
-    OR?: SubCategoryMappingScalarWhereInput[]
-    NOT?: SubCategoryMappingScalarWhereInput | SubCategoryMappingScalarWhereInput[]
-    id?: StringFilter<"SubCategoryMapping"> | string
-    categoryId?: StringFilter<"SubCategoryMapping"> | string
-    originalSubCategory?: StringFilter<"SubCategoryMapping"> | string
-    standardizedSubCategory?: StringFilter<"SubCategoryMapping"> | string
-    createdBy?: StringFilter<"SubCategoryMapping"> | string
-    creationDate?: DateTimeFilter<"SubCategoryMapping"> | Date | string
-    lastUpdated?: DateTimeFilter<"SubCategoryMapping"> | Date | string
-  }
-
   export type SuperAdminUpsertWithoutManagedCategoriesInput = {
     update: XOR<SuperAdminUpdateWithoutManagedCategoriesInput, SuperAdminUncheckedUpdateWithoutManagedCategoriesInput>
     create: XOR<SuperAdminCreateWithoutManagedCategoriesInput, SuperAdminUncheckedCreateWithoutManagedCategoriesInput>
@@ -31830,10 +30781,10 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     managedSuperStateAdmins?: SuperStateAdminUpdateManyWithoutManagedBySuperAdminNestedInput
     managedComplaints?: ComplaintUpdateManyWithoutManagedBySuperAdminNestedInput
@@ -31846,10 +30797,10 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     managedSuperStateAdmins?: SuperStateAdminUncheckedUpdateManyWithoutManagedBySuperAdminNestedInput
     managedComplaints?: ComplaintUncheckedUpdateManyWithoutManagedBySuperAdminNestedInput
@@ -31873,15 +30824,15 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     state?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stateResolutionRate?: FloatFieldUpdateOperationsInput | number
-    systemicIssuesIdentified?: IntFieldUpdateOperationsInput | number
+    escalationCount?: IntFieldUpdateOperationsInput | number
     managedMunicipalities?: DepartmentStateAdminUpdatemanagedMunicipalitiesInput | string[]
     managedMunicipalAdmins?: DepartmentMunicipalAdminUpdateManyWithoutManagedByStateAdminNestedInput
     escalatedComplaints?: ComplaintUpdateManyWithoutEscalatedToStateAdminNestedInput
@@ -31896,88 +30847,20 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     state?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stateResolutionRate?: FloatFieldUpdateOperationsInput | number
-    systemicIssuesIdentified?: IntFieldUpdateOperationsInput | number
+    escalationCount?: IntFieldUpdateOperationsInput | number
     managedMunicipalities?: DepartmentStateAdminUpdatemanagedMunicipalitiesInput | string[]
     managedBySuperStateId?: NullableStringFieldUpdateOperationsInput | string | null
     managedMunicipalAdmins?: DepartmentMunicipalAdminUncheckedUpdateManyWithoutManagedByStateAdminNestedInput
     escalatedComplaints?: ComplaintUncheckedUpdateManyWithoutEscalatedToStateAdminNestedInput
     regionalWorkflows?: RegionalWorkflowUncheckedUpdateManyWithoutCreatedByNestedInput
-  }
-
-  export type CategoryCreateWithoutSubCategoryMappingsInput = {
-    id?: string
-    name: string
-    subCategories?: CategoryCreatesubCategoriesInput | string[]
-    learnedSubCategories?: CategoryCreatelearnedSubCategoriesInput | string[]
-    assignedDepartment: string
-    creationDate?: Date | string
-    lastUpdated?: Date | string
-    complaints?: ComplaintCreateNestedManyWithoutCategoryInput
-    createdBySuperAdmin?: SuperAdminCreateNestedOneWithoutManagedCategoriesInput
-    managedByDeptStateAdmin?: DepartmentStateAdminCreateNestedOneWithoutManagedCategoriesInput
-  }
-
-  export type CategoryUncheckedCreateWithoutSubCategoryMappingsInput = {
-    id?: string
-    name: string
-    subCategories?: CategoryCreatesubCategoriesInput | string[]
-    learnedSubCategories?: CategoryCreatelearnedSubCategoriesInput | string[]
-    assignedDepartment: string
-    creationDate?: Date | string
-    lastUpdated?: Date | string
-    createdBySuperAdminId?: string | null
-    managedByDeptStateAdminId?: string | null
-    complaints?: ComplaintUncheckedCreateNestedManyWithoutCategoryInput
-  }
-
-  export type CategoryCreateOrConnectWithoutSubCategoryMappingsInput = {
-    where: CategoryWhereUniqueInput
-    create: XOR<CategoryCreateWithoutSubCategoryMappingsInput, CategoryUncheckedCreateWithoutSubCategoryMappingsInput>
-  }
-
-  export type CategoryUpsertWithoutSubCategoryMappingsInput = {
-    update: XOR<CategoryUpdateWithoutSubCategoryMappingsInput, CategoryUncheckedUpdateWithoutSubCategoryMappingsInput>
-    create: XOR<CategoryCreateWithoutSubCategoryMappingsInput, CategoryUncheckedCreateWithoutSubCategoryMappingsInput>
-    where?: CategoryWhereInput
-  }
-
-  export type CategoryUpdateToOneWithWhereWithoutSubCategoryMappingsInput = {
-    where?: CategoryWhereInput
-    data: XOR<CategoryUpdateWithoutSubCategoryMappingsInput, CategoryUncheckedUpdateWithoutSubCategoryMappingsInput>
-  }
-
-  export type CategoryUpdateWithoutSubCategoryMappingsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    subCategories?: CategoryUpdatesubCategoriesInput | string[]
-    learnedSubCategories?: CategoryUpdatelearnedSubCategoriesInput | string[]
-    assignedDepartment?: StringFieldUpdateOperationsInput | string
-    creationDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    complaints?: ComplaintUpdateManyWithoutCategoryNestedInput
-    createdBySuperAdmin?: SuperAdminUpdateOneWithoutManagedCategoriesNestedInput
-    managedByDeptStateAdmin?: DepartmentStateAdminUpdateOneWithoutManagedCategoriesNestedInput
-  }
-
-  export type CategoryUncheckedUpdateWithoutSubCategoryMappingsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    subCategories?: CategoryUpdatesubCategoriesInput | string[]
-    learnedSubCategories?: CategoryUpdatelearnedSubCategoriesInput | string[]
-    assignedDepartment?: StringFieldUpdateOperationsInput | string
-    creationDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdBySuperAdminId?: NullableStringFieldUpdateOperationsInput | string | null
-    managedByDeptStateAdminId?: NullableStringFieldUpdateOperationsInput | string | null
-    complaints?: ComplaintUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
   export type UserCreateWithoutComplaintsInput = {
@@ -31993,7 +30876,7 @@ export namespace Prisma {
     consentDataCollection?: boolean
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.userStatus
     location?: UserLocationCreateNestedOneWithoutUserInput
     upvotes?: UpvoteCreateNestedManyWithoutUserInput
     auditLogsCreated?: AuditLogCreateNestedManyWithoutUserInput
@@ -32012,7 +30895,7 @@ export namespace Prisma {
     consentDataCollection?: boolean
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.userStatus
     location?: UserLocationUncheckedCreateNestedOneWithoutUserInput
     upvotes?: UpvoteUncheckedCreateNestedManyWithoutUserInput
     auditLogsCreated?: AuditLogUncheckedCreateNestedManyWithoutUserInput
@@ -32031,7 +30914,6 @@ export namespace Prisma {
     assignedDepartment: string
     creationDate?: Date | string
     lastUpdated?: Date | string
-    subCategoryMappings?: SubCategoryMappingCreateNestedManyWithoutCategoryInput
     createdBySuperAdmin?: SuperAdminCreateNestedOneWithoutManagedCategoriesInput
     managedByDeptStateAdmin?: DepartmentStateAdminCreateNestedOneWithoutManagedCategoriesInput
   }
@@ -32046,7 +30928,6 @@ export namespace Prisma {
     lastUpdated?: Date | string
     createdBySuperAdminId?: string | null
     managedByDeptStateAdminId?: string | null
-    subCategoryMappings?: SubCategoryMappingUncheckedCreateNestedManyWithoutCategoryInput
   }
 
   export type CategoryCreateOrConnectWithoutComplaintsInput = {
@@ -32059,7 +30940,7 @@ export namespace Prisma {
     pin: string
     district: string
     city: string
-    locality?: string | null
+    locality: string
     street?: string | null
     latitude?: number | null
     longitude?: number | null
@@ -32070,7 +30951,7 @@ export namespace Prisma {
     pin: string
     district: string
     city: string
-    locality?: string | null
+    locality: string
     street?: string | null
     latitude?: number | null
     longitude?: number | null
@@ -32089,7 +30970,7 @@ export namespace Prisma {
     password: string
     phoneNumber: string
     officialEmail: string
-    department: string
+    department: $Enums.Department
     municipality: string
     autonomyLevel: string
     accessLevel: string
@@ -32097,7 +30978,7 @@ export namespace Prisma {
     currentWorkload?: number
     availabilityStatus?: string
     dateOfCreation?: Date | string
-    lastUpdated?: Date | string
+    lastUpdated?: $Enums.Status
     status?: string
     lastLogin?: Date | string | null
     resolutionRate?: number
@@ -32115,7 +30996,7 @@ export namespace Prisma {
     password: string
     phoneNumber: string
     officialEmail: string
-    department: string
+    department: $Enums.Department
     municipality: string
     autonomyLevel: string
     accessLevel: string
@@ -32123,7 +31004,7 @@ export namespace Prisma {
     currentWorkload?: number
     availabilityStatus?: string
     dateOfCreation?: Date | string
-    lastUpdated?: Date | string
+    lastUpdated?: $Enums.Status
     status?: string
     lastLogin?: Date | string | null
     resolutionRate?: number
@@ -32146,7 +31027,7 @@ export namespace Prisma {
     password: string
     phoneNumber: string
     officialEmail: string
-    department: string
+    department: $Enums.Department
     municipality: string
     autonomyLevel: string
     accessLevel: string
@@ -32154,7 +31035,7 @@ export namespace Prisma {
     currentWorkload?: number
     availabilityStatus?: string
     dateOfCreation?: Date | string
-    lastUpdated?: Date | string
+    lastUpdated?: $Enums.Status
     status?: string
     lastLogin?: Date | string | null
     resolutionRate?: number
@@ -32172,7 +31053,7 @@ export namespace Prisma {
     password: string
     phoneNumber: string
     officialEmail: string
-    department: string
+    department: $Enums.Department
     municipality: string
     autonomyLevel: string
     accessLevel: string
@@ -32180,7 +31061,7 @@ export namespace Prisma {
     currentWorkload?: number
     availabilityStatus?: string
     dateOfCreation?: Date | string
-    lastUpdated?: Date | string
+    lastUpdated?: $Enums.Status
     status?: string
     lastLogin?: Date | string | null
     resolutionRate?: number
@@ -32198,17 +31079,19 @@ export namespace Prisma {
   export type DepartmentMunicipalAdminCreateWithoutManagedComplaintsInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     phoneNumber: string
     password: string
-    department: string
+    department: $Enums.Department
     municipality: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
+    workloadLimit?: number
+    currentWorkload?: number
     resolutionRate?: number
     slaComplianceRate?: number | null
     escalationCount?: number
@@ -32222,17 +31105,19 @@ export namespace Prisma {
   export type DepartmentMunicipalAdminUncheckedCreateWithoutManagedComplaintsInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     phoneNumber: string
     password: string
-    department: string
+    department: $Enums.Department
     municipality: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
+    workloadLimit?: number
+    currentWorkload?: number
     resolutionRate?: number
     slaComplianceRate?: number | null
     escalationCount?: number
@@ -32251,17 +31136,19 @@ export namespace Prisma {
   export type DepartmentMunicipalAdminCreateWithoutCommunityModerationInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     phoneNumber: string
     password: string
-    department: string
+    department: $Enums.Department
     municipality: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
+    workloadLimit?: number
+    currentWorkload?: number
     resolutionRate?: number
     slaComplianceRate?: number | null
     escalationCount?: number
@@ -32275,17 +31162,19 @@ export namespace Prisma {
   export type DepartmentMunicipalAdminUncheckedCreateWithoutCommunityModerationInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     phoneNumber: string
     password: string
-    department: string
+    department: $Enums.Department
     municipality: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
+    workloadLimit?: number
+    currentWorkload?: number
     resolutionRate?: number
     slaComplianceRate?: number | null
     escalationCount?: number
@@ -32304,15 +31193,15 @@ export namespace Prisma {
   export type SuperMunicipalAdminCreateWithoutCrossDepartmentIssuesInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     password: string
     phoneNumber?: string | null
     municipality: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     municipalityResolutionRate?: number
     crossDepartmentSuccess?: number
@@ -32323,15 +31212,15 @@ export namespace Prisma {
   export type SuperMunicipalAdminUncheckedCreateWithoutCrossDepartmentIssuesInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     password: string
     phoneNumber?: string | null
     municipality: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     municipalityResolutionRate?: number
     crossDepartmentSuccess?: number
@@ -32347,19 +31236,19 @@ export namespace Prisma {
   export type DepartmentStateAdminCreateWithoutEscalatedComplaintsInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     password: string
     phoneNumber?: string | null
-    department: string
+    department: $Enums.Department
     state: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     stateResolutionRate?: number
-    systemicIssuesIdentified?: number
+    escalationCount?: number
     managedMunicipalities?: DepartmentStateAdminCreatemanagedMunicipalitiesInput | string[]
     managedMunicipalAdmins?: DepartmentMunicipalAdminCreateNestedManyWithoutManagedByStateAdminInput
     regionalWorkflows?: RegionalWorkflowCreateNestedManyWithoutCreatedByInput
@@ -32370,19 +31259,19 @@ export namespace Prisma {
   export type DepartmentStateAdminUncheckedCreateWithoutEscalatedComplaintsInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     password: string
     phoneNumber?: string | null
-    department: string
+    department: $Enums.Department
     state: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     stateResolutionRate?: number
-    systemicIssuesIdentified?: number
+    escalationCount?: number
     managedMunicipalities?: DepartmentStateAdminCreatemanagedMunicipalitiesInput | string[]
     managedBySuperStateId?: string | null
     managedMunicipalAdmins?: DepartmentMunicipalAdminUncheckedCreateNestedManyWithoutManagedByStateAdminInput
@@ -32398,15 +31287,15 @@ export namespace Prisma {
   export type SuperStateAdminCreateWithoutEscalatedComplaintsInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     phoneNumber?: string | null
     password: string
     state: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     stateResolutionRate?: number
     crossDepartmentSuccess?: number
@@ -32418,15 +31307,15 @@ export namespace Prisma {
   export type SuperStateAdminUncheckedCreateWithoutEscalatedComplaintsInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     phoneNumber?: string | null
     password: string
     state: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     stateResolutionRate?: number
     crossDepartmentSuccess?: number
@@ -32443,14 +31332,14 @@ export namespace Prisma {
   export type SuperAdminCreateWithoutManagedComplaintsInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     phoneNumber?: string | null
     password: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     managedCategories?: CategoryCreateNestedManyWithoutCreatedBySuperAdminInput
     managedSuperStateAdmins?: SuperStateAdminCreateNestedManyWithoutManagedBySuperAdminInput
@@ -32459,14 +31348,14 @@ export namespace Prisma {
   export type SuperAdminUncheckedCreateWithoutManagedComplaintsInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     phoneNumber?: string | null
     password: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     managedCategories?: CategoryUncheckedCreateNestedManyWithoutCreatedBySuperAdminInput
     managedSuperStateAdmins?: SuperStateAdminUncheckedCreateNestedManyWithoutManagedBySuperAdminInput
@@ -32549,7 +31438,7 @@ export namespace Prisma {
     consentDataCollection?: BoolFieldUpdateOperationsInput | boolean
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumuserStatusFieldUpdateOperationsInput | $Enums.userStatus
     location?: UserLocationUpdateOneWithoutUserNestedInput
     upvotes?: UpvoteUpdateManyWithoutUserNestedInput
     auditLogsCreated?: AuditLogUpdateManyWithoutUserNestedInput
@@ -32568,7 +31457,7 @@ export namespace Prisma {
     consentDataCollection?: BoolFieldUpdateOperationsInput | boolean
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumuserStatusFieldUpdateOperationsInput | $Enums.userStatus
     location?: UserLocationUncheckedUpdateOneWithoutUserNestedInput
     upvotes?: UpvoteUncheckedUpdateManyWithoutUserNestedInput
     auditLogsCreated?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
@@ -32593,7 +31482,6 @@ export namespace Prisma {
     assignedDepartment?: StringFieldUpdateOperationsInput | string
     creationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    subCategoryMappings?: SubCategoryMappingUpdateManyWithoutCategoryNestedInput
     createdBySuperAdmin?: SuperAdminUpdateOneWithoutManagedCategoriesNestedInput
     managedByDeptStateAdmin?: DepartmentStateAdminUpdateOneWithoutManagedCategoriesNestedInput
   }
@@ -32608,7 +31496,6 @@ export namespace Prisma {
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBySuperAdminId?: NullableStringFieldUpdateOperationsInput | string | null
     managedByDeptStateAdminId?: NullableStringFieldUpdateOperationsInput | string | null
-    subCategoryMappings?: SubCategoryMappingUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
   export type ComplaintLocationUpsertWithoutComplaintInput = {
@@ -32627,7 +31514,7 @@ export namespace Prisma {
     pin?: StringFieldUpdateOperationsInput | string
     district?: StringFieldUpdateOperationsInput | string
     city?: StringFieldUpdateOperationsInput | string
-    locality?: NullableStringFieldUpdateOperationsInput | string | null
+    locality?: StringFieldUpdateOperationsInput | string
     street?: NullableStringFieldUpdateOperationsInput | string | null
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -32638,7 +31525,7 @@ export namespace Prisma {
     pin?: StringFieldUpdateOperationsInput | string
     district?: StringFieldUpdateOperationsInput | string
     city?: StringFieldUpdateOperationsInput | string
-    locality?: NullableStringFieldUpdateOperationsInput | string | null
+    locality?: StringFieldUpdateOperationsInput | string
     street?: NullableStringFieldUpdateOperationsInput | string | null
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -32663,7 +31550,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
     officialEmail?: StringFieldUpdateOperationsInput | string
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     municipality?: StringFieldUpdateOperationsInput | string
     autonomyLevel?: StringFieldUpdateOperationsInput | string
     accessLevel?: StringFieldUpdateOperationsInput | string
@@ -32671,7 +31558,7 @@ export namespace Prisma {
     currentWorkload?: IntFieldUpdateOperationsInput | number
     availabilityStatus?: StringFieldUpdateOperationsInput | string
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
-    lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUpdated?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     status?: StringFieldUpdateOperationsInput | string
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     resolutionRate?: FloatFieldUpdateOperationsInput | number
@@ -32689,7 +31576,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
     officialEmail?: StringFieldUpdateOperationsInput | string
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     municipality?: StringFieldUpdateOperationsInput | string
     autonomyLevel?: StringFieldUpdateOperationsInput | string
     accessLevel?: StringFieldUpdateOperationsInput | string
@@ -32697,7 +31584,7 @@ export namespace Prisma {
     currentWorkload?: IntFieldUpdateOperationsInput | number
     availabilityStatus?: StringFieldUpdateOperationsInput | string
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
-    lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUpdated?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     status?: StringFieldUpdateOperationsInput | string
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     resolutionRate?: FloatFieldUpdateOperationsInput | number
@@ -32741,13 +31628,15 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     municipality?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workloadLimit?: IntFieldUpdateOperationsInput | number
+    currentWorkload?: IntFieldUpdateOperationsInput | number
     resolutionRate?: FloatFieldUpdateOperationsInput | number
     slaComplianceRate?: NullableFloatFieldUpdateOperationsInput | number | null
     escalationCount?: IntFieldUpdateOperationsInput | number
@@ -32765,13 +31654,15 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     municipality?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workloadLimit?: IntFieldUpdateOperationsInput | number
+    currentWorkload?: IntFieldUpdateOperationsInput | number
     resolutionRate?: FloatFieldUpdateOperationsInput | number
     slaComplianceRate?: NullableFloatFieldUpdateOperationsInput | number | null
     escalationCount?: IntFieldUpdateOperationsInput | number
@@ -32800,13 +31691,15 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     municipality?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workloadLimit?: IntFieldUpdateOperationsInput | number
+    currentWorkload?: IntFieldUpdateOperationsInput | number
     resolutionRate?: FloatFieldUpdateOperationsInput | number
     slaComplianceRate?: NullableFloatFieldUpdateOperationsInput | number | null
     escalationCount?: IntFieldUpdateOperationsInput | number
@@ -32824,13 +31717,15 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     municipality?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workloadLimit?: IntFieldUpdateOperationsInput | number
+    currentWorkload?: IntFieldUpdateOperationsInput | number
     resolutionRate?: FloatFieldUpdateOperationsInput | number
     slaComplianceRate?: NullableFloatFieldUpdateOperationsInput | number | null
     escalationCount?: IntFieldUpdateOperationsInput | number
@@ -32860,10 +31755,10 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     municipality?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     municipalityResolutionRate?: FloatFieldUpdateOperationsInput | number
     crossDepartmentSuccess?: IntFieldUpdateOperationsInput | number
@@ -32879,10 +31774,10 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     municipality?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     municipalityResolutionRate?: FloatFieldUpdateOperationsInput | number
     crossDepartmentSuccess?: IntFieldUpdateOperationsInput | number
@@ -32908,15 +31803,15 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     state?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stateResolutionRate?: FloatFieldUpdateOperationsInput | number
-    systemicIssuesIdentified?: IntFieldUpdateOperationsInput | number
+    escalationCount?: IntFieldUpdateOperationsInput | number
     managedMunicipalities?: DepartmentStateAdminUpdatemanagedMunicipalitiesInput | string[]
     managedMunicipalAdmins?: DepartmentMunicipalAdminUpdateManyWithoutManagedByStateAdminNestedInput
     regionalWorkflows?: RegionalWorkflowUpdateManyWithoutCreatedByNestedInput
@@ -32931,15 +31826,15 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     state?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stateResolutionRate?: FloatFieldUpdateOperationsInput | number
-    systemicIssuesIdentified?: IntFieldUpdateOperationsInput | number
+    escalationCount?: IntFieldUpdateOperationsInput | number
     managedMunicipalities?: DepartmentStateAdminUpdatemanagedMunicipalitiesInput | string[]
     managedBySuperStateId?: NullableStringFieldUpdateOperationsInput | string | null
     managedMunicipalAdmins?: DepartmentMunicipalAdminUncheckedUpdateManyWithoutManagedByStateAdminNestedInput
@@ -32966,10 +31861,10 @@ export namespace Prisma {
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     state?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stateResolutionRate?: FloatFieldUpdateOperationsInput | number
     crossDepartmentSuccess?: IntFieldUpdateOperationsInput | number
@@ -32986,10 +31881,10 @@ export namespace Prisma {
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     state?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stateResolutionRate?: FloatFieldUpdateOperationsInput | number
     crossDepartmentSuccess?: IntFieldUpdateOperationsInput | number
@@ -33016,10 +31911,10 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     managedCategories?: CategoryUpdateManyWithoutCreatedBySuperAdminNestedInput
     managedSuperStateAdmins?: SuperStateAdminUpdateManyWithoutManagedBySuperAdminNestedInput
@@ -33032,10 +31927,10 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     managedCategories?: CategoryUncheckedUpdateManyWithoutCreatedBySuperAdminNestedInput
     managedSuperStateAdmins?: SuperStateAdminUncheckedUpdateManyWithoutManagedBySuperAdminNestedInput
@@ -33076,16 +31971,17 @@ export namespace Prisma {
   export type ComplaintCreateWithoutLocationInput = {
     id?: string
     submissionDate?: Date | string
+    seq?: number
     subCategory: string
     standardizedSubCategory?: string | null
     description: string
-    urgency: string
+    urgency?: $Enums.ComplaintUrgency
     attachmentUrl?: string | null
     assignedDepartment: string
     status?: $Enums.ComplaintStatus
     sla?: string | null
     upvoteCount?: number
-    isPublic: boolean
+    isPublic?: boolean
     escalationLevel?: string | null
     dateOfResolution?: Date | string | null
     complainant: UserCreateNestedOneWithoutComplaintsInput
@@ -33105,18 +32001,19 @@ export namespace Prisma {
   export type ComplaintUncheckedCreateWithoutLocationInput = {
     id?: string
     submissionDate?: Date | string
+    seq?: number
     complainantId: string
     categoryId: string
     subCategory: string
     standardizedSubCategory?: string | null
     description: string
-    urgency: string
+    urgency?: $Enums.ComplaintUrgency
     attachmentUrl?: string | null
     assignedDepartment: string
     status?: $Enums.ComplaintStatus
     sla?: string | null
     upvoteCount?: number
-    isPublic: boolean
+    isPublic?: boolean
     escalationLevel?: string | null
     dateOfResolution?: Date | string | null
     assignedAgentId?: string | null
@@ -33153,7 +32050,7 @@ export namespace Prisma {
     subCategory?: StringFieldUpdateOperationsInput | string
     standardizedSubCategory?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    urgency?: StringFieldUpdateOperationsInput | string
+    urgency?: EnumComplaintUrgencyFieldUpdateOperationsInput | $Enums.ComplaintUrgency
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assignedDepartment?: StringFieldUpdateOperationsInput | string
     status?: EnumComplaintStatusFieldUpdateOperationsInput | $Enums.ComplaintStatus
@@ -33179,12 +32076,13 @@ export namespace Prisma {
   export type ComplaintUncheckedUpdateWithoutLocationInput = {
     id?: StringFieldUpdateOperationsInput | string
     submissionDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    seq?: IntFieldUpdateOperationsInput | number
     complainantId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     subCategory?: StringFieldUpdateOperationsInput | string
     standardizedSubCategory?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    urgency?: StringFieldUpdateOperationsInput | string
+    urgency?: EnumComplaintUrgencyFieldUpdateOperationsInput | $Enums.ComplaintUrgency
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assignedDepartment?: StringFieldUpdateOperationsInput | string
     status?: EnumComplaintStatusFieldUpdateOperationsInput | $Enums.ComplaintStatus
@@ -33218,7 +32116,7 @@ export namespace Prisma {
     consentDataCollection?: boolean
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.userStatus
     location?: UserLocationCreateNestedOneWithoutUserInput
     complaints?: ComplaintCreateNestedManyWithoutComplainantInput
     auditLogsCreated?: AuditLogCreateNestedManyWithoutUserInput
@@ -33237,7 +32135,7 @@ export namespace Prisma {
     consentDataCollection?: boolean
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.userStatus
     location?: UserLocationUncheckedCreateNestedOneWithoutUserInput
     complaints?: ComplaintUncheckedCreateNestedManyWithoutComplainantInput
     auditLogsCreated?: AuditLogUncheckedCreateNestedManyWithoutUserInput
@@ -33251,16 +32149,17 @@ export namespace Prisma {
   export type ComplaintCreateWithoutUpvotesInput = {
     id?: string
     submissionDate?: Date | string
+    seq?: number
     subCategory: string
     standardizedSubCategory?: string | null
     description: string
-    urgency: string
+    urgency?: $Enums.ComplaintUrgency
     attachmentUrl?: string | null
     assignedDepartment: string
     status?: $Enums.ComplaintStatus
     sla?: string | null
     upvoteCount?: number
-    isPublic: boolean
+    isPublic?: boolean
     escalationLevel?: string | null
     dateOfResolution?: Date | string | null
     complainant: UserCreateNestedOneWithoutComplaintsInput
@@ -33280,18 +32179,19 @@ export namespace Prisma {
   export type ComplaintUncheckedCreateWithoutUpvotesInput = {
     id?: string
     submissionDate?: Date | string
+    seq?: number
     complainantId: string
     categoryId: string
     subCategory: string
     standardizedSubCategory?: string | null
     description: string
-    urgency: string
+    urgency?: $Enums.ComplaintUrgency
     attachmentUrl?: string | null
     assignedDepartment: string
     status?: $Enums.ComplaintStatus
     sla?: string | null
     upvoteCount?: number
-    isPublic: boolean
+    isPublic?: boolean
     escalationLevel?: string | null
     dateOfResolution?: Date | string | null
     assignedAgentId?: string | null
@@ -33335,7 +32235,7 @@ export namespace Prisma {
     consentDataCollection?: BoolFieldUpdateOperationsInput | boolean
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumuserStatusFieldUpdateOperationsInput | $Enums.userStatus
     location?: UserLocationUpdateOneWithoutUserNestedInput
     complaints?: ComplaintUpdateManyWithoutComplainantNestedInput
     auditLogsCreated?: AuditLogUpdateManyWithoutUserNestedInput
@@ -33354,7 +32254,7 @@ export namespace Prisma {
     consentDataCollection?: BoolFieldUpdateOperationsInput | boolean
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumuserStatusFieldUpdateOperationsInput | $Enums.userStatus
     location?: UserLocationUncheckedUpdateOneWithoutUserNestedInput
     complaints?: ComplaintUncheckedUpdateManyWithoutComplainantNestedInput
     auditLogsCreated?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
@@ -33377,7 +32277,7 @@ export namespace Prisma {
     subCategory?: StringFieldUpdateOperationsInput | string
     standardizedSubCategory?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    urgency?: StringFieldUpdateOperationsInput | string
+    urgency?: EnumComplaintUrgencyFieldUpdateOperationsInput | $Enums.ComplaintUrgency
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assignedDepartment?: StringFieldUpdateOperationsInput | string
     status?: EnumComplaintStatusFieldUpdateOperationsInput | $Enums.ComplaintStatus
@@ -33403,12 +32303,13 @@ export namespace Prisma {
   export type ComplaintUncheckedUpdateWithoutUpvotesInput = {
     id?: StringFieldUpdateOperationsInput | string
     submissionDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    seq?: IntFieldUpdateOperationsInput | number
     complainantId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     subCategory?: StringFieldUpdateOperationsInput | string
     standardizedSubCategory?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    urgency?: StringFieldUpdateOperationsInput | string
+    urgency?: EnumComplaintUrgencyFieldUpdateOperationsInput | $Enums.ComplaintUrgency
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assignedDepartment?: StringFieldUpdateOperationsInput | string
     status?: EnumComplaintStatusFieldUpdateOperationsInput | $Enums.ComplaintStatus
@@ -33432,17 +32333,19 @@ export namespace Prisma {
   export type DepartmentMunicipalAdminCreateWithoutNewsUpdatesInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     phoneNumber: string
     password: string
-    department: string
+    department: $Enums.Department
     municipality: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
+    workloadLimit?: number
+    currentWorkload?: number
     resolutionRate?: number
     slaComplianceRate?: number | null
     escalationCount?: number
@@ -33456,17 +32359,19 @@ export namespace Prisma {
   export type DepartmentMunicipalAdminUncheckedCreateWithoutNewsUpdatesInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     phoneNumber: string
     password: string
-    department: string
+    department: $Enums.Department
     municipality: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
+    workloadLimit?: number
+    currentWorkload?: number
     resolutionRate?: number
     slaComplianceRate?: number | null
     escalationCount?: number
@@ -33500,13 +32405,15 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     municipality?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workloadLimit?: IntFieldUpdateOperationsInput | number
+    currentWorkload?: IntFieldUpdateOperationsInput | number
     resolutionRate?: FloatFieldUpdateOperationsInput | number
     slaComplianceRate?: NullableFloatFieldUpdateOperationsInput | number | null
     escalationCount?: IntFieldUpdateOperationsInput | number
@@ -33524,13 +32431,15 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     municipality?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workloadLimit?: IntFieldUpdateOperationsInput | number
+    currentWorkload?: IntFieldUpdateOperationsInput | number
     resolutionRate?: FloatFieldUpdateOperationsInput | number
     slaComplianceRate?: NullableFloatFieldUpdateOperationsInput | number | null
     escalationCount?: IntFieldUpdateOperationsInput | number
@@ -33554,7 +32463,7 @@ export namespace Prisma {
     consentDataCollection?: boolean
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.userStatus
     location?: UserLocationCreateNestedOneWithoutUserInput
     complaints?: ComplaintCreateNestedManyWithoutComplainantInput
     upvotes?: UpvoteCreateNestedManyWithoutUserInput
@@ -33573,7 +32482,7 @@ export namespace Prisma {
     consentDataCollection?: boolean
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.userStatus
     location?: UserLocationUncheckedCreateNestedOneWithoutUserInput
     complaints?: ComplaintUncheckedCreateNestedManyWithoutComplainantInput
     upvotes?: UpvoteUncheckedCreateNestedManyWithoutUserInput
@@ -33587,16 +32496,17 @@ export namespace Prisma {
   export type ComplaintCreateWithoutAuditLogsInput = {
     id?: string
     submissionDate?: Date | string
+    seq?: number
     subCategory: string
     standardizedSubCategory?: string | null
     description: string
-    urgency: string
+    urgency?: $Enums.ComplaintUrgency
     attachmentUrl?: string | null
     assignedDepartment: string
     status?: $Enums.ComplaintStatus
     sla?: string | null
     upvoteCount?: number
-    isPublic: boolean
+    isPublic?: boolean
     escalationLevel?: string | null
     dateOfResolution?: Date | string | null
     complainant: UserCreateNestedOneWithoutComplaintsInput
@@ -33616,18 +32526,19 @@ export namespace Prisma {
   export type ComplaintUncheckedCreateWithoutAuditLogsInput = {
     id?: string
     submissionDate?: Date | string
+    seq?: number
     complainantId: string
     categoryId: string
     subCategory: string
     standardizedSubCategory?: string | null
     description: string
-    urgency: string
+    urgency?: $Enums.ComplaintUrgency
     attachmentUrl?: string | null
     assignedDepartment: string
     status?: $Enums.ComplaintStatus
     sla?: string | null
     upvoteCount?: number
-    isPublic: boolean
+    isPublic?: boolean
     escalationLevel?: string | null
     dateOfResolution?: Date | string | null
     assignedAgentId?: string | null
@@ -33671,7 +32582,7 @@ export namespace Prisma {
     consentDataCollection?: BoolFieldUpdateOperationsInput | boolean
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumuserStatusFieldUpdateOperationsInput | $Enums.userStatus
     location?: UserLocationUpdateOneWithoutUserNestedInput
     complaints?: ComplaintUpdateManyWithoutComplainantNestedInput
     upvotes?: UpvoteUpdateManyWithoutUserNestedInput
@@ -33690,7 +32601,7 @@ export namespace Prisma {
     consentDataCollection?: BoolFieldUpdateOperationsInput | boolean
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumuserStatusFieldUpdateOperationsInput | $Enums.userStatus
     location?: UserLocationUncheckedUpdateOneWithoutUserNestedInput
     complaints?: ComplaintUncheckedUpdateManyWithoutComplainantNestedInput
     upvotes?: UpvoteUncheckedUpdateManyWithoutUserNestedInput
@@ -33713,7 +32624,7 @@ export namespace Prisma {
     subCategory?: StringFieldUpdateOperationsInput | string
     standardizedSubCategory?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    urgency?: StringFieldUpdateOperationsInput | string
+    urgency?: EnumComplaintUrgencyFieldUpdateOperationsInput | $Enums.ComplaintUrgency
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assignedDepartment?: StringFieldUpdateOperationsInput | string
     status?: EnumComplaintStatusFieldUpdateOperationsInput | $Enums.ComplaintStatus
@@ -33739,12 +32650,13 @@ export namespace Prisma {
   export type ComplaintUncheckedUpdateWithoutAuditLogsInput = {
     id?: StringFieldUpdateOperationsInput | string
     submissionDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    seq?: IntFieldUpdateOperationsInput | number
     complainantId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     subCategory?: StringFieldUpdateOperationsInput | string
     standardizedSubCategory?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    urgency?: StringFieldUpdateOperationsInput | string
+    urgency?: EnumComplaintUrgencyFieldUpdateOperationsInput | $Enums.ComplaintUrgency
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assignedDepartment?: StringFieldUpdateOperationsInput | string
     status?: EnumComplaintStatusFieldUpdateOperationsInput | $Enums.ComplaintStatus
@@ -33768,19 +32680,19 @@ export namespace Prisma {
   export type DepartmentStateAdminCreateWithoutRegionalWorkflowsInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     password: string
     phoneNumber?: string | null
-    department: string
+    department: $Enums.Department
     state: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     stateResolutionRate?: number
-    systemicIssuesIdentified?: number
+    escalationCount?: number
     managedMunicipalities?: DepartmentStateAdminCreatemanagedMunicipalitiesInput | string[]
     managedMunicipalAdmins?: DepartmentMunicipalAdminCreateNestedManyWithoutManagedByStateAdminInput
     escalatedComplaints?: ComplaintCreateNestedManyWithoutEscalatedToStateAdminInput
@@ -33791,19 +32703,19 @@ export namespace Prisma {
   export type DepartmentStateAdminUncheckedCreateWithoutRegionalWorkflowsInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     password: string
     phoneNumber?: string | null
-    department: string
+    department: $Enums.Department
     state: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     stateResolutionRate?: number
-    systemicIssuesIdentified?: number
+    escalationCount?: number
     managedMunicipalities?: DepartmentStateAdminCreatemanagedMunicipalitiesInput | string[]
     managedBySuperStateId?: string | null
     managedMunicipalAdmins?: DepartmentMunicipalAdminUncheckedCreateNestedManyWithoutManagedByStateAdminInput
@@ -33834,15 +32746,15 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     state?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stateResolutionRate?: FloatFieldUpdateOperationsInput | number
-    systemicIssuesIdentified?: IntFieldUpdateOperationsInput | number
+    escalationCount?: IntFieldUpdateOperationsInput | number
     managedMunicipalities?: DepartmentStateAdminUpdatemanagedMunicipalitiesInput | string[]
     managedMunicipalAdmins?: DepartmentMunicipalAdminUpdateManyWithoutManagedByStateAdminNestedInput
     escalatedComplaints?: ComplaintUpdateManyWithoutEscalatedToStateAdminNestedInput
@@ -33857,15 +32769,15 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     state?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stateResolutionRate?: FloatFieldUpdateOperationsInput | number
-    systemicIssuesIdentified?: IntFieldUpdateOperationsInput | number
+    escalationCount?: IntFieldUpdateOperationsInput | number
     managedMunicipalities?: DepartmentStateAdminUpdatemanagedMunicipalitiesInput | string[]
     managedBySuperStateId?: NullableStringFieldUpdateOperationsInput | string | null
     managedMunicipalAdmins?: DepartmentMunicipalAdminUncheckedUpdateManyWithoutManagedByStateAdminNestedInput
@@ -33876,17 +32788,18 @@ export namespace Prisma {
   export type ComplaintCreateManyComplainantInput = {
     id?: string
     submissionDate?: Date | string
+    seq?: number
     categoryId: string
     subCategory: string
     standardizedSubCategory?: string | null
     description: string
-    urgency: string
+    urgency?: $Enums.ComplaintUrgency
     attachmentUrl?: string | null
     assignedDepartment: string
     status?: $Enums.ComplaintStatus
     sla?: string | null
     upvoteCount?: number
-    isPublic: boolean
+    isPublic?: boolean
     escalationLevel?: string | null
     dateOfResolution?: Date | string | null
     assignedAgentId?: string | null
@@ -33918,7 +32831,7 @@ export namespace Prisma {
     subCategory?: StringFieldUpdateOperationsInput | string
     standardizedSubCategory?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    urgency?: StringFieldUpdateOperationsInput | string
+    urgency?: EnumComplaintUrgencyFieldUpdateOperationsInput | $Enums.ComplaintUrgency
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assignedDepartment?: StringFieldUpdateOperationsInput | string
     status?: EnumComplaintStatusFieldUpdateOperationsInput | $Enums.ComplaintStatus
@@ -33944,11 +32857,12 @@ export namespace Prisma {
   export type ComplaintUncheckedUpdateWithoutComplainantInput = {
     id?: StringFieldUpdateOperationsInput | string
     submissionDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    seq?: IntFieldUpdateOperationsInput | number
     categoryId?: StringFieldUpdateOperationsInput | string
     subCategory?: StringFieldUpdateOperationsInput | string
     standardizedSubCategory?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    urgency?: StringFieldUpdateOperationsInput | string
+    urgency?: EnumComplaintUrgencyFieldUpdateOperationsInput | $Enums.ComplaintUrgency
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assignedDepartment?: StringFieldUpdateOperationsInput | string
     status?: EnumComplaintStatusFieldUpdateOperationsInput | $Enums.ComplaintStatus
@@ -33973,11 +32887,12 @@ export namespace Prisma {
   export type ComplaintUncheckedUpdateManyWithoutComplainantInput = {
     id?: StringFieldUpdateOperationsInput | string
     submissionDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    seq?: IntFieldUpdateOperationsInput | number
     categoryId?: StringFieldUpdateOperationsInput | string
     subCategory?: StringFieldUpdateOperationsInput | string
     standardizedSubCategory?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    urgency?: StringFieldUpdateOperationsInput | string
+    urgency?: EnumComplaintUrgencyFieldUpdateOperationsInput | $Enums.ComplaintUrgency
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assignedDepartment?: StringFieldUpdateOperationsInput | string
     status?: EnumComplaintStatusFieldUpdateOperationsInput | $Enums.ComplaintStatus
@@ -34040,18 +32955,19 @@ export namespace Prisma {
   export type ComplaintCreateManyAssignedAgentInput = {
     id?: string
     submissionDate?: Date | string
+    seq?: number
     complainantId: string
     categoryId: string
     subCategory: string
     standardizedSubCategory?: string | null
     description: string
-    urgency: string
+    urgency?: $Enums.ComplaintUrgency
     attachmentUrl?: string | null
     assignedDepartment: string
     status?: $Enums.ComplaintStatus
     sla?: string | null
     upvoteCount?: number
-    isPublic: boolean
+    isPublic?: boolean
     escalationLevel?: string | null
     dateOfResolution?: Date | string | null
     managedByMunicipalAdminId?: string | null
@@ -34068,7 +32984,7 @@ export namespace Prisma {
     subCategory?: StringFieldUpdateOperationsInput | string
     standardizedSubCategory?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    urgency?: StringFieldUpdateOperationsInput | string
+    urgency?: EnumComplaintUrgencyFieldUpdateOperationsInput | $Enums.ComplaintUrgency
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assignedDepartment?: StringFieldUpdateOperationsInput | string
     status?: EnumComplaintStatusFieldUpdateOperationsInput | $Enums.ComplaintStatus
@@ -34094,12 +33010,13 @@ export namespace Prisma {
   export type ComplaintUncheckedUpdateWithoutAssignedAgentInput = {
     id?: StringFieldUpdateOperationsInput | string
     submissionDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    seq?: IntFieldUpdateOperationsInput | number
     complainantId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     subCategory?: StringFieldUpdateOperationsInput | string
     standardizedSubCategory?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    urgency?: StringFieldUpdateOperationsInput | string
+    urgency?: EnumComplaintUrgencyFieldUpdateOperationsInput | $Enums.ComplaintUrgency
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assignedDepartment?: StringFieldUpdateOperationsInput | string
     status?: EnumComplaintStatusFieldUpdateOperationsInput | $Enums.ComplaintStatus
@@ -34123,12 +33040,13 @@ export namespace Prisma {
   export type ComplaintUncheckedUpdateManyWithoutAssignedAgentInput = {
     id?: StringFieldUpdateOperationsInput | string
     submissionDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    seq?: IntFieldUpdateOperationsInput | number
     complainantId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     subCategory?: StringFieldUpdateOperationsInput | string
     standardizedSubCategory?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    urgency?: StringFieldUpdateOperationsInput | string
+    urgency?: EnumComplaintUrgencyFieldUpdateOperationsInput | $Enums.ComplaintUrgency
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assignedDepartment?: StringFieldUpdateOperationsInput | string
     status?: EnumComplaintStatusFieldUpdateOperationsInput | $Enums.ComplaintStatus
@@ -34151,7 +33069,7 @@ export namespace Prisma {
     subCategory?: StringFieldUpdateOperationsInput | string
     standardizedSubCategory?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    urgency?: StringFieldUpdateOperationsInput | string
+    urgency?: EnumComplaintUrgencyFieldUpdateOperationsInput | $Enums.ComplaintUrgency
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assignedDepartment?: StringFieldUpdateOperationsInput | string
     status?: EnumComplaintStatusFieldUpdateOperationsInput | $Enums.ComplaintStatus
@@ -34177,12 +33095,13 @@ export namespace Prisma {
   export type ComplaintUncheckedUpdateWithoutCoAssignedAgentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     submissionDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    seq?: IntFieldUpdateOperationsInput | number
     complainantId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     subCategory?: StringFieldUpdateOperationsInput | string
     standardizedSubCategory?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    urgency?: StringFieldUpdateOperationsInput | string
+    urgency?: EnumComplaintUrgencyFieldUpdateOperationsInput | $Enums.ComplaintUrgency
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assignedDepartment?: StringFieldUpdateOperationsInput | string
     status?: EnumComplaintStatusFieldUpdateOperationsInput | $Enums.ComplaintStatus
@@ -34206,12 +33125,13 @@ export namespace Prisma {
   export type ComplaintUncheckedUpdateManyWithoutCoAssignedAgentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     submissionDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    seq?: IntFieldUpdateOperationsInput | number
     complainantId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     subCategory?: StringFieldUpdateOperationsInput | string
     standardizedSubCategory?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    urgency?: StringFieldUpdateOperationsInput | string
+    urgency?: EnumComplaintUrgencyFieldUpdateOperationsInput | $Enums.ComplaintUrgency
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assignedDepartment?: StringFieldUpdateOperationsInput | string
     status?: EnumComplaintStatusFieldUpdateOperationsInput | $Enums.ComplaintStatus
@@ -34237,7 +33157,7 @@ export namespace Prisma {
     password: string
     phoneNumber: string
     officialEmail: string
-    department: string
+    department: $Enums.Department
     municipality: string
     autonomyLevel: string
     accessLevel: string
@@ -34245,7 +33165,7 @@ export namespace Prisma {
     currentWorkload?: number
     availabilityStatus?: string
     dateOfCreation?: Date | string
-    lastUpdated?: Date | string
+    lastUpdated?: $Enums.Status
     status?: string
     lastLogin?: Date | string | null
     resolutionRate?: number
@@ -34256,18 +33176,19 @@ export namespace Prisma {
   export type ComplaintCreateManyManagedByMunicipalAdminInput = {
     id?: string
     submissionDate?: Date | string
+    seq?: number
     complainantId: string
     categoryId: string
     subCategory: string
     standardizedSubCategory?: string | null
     description: string
-    urgency: string
+    urgency?: $Enums.ComplaintUrgency
     attachmentUrl?: string | null
     assignedDepartment: string
     status?: $Enums.ComplaintStatus
     sla?: string | null
     upvoteCount?: number
-    isPublic: boolean
+    isPublic?: boolean
     escalationLevel?: string | null
     dateOfResolution?: Date | string | null
     assignedAgentId?: string | null
@@ -34281,18 +33202,19 @@ export namespace Prisma {
   export type ComplaintCreateManyModeratedByMunicipalAdminInput = {
     id?: string
     submissionDate?: Date | string
+    seq?: number
     complainantId: string
     categoryId: string
     subCategory: string
     standardizedSubCategory?: string | null
     description: string
-    urgency: string
+    urgency?: $Enums.ComplaintUrgency
     attachmentUrl?: string | null
     assignedDepartment: string
     status?: $Enums.ComplaintStatus
     sla?: string | null
     upvoteCount?: number
-    isPublic: boolean
+    isPublic?: boolean
     escalationLevel?: string | null
     dateOfResolution?: Date | string | null
     assignedAgentId?: string | null
@@ -34318,7 +33240,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
     officialEmail?: StringFieldUpdateOperationsInput | string
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     municipality?: StringFieldUpdateOperationsInput | string
     autonomyLevel?: StringFieldUpdateOperationsInput | string
     accessLevel?: StringFieldUpdateOperationsInput | string
@@ -34326,7 +33248,7 @@ export namespace Prisma {
     currentWorkload?: IntFieldUpdateOperationsInput | number
     availabilityStatus?: StringFieldUpdateOperationsInput | string
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
-    lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUpdated?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     status?: StringFieldUpdateOperationsInput | string
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     resolutionRate?: FloatFieldUpdateOperationsInput | number
@@ -34344,7 +33266,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
     officialEmail?: StringFieldUpdateOperationsInput | string
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     municipality?: StringFieldUpdateOperationsInput | string
     autonomyLevel?: StringFieldUpdateOperationsInput | string
     accessLevel?: StringFieldUpdateOperationsInput | string
@@ -34352,7 +33274,7 @@ export namespace Prisma {
     currentWorkload?: IntFieldUpdateOperationsInput | number
     availabilityStatus?: StringFieldUpdateOperationsInput | string
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
-    lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUpdated?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     status?: StringFieldUpdateOperationsInput | string
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     resolutionRate?: FloatFieldUpdateOperationsInput | number
@@ -34370,7 +33292,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
     officialEmail?: StringFieldUpdateOperationsInput | string
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     municipality?: StringFieldUpdateOperationsInput | string
     autonomyLevel?: StringFieldUpdateOperationsInput | string
     accessLevel?: StringFieldUpdateOperationsInput | string
@@ -34378,7 +33300,7 @@ export namespace Prisma {
     currentWorkload?: IntFieldUpdateOperationsInput | number
     availabilityStatus?: StringFieldUpdateOperationsInput | string
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
-    lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUpdated?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     status?: StringFieldUpdateOperationsInput | string
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     resolutionRate?: FloatFieldUpdateOperationsInput | number
@@ -34392,7 +33314,7 @@ export namespace Prisma {
     subCategory?: StringFieldUpdateOperationsInput | string
     standardizedSubCategory?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    urgency?: StringFieldUpdateOperationsInput | string
+    urgency?: EnumComplaintUrgencyFieldUpdateOperationsInput | $Enums.ComplaintUrgency
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assignedDepartment?: StringFieldUpdateOperationsInput | string
     status?: EnumComplaintStatusFieldUpdateOperationsInput | $Enums.ComplaintStatus
@@ -34418,12 +33340,13 @@ export namespace Prisma {
   export type ComplaintUncheckedUpdateWithoutManagedByMunicipalAdminInput = {
     id?: StringFieldUpdateOperationsInput | string
     submissionDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    seq?: IntFieldUpdateOperationsInput | number
     complainantId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     subCategory?: StringFieldUpdateOperationsInput | string
     standardizedSubCategory?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    urgency?: StringFieldUpdateOperationsInput | string
+    urgency?: EnumComplaintUrgencyFieldUpdateOperationsInput | $Enums.ComplaintUrgency
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assignedDepartment?: StringFieldUpdateOperationsInput | string
     status?: EnumComplaintStatusFieldUpdateOperationsInput | $Enums.ComplaintStatus
@@ -34447,12 +33370,13 @@ export namespace Prisma {
   export type ComplaintUncheckedUpdateManyWithoutManagedByMunicipalAdminInput = {
     id?: StringFieldUpdateOperationsInput | string
     submissionDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    seq?: IntFieldUpdateOperationsInput | number
     complainantId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     subCategory?: StringFieldUpdateOperationsInput | string
     standardizedSubCategory?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    urgency?: StringFieldUpdateOperationsInput | string
+    urgency?: EnumComplaintUrgencyFieldUpdateOperationsInput | $Enums.ComplaintUrgency
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assignedDepartment?: StringFieldUpdateOperationsInput | string
     status?: EnumComplaintStatusFieldUpdateOperationsInput | $Enums.ComplaintStatus
@@ -34475,7 +33399,7 @@ export namespace Prisma {
     subCategory?: StringFieldUpdateOperationsInput | string
     standardizedSubCategory?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    urgency?: StringFieldUpdateOperationsInput | string
+    urgency?: EnumComplaintUrgencyFieldUpdateOperationsInput | $Enums.ComplaintUrgency
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assignedDepartment?: StringFieldUpdateOperationsInput | string
     status?: EnumComplaintStatusFieldUpdateOperationsInput | $Enums.ComplaintStatus
@@ -34501,12 +33425,13 @@ export namespace Prisma {
   export type ComplaintUncheckedUpdateWithoutModeratedByMunicipalAdminInput = {
     id?: StringFieldUpdateOperationsInput | string
     submissionDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    seq?: IntFieldUpdateOperationsInput | number
     complainantId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     subCategory?: StringFieldUpdateOperationsInput | string
     standardizedSubCategory?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    urgency?: StringFieldUpdateOperationsInput | string
+    urgency?: EnumComplaintUrgencyFieldUpdateOperationsInput | $Enums.ComplaintUrgency
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assignedDepartment?: StringFieldUpdateOperationsInput | string
     status?: EnumComplaintStatusFieldUpdateOperationsInput | $Enums.ComplaintStatus
@@ -34530,12 +33455,13 @@ export namespace Prisma {
   export type ComplaintUncheckedUpdateManyWithoutModeratedByMunicipalAdminInput = {
     id?: StringFieldUpdateOperationsInput | string
     submissionDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    seq?: IntFieldUpdateOperationsInput | number
     complainantId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     subCategory?: StringFieldUpdateOperationsInput | string
     standardizedSubCategory?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    urgency?: StringFieldUpdateOperationsInput | string
+    urgency?: EnumComplaintUrgencyFieldUpdateOperationsInput | $Enums.ComplaintUrgency
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assignedDepartment?: StringFieldUpdateOperationsInput | string
     status?: EnumComplaintStatusFieldUpdateOperationsInput | $Enums.ComplaintStatus
@@ -34576,17 +33502,19 @@ export namespace Prisma {
   export type DepartmentMunicipalAdminCreateManyManagedBySuperMunicipalInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     phoneNumber: string
     password: string
-    department: string
+    department: $Enums.Department
     municipality: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
+    workloadLimit?: number
+    currentWorkload?: number
     resolutionRate?: number
     slaComplianceRate?: number | null
     escalationCount?: number
@@ -34596,18 +33524,19 @@ export namespace Prisma {
   export type ComplaintCreateManyCrossDeptIssueSuperMunicipalInput = {
     id?: string
     submissionDate?: Date | string
+    seq?: number
     complainantId: string
     categoryId: string
     subCategory: string
     standardizedSubCategory?: string | null
     description: string
-    urgency: string
+    urgency?: $Enums.ComplaintUrgency
     attachmentUrl?: string | null
     assignedDepartment: string
     status?: $Enums.ComplaintStatus
     sla?: string | null
     upvoteCount?: number
-    isPublic: boolean
+    isPublic?: boolean
     escalationLevel?: string | null
     dateOfResolution?: Date | string | null
     assignedAgentId?: string | null
@@ -34625,13 +33554,15 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     municipality?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workloadLimit?: IntFieldUpdateOperationsInput | number
+    currentWorkload?: IntFieldUpdateOperationsInput | number
     resolutionRate?: FloatFieldUpdateOperationsInput | number
     slaComplianceRate?: NullableFloatFieldUpdateOperationsInput | number | null
     escalationCount?: IntFieldUpdateOperationsInput | number
@@ -34649,13 +33580,15 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     municipality?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workloadLimit?: IntFieldUpdateOperationsInput | number
+    currentWorkload?: IntFieldUpdateOperationsInput | number
     resolutionRate?: FloatFieldUpdateOperationsInput | number
     slaComplianceRate?: NullableFloatFieldUpdateOperationsInput | number | null
     escalationCount?: IntFieldUpdateOperationsInput | number
@@ -34673,13 +33606,15 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     municipality?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workloadLimit?: IntFieldUpdateOperationsInput | number
+    currentWorkload?: IntFieldUpdateOperationsInput | number
     resolutionRate?: FloatFieldUpdateOperationsInput | number
     slaComplianceRate?: NullableFloatFieldUpdateOperationsInput | number | null
     escalationCount?: IntFieldUpdateOperationsInput | number
@@ -34692,7 +33627,7 @@ export namespace Prisma {
     subCategory?: StringFieldUpdateOperationsInput | string
     standardizedSubCategory?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    urgency?: StringFieldUpdateOperationsInput | string
+    urgency?: EnumComplaintUrgencyFieldUpdateOperationsInput | $Enums.ComplaintUrgency
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assignedDepartment?: StringFieldUpdateOperationsInput | string
     status?: EnumComplaintStatusFieldUpdateOperationsInput | $Enums.ComplaintStatus
@@ -34718,12 +33653,13 @@ export namespace Prisma {
   export type ComplaintUncheckedUpdateWithoutCrossDeptIssueSuperMunicipalInput = {
     id?: StringFieldUpdateOperationsInput | string
     submissionDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    seq?: IntFieldUpdateOperationsInput | number
     complainantId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     subCategory?: StringFieldUpdateOperationsInput | string
     standardizedSubCategory?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    urgency?: StringFieldUpdateOperationsInput | string
+    urgency?: EnumComplaintUrgencyFieldUpdateOperationsInput | $Enums.ComplaintUrgency
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assignedDepartment?: StringFieldUpdateOperationsInput | string
     status?: EnumComplaintStatusFieldUpdateOperationsInput | $Enums.ComplaintStatus
@@ -34747,12 +33683,13 @@ export namespace Prisma {
   export type ComplaintUncheckedUpdateManyWithoutCrossDeptIssueSuperMunicipalInput = {
     id?: StringFieldUpdateOperationsInput | string
     submissionDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    seq?: IntFieldUpdateOperationsInput | number
     complainantId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     subCategory?: StringFieldUpdateOperationsInput | string
     standardizedSubCategory?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    urgency?: StringFieldUpdateOperationsInput | string
+    urgency?: EnumComplaintUrgencyFieldUpdateOperationsInput | $Enums.ComplaintUrgency
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assignedDepartment?: StringFieldUpdateOperationsInput | string
     status?: EnumComplaintStatusFieldUpdateOperationsInput | $Enums.ComplaintStatus
@@ -34772,17 +33709,19 @@ export namespace Prisma {
   export type DepartmentMunicipalAdminCreateManyManagedByStateAdminInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     phoneNumber: string
     password: string
-    department: string
+    department: $Enums.Department
     municipality: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
+    workloadLimit?: number
+    currentWorkload?: number
     resolutionRate?: number
     slaComplianceRate?: number | null
     escalationCount?: number
@@ -34792,18 +33731,19 @@ export namespace Prisma {
   export type ComplaintCreateManyEscalatedToStateAdminInput = {
     id?: string
     submissionDate?: Date | string
+    seq?: number
     complainantId: string
     categoryId: string
     subCategory: string
     standardizedSubCategory?: string | null
     description: string
-    urgency: string
+    urgency?: $Enums.ComplaintUrgency
     attachmentUrl?: string | null
     assignedDepartment: string
     status?: $Enums.ComplaintStatus
     sla?: string | null
     upvoteCount?: number
-    isPublic: boolean
+    isPublic?: boolean
     escalationLevel?: string | null
     dateOfResolution?: Date | string | null
     assignedAgentId?: string | null
@@ -34840,13 +33780,15 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     municipality?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workloadLimit?: IntFieldUpdateOperationsInput | number
+    currentWorkload?: IntFieldUpdateOperationsInput | number
     resolutionRate?: FloatFieldUpdateOperationsInput | number
     slaComplianceRate?: NullableFloatFieldUpdateOperationsInput | number | null
     escalationCount?: IntFieldUpdateOperationsInput | number
@@ -34864,13 +33806,15 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     municipality?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workloadLimit?: IntFieldUpdateOperationsInput | number
+    currentWorkload?: IntFieldUpdateOperationsInput | number
     resolutionRate?: FloatFieldUpdateOperationsInput | number
     slaComplianceRate?: NullableFloatFieldUpdateOperationsInput | number | null
     escalationCount?: IntFieldUpdateOperationsInput | number
@@ -34888,13 +33832,15 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     municipality?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workloadLimit?: IntFieldUpdateOperationsInput | number
+    currentWorkload?: IntFieldUpdateOperationsInput | number
     resolutionRate?: FloatFieldUpdateOperationsInput | number
     slaComplianceRate?: NullableFloatFieldUpdateOperationsInput | number | null
     escalationCount?: IntFieldUpdateOperationsInput | number
@@ -34907,7 +33853,7 @@ export namespace Prisma {
     subCategory?: StringFieldUpdateOperationsInput | string
     standardizedSubCategory?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    urgency?: StringFieldUpdateOperationsInput | string
+    urgency?: EnumComplaintUrgencyFieldUpdateOperationsInput | $Enums.ComplaintUrgency
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assignedDepartment?: StringFieldUpdateOperationsInput | string
     status?: EnumComplaintStatusFieldUpdateOperationsInput | $Enums.ComplaintStatus
@@ -34933,12 +33879,13 @@ export namespace Prisma {
   export type ComplaintUncheckedUpdateWithoutEscalatedToStateAdminInput = {
     id?: StringFieldUpdateOperationsInput | string
     submissionDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    seq?: IntFieldUpdateOperationsInput | number
     complainantId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     subCategory?: StringFieldUpdateOperationsInput | string
     standardizedSubCategory?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    urgency?: StringFieldUpdateOperationsInput | string
+    urgency?: EnumComplaintUrgencyFieldUpdateOperationsInput | $Enums.ComplaintUrgency
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assignedDepartment?: StringFieldUpdateOperationsInput | string
     status?: EnumComplaintStatusFieldUpdateOperationsInput | $Enums.ComplaintStatus
@@ -34962,12 +33909,13 @@ export namespace Prisma {
   export type ComplaintUncheckedUpdateManyWithoutEscalatedToStateAdminInput = {
     id?: StringFieldUpdateOperationsInput | string
     submissionDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    seq?: IntFieldUpdateOperationsInput | number
     complainantId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     subCategory?: StringFieldUpdateOperationsInput | string
     standardizedSubCategory?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    urgency?: StringFieldUpdateOperationsInput | string
+    urgency?: EnumComplaintUrgencyFieldUpdateOperationsInput | $Enums.ComplaintUrgency
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assignedDepartment?: StringFieldUpdateOperationsInput | string
     status?: EnumComplaintStatusFieldUpdateOperationsInput | $Enums.ComplaintStatus
@@ -35017,7 +33965,6 @@ export namespace Prisma {
     creationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
     complaints?: ComplaintUpdateManyWithoutCategoryNestedInput
-    subCategoryMappings?: SubCategoryMappingUpdateManyWithoutCategoryNestedInput
     createdBySuperAdmin?: SuperAdminUpdateOneWithoutManagedCategoriesNestedInput
   }
 
@@ -35031,7 +33978,6 @@ export namespace Prisma {
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBySuperAdminId?: NullableStringFieldUpdateOperationsInput | string | null
     complaints?: ComplaintUncheckedUpdateManyWithoutCategoryNestedInput
-    subCategoryMappings?: SubCategoryMappingUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
   export type CategoryUncheckedUpdateManyWithoutManagedByDeptStateAdminInput = {
@@ -35048,34 +33994,34 @@ export namespace Prisma {
   export type DepartmentStateAdminCreateManyManagedBySuperStateInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     password: string
     phoneNumber?: string | null
-    department: string
+    department: $Enums.Department
     state: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     stateResolutionRate?: number
-    systemicIssuesIdentified?: number
+    escalationCount?: number
     managedMunicipalities?: DepartmentStateAdminCreatemanagedMunicipalitiesInput | string[]
   }
 
   export type SuperMunicipalAdminCreateManyManagedBySuperStateInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     password: string
     phoneNumber?: string | null
     municipality: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     municipalityResolutionRate?: number
     crossDepartmentSuccess?: number
@@ -35084,18 +34030,19 @@ export namespace Prisma {
   export type ComplaintCreateManyEscalatedToSuperStateAdminInput = {
     id?: string
     submissionDate?: Date | string
+    seq?: number
     complainantId: string
     categoryId: string
     subCategory: string
     standardizedSubCategory?: string | null
     description: string
-    urgency: string
+    urgency?: $Enums.ComplaintUrgency
     attachmentUrl?: string | null
     assignedDepartment: string
     status?: $Enums.ComplaintStatus
     sla?: string | null
     upvoteCount?: number
-    isPublic: boolean
+    isPublic?: boolean
     escalationLevel?: string | null
     dateOfResolution?: Date | string | null
     assignedAgentId?: string | null
@@ -35113,15 +34060,15 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     state?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stateResolutionRate?: FloatFieldUpdateOperationsInput | number
-    systemicIssuesIdentified?: IntFieldUpdateOperationsInput | number
+    escalationCount?: IntFieldUpdateOperationsInput | number
     managedMunicipalities?: DepartmentStateAdminUpdatemanagedMunicipalitiesInput | string[]
     managedMunicipalAdmins?: DepartmentMunicipalAdminUpdateManyWithoutManagedByStateAdminNestedInput
     escalatedComplaints?: ComplaintUpdateManyWithoutEscalatedToStateAdminNestedInput
@@ -35136,15 +34083,15 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     state?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stateResolutionRate?: FloatFieldUpdateOperationsInput | number
-    systemicIssuesIdentified?: IntFieldUpdateOperationsInput | number
+    escalationCount?: IntFieldUpdateOperationsInput | number
     managedMunicipalities?: DepartmentStateAdminUpdatemanagedMunicipalitiesInput | string[]
     managedMunicipalAdmins?: DepartmentMunicipalAdminUncheckedUpdateManyWithoutManagedByStateAdminNestedInput
     escalatedComplaints?: ComplaintUncheckedUpdateManyWithoutEscalatedToStateAdminNestedInput
@@ -35159,15 +34106,15 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     state?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stateResolutionRate?: FloatFieldUpdateOperationsInput | number
-    systemicIssuesIdentified?: IntFieldUpdateOperationsInput | number
+    escalationCount?: IntFieldUpdateOperationsInput | number
     managedMunicipalities?: DepartmentStateAdminUpdatemanagedMunicipalitiesInput | string[]
   }
 
@@ -35179,10 +34126,10 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     municipality?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     municipalityResolutionRate?: FloatFieldUpdateOperationsInput | number
     crossDepartmentSuccess?: IntFieldUpdateOperationsInput | number
@@ -35198,10 +34145,10 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     municipality?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     municipalityResolutionRate?: FloatFieldUpdateOperationsInput | number
     crossDepartmentSuccess?: IntFieldUpdateOperationsInput | number
@@ -35217,10 +34164,10 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     municipality?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     municipalityResolutionRate?: FloatFieldUpdateOperationsInput | number
     crossDepartmentSuccess?: IntFieldUpdateOperationsInput | number
@@ -35232,7 +34179,7 @@ export namespace Prisma {
     subCategory?: StringFieldUpdateOperationsInput | string
     standardizedSubCategory?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    urgency?: StringFieldUpdateOperationsInput | string
+    urgency?: EnumComplaintUrgencyFieldUpdateOperationsInput | $Enums.ComplaintUrgency
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assignedDepartment?: StringFieldUpdateOperationsInput | string
     status?: EnumComplaintStatusFieldUpdateOperationsInput | $Enums.ComplaintStatus
@@ -35258,12 +34205,13 @@ export namespace Prisma {
   export type ComplaintUncheckedUpdateWithoutEscalatedToSuperStateAdminInput = {
     id?: StringFieldUpdateOperationsInput | string
     submissionDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    seq?: IntFieldUpdateOperationsInput | number
     complainantId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     subCategory?: StringFieldUpdateOperationsInput | string
     standardizedSubCategory?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    urgency?: StringFieldUpdateOperationsInput | string
+    urgency?: EnumComplaintUrgencyFieldUpdateOperationsInput | $Enums.ComplaintUrgency
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assignedDepartment?: StringFieldUpdateOperationsInput | string
     status?: EnumComplaintStatusFieldUpdateOperationsInput | $Enums.ComplaintStatus
@@ -35287,12 +34235,13 @@ export namespace Prisma {
   export type ComplaintUncheckedUpdateManyWithoutEscalatedToSuperStateAdminInput = {
     id?: StringFieldUpdateOperationsInput | string
     submissionDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    seq?: IntFieldUpdateOperationsInput | number
     complainantId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     subCategory?: StringFieldUpdateOperationsInput | string
     standardizedSubCategory?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    urgency?: StringFieldUpdateOperationsInput | string
+    urgency?: EnumComplaintUrgencyFieldUpdateOperationsInput | $Enums.ComplaintUrgency
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assignedDepartment?: StringFieldUpdateOperationsInput | string
     status?: EnumComplaintStatusFieldUpdateOperationsInput | $Enums.ComplaintStatus
@@ -35323,15 +34272,15 @@ export namespace Prisma {
   export type SuperStateAdminCreateManyManagedBySuperAdminInput = {
     id?: string
     fullName: string
-    adminId: string
+    adminId?: string
     officialEmail: string
     phoneNumber?: string | null
     password: string
     state: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     dateOfCreation?: Date | string
     lastUpdated?: Date | string
-    status?: string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     stateResolutionRate?: number
     crossDepartmentSuccess?: number
@@ -35340,18 +34289,19 @@ export namespace Prisma {
   export type ComplaintCreateManyManagedBySuperAdminInput = {
     id?: string
     submissionDate?: Date | string
+    seq?: number
     complainantId: string
     categoryId: string
     subCategory: string
     standardizedSubCategory?: string | null
     description: string
-    urgency: string
+    urgency?: $Enums.ComplaintUrgency
     attachmentUrl?: string | null
     assignedDepartment: string
     status?: $Enums.ComplaintStatus
     sla?: string | null
     upvoteCount?: number
-    isPublic: boolean
+    isPublic?: boolean
     escalationLevel?: string | null
     dateOfResolution?: Date | string | null
     assignedAgentId?: string | null
@@ -35371,7 +34321,6 @@ export namespace Prisma {
     creationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
     complaints?: ComplaintUpdateManyWithoutCategoryNestedInput
-    subCategoryMappings?: SubCategoryMappingUpdateManyWithoutCategoryNestedInput
     managedByDeptStateAdmin?: DepartmentStateAdminUpdateOneWithoutManagedCategoriesNestedInput
   }
 
@@ -35385,7 +34334,6 @@ export namespace Prisma {
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
     managedByDeptStateAdminId?: NullableStringFieldUpdateOperationsInput | string | null
     complaints?: ComplaintUncheckedUpdateManyWithoutCategoryNestedInput
-    subCategoryMappings?: SubCategoryMappingUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
   export type CategoryUncheckedUpdateManyWithoutCreatedBySuperAdminInput = {
@@ -35407,10 +34355,10 @@ export namespace Prisma {
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     state?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stateResolutionRate?: FloatFieldUpdateOperationsInput | number
     crossDepartmentSuccess?: IntFieldUpdateOperationsInput | number
@@ -35427,10 +34375,10 @@ export namespace Prisma {
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     state?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stateResolutionRate?: FloatFieldUpdateOperationsInput | number
     crossDepartmentSuccess?: IntFieldUpdateOperationsInput | number
@@ -35447,10 +34395,10 @@ export namespace Prisma {
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     state?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stateResolutionRate?: FloatFieldUpdateOperationsInput | number
     crossDepartmentSuccess?: IntFieldUpdateOperationsInput | number
@@ -35462,7 +34410,7 @@ export namespace Prisma {
     subCategory?: StringFieldUpdateOperationsInput | string
     standardizedSubCategory?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    urgency?: StringFieldUpdateOperationsInput | string
+    urgency?: EnumComplaintUrgencyFieldUpdateOperationsInput | $Enums.ComplaintUrgency
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assignedDepartment?: StringFieldUpdateOperationsInput | string
     status?: EnumComplaintStatusFieldUpdateOperationsInput | $Enums.ComplaintStatus
@@ -35488,12 +34436,13 @@ export namespace Prisma {
   export type ComplaintUncheckedUpdateWithoutManagedBySuperAdminInput = {
     id?: StringFieldUpdateOperationsInput | string
     submissionDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    seq?: IntFieldUpdateOperationsInput | number
     complainantId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     subCategory?: StringFieldUpdateOperationsInput | string
     standardizedSubCategory?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    urgency?: StringFieldUpdateOperationsInput | string
+    urgency?: EnumComplaintUrgencyFieldUpdateOperationsInput | $Enums.ComplaintUrgency
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assignedDepartment?: StringFieldUpdateOperationsInput | string
     status?: EnumComplaintStatusFieldUpdateOperationsInput | $Enums.ComplaintStatus
@@ -35517,12 +34466,13 @@ export namespace Prisma {
   export type ComplaintUncheckedUpdateManyWithoutManagedBySuperAdminInput = {
     id?: StringFieldUpdateOperationsInput | string
     submissionDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    seq?: IntFieldUpdateOperationsInput | number
     complainantId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     subCategory?: StringFieldUpdateOperationsInput | string
     standardizedSubCategory?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    urgency?: StringFieldUpdateOperationsInput | string
+    urgency?: EnumComplaintUrgencyFieldUpdateOperationsInput | $Enums.ComplaintUrgency
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assignedDepartment?: StringFieldUpdateOperationsInput | string
     status?: EnumComplaintStatusFieldUpdateOperationsInput | $Enums.ComplaintStatus
@@ -35542,17 +34492,18 @@ export namespace Prisma {
   export type ComplaintCreateManyCategoryInput = {
     id?: string
     submissionDate?: Date | string
+    seq?: number
     complainantId: string
     subCategory: string
     standardizedSubCategory?: string | null
     description: string
-    urgency: string
+    urgency?: $Enums.ComplaintUrgency
     attachmentUrl?: string | null
     assignedDepartment: string
     status?: $Enums.ComplaintStatus
     sla?: string | null
     upvoteCount?: number
-    isPublic: boolean
+    isPublic?: boolean
     escalationLevel?: string | null
     dateOfResolution?: Date | string | null
     assignedAgentId?: string | null
@@ -35564,22 +34515,13 @@ export namespace Prisma {
     managedBySuperAdminId?: string | null
   }
 
-  export type SubCategoryMappingCreateManyCategoryInput = {
-    id?: string
-    originalSubCategory: string
-    standardizedSubCategory: string
-    createdBy: string
-    creationDate?: Date | string
-    lastUpdated?: Date | string
-  }
-
   export type ComplaintUpdateWithoutCategoryInput = {
     id?: StringFieldUpdateOperationsInput | string
     submissionDate?: DateTimeFieldUpdateOperationsInput | Date | string
     subCategory?: StringFieldUpdateOperationsInput | string
     standardizedSubCategory?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    urgency?: StringFieldUpdateOperationsInput | string
+    urgency?: EnumComplaintUrgencyFieldUpdateOperationsInput | $Enums.ComplaintUrgency
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assignedDepartment?: StringFieldUpdateOperationsInput | string
     status?: EnumComplaintStatusFieldUpdateOperationsInput | $Enums.ComplaintStatus
@@ -35605,11 +34547,12 @@ export namespace Prisma {
   export type ComplaintUncheckedUpdateWithoutCategoryInput = {
     id?: StringFieldUpdateOperationsInput | string
     submissionDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    seq?: IntFieldUpdateOperationsInput | number
     complainantId?: StringFieldUpdateOperationsInput | string
     subCategory?: StringFieldUpdateOperationsInput | string
     standardizedSubCategory?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    urgency?: StringFieldUpdateOperationsInput | string
+    urgency?: EnumComplaintUrgencyFieldUpdateOperationsInput | $Enums.ComplaintUrgency
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assignedDepartment?: StringFieldUpdateOperationsInput | string
     status?: EnumComplaintStatusFieldUpdateOperationsInput | $Enums.ComplaintStatus
@@ -35634,11 +34577,12 @@ export namespace Prisma {
   export type ComplaintUncheckedUpdateManyWithoutCategoryInput = {
     id?: StringFieldUpdateOperationsInput | string
     submissionDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    seq?: IntFieldUpdateOperationsInput | number
     complainantId?: StringFieldUpdateOperationsInput | string
     subCategory?: StringFieldUpdateOperationsInput | string
     standardizedSubCategory?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    urgency?: StringFieldUpdateOperationsInput | string
+    urgency?: EnumComplaintUrgencyFieldUpdateOperationsInput | $Enums.ComplaintUrgency
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assignedDepartment?: StringFieldUpdateOperationsInput | string
     status?: EnumComplaintStatusFieldUpdateOperationsInput | $Enums.ComplaintStatus
@@ -35654,33 +34598,6 @@ export namespace Prisma {
     escalatedToStateAdminId?: NullableStringFieldUpdateOperationsInput | string | null
     escalatedToSuperStateAdminId?: NullableStringFieldUpdateOperationsInput | string | null
     managedBySuperAdminId?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type SubCategoryMappingUpdateWithoutCategoryInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    originalSubCategory?: StringFieldUpdateOperationsInput | string
-    standardizedSubCategory?: StringFieldUpdateOperationsInput | string
-    createdBy?: StringFieldUpdateOperationsInput | string
-    creationDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type SubCategoryMappingUncheckedUpdateWithoutCategoryInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    originalSubCategory?: StringFieldUpdateOperationsInput | string
-    standardizedSubCategory?: StringFieldUpdateOperationsInput | string
-    createdBy?: StringFieldUpdateOperationsInput | string
-    creationDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type SubCategoryMappingUncheckedUpdateManyWithoutCategoryInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    originalSubCategory?: StringFieldUpdateOperationsInput | string
-    standardizedSubCategory?: StringFieldUpdateOperationsInput | string
-    createdBy?: StringFieldUpdateOperationsInput | string
-    creationDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UpvoteCreateManyComplaintInput = {
@@ -35705,7 +34622,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
     officialEmail?: StringFieldUpdateOperationsInput | string
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     municipality?: StringFieldUpdateOperationsInput | string
     autonomyLevel?: StringFieldUpdateOperationsInput | string
     accessLevel?: StringFieldUpdateOperationsInput | string
@@ -35713,7 +34630,7 @@ export namespace Prisma {
     currentWorkload?: IntFieldUpdateOperationsInput | number
     availabilityStatus?: StringFieldUpdateOperationsInput | string
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
-    lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUpdated?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     status?: StringFieldUpdateOperationsInput | string
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     resolutionRate?: FloatFieldUpdateOperationsInput | number
@@ -35731,7 +34648,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
     officialEmail?: StringFieldUpdateOperationsInput | string
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     municipality?: StringFieldUpdateOperationsInput | string
     autonomyLevel?: StringFieldUpdateOperationsInput | string
     accessLevel?: StringFieldUpdateOperationsInput | string
@@ -35739,7 +34656,7 @@ export namespace Prisma {
     currentWorkload?: IntFieldUpdateOperationsInput | number
     availabilityStatus?: StringFieldUpdateOperationsInput | string
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
-    lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUpdated?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     status?: StringFieldUpdateOperationsInput | string
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     resolutionRate?: FloatFieldUpdateOperationsInput | number
@@ -35757,7 +34674,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
     officialEmail?: StringFieldUpdateOperationsInput | string
-    department?: StringFieldUpdateOperationsInput | string
+    department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     municipality?: StringFieldUpdateOperationsInput | string
     autonomyLevel?: StringFieldUpdateOperationsInput | string
     accessLevel?: StringFieldUpdateOperationsInput | string
@@ -35765,7 +34682,7 @@ export namespace Prisma {
     currentWorkload?: IntFieldUpdateOperationsInput | number
     availabilityStatus?: StringFieldUpdateOperationsInput | string
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
-    lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUpdated?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     status?: StringFieldUpdateOperationsInput | string
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     resolutionRate?: FloatFieldUpdateOperationsInput | number
