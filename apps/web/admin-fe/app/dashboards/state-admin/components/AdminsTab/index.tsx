@@ -78,7 +78,7 @@ export default function AdminsTab() {
     <motion.section initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="bg-gray-800 rounded-xl border border-gray-700 overflow-hidden">
       <div className="p-6 border-b border-gray-700 flex justify-between items-center">
         <h2 className="text-xl font-semibold text-white">Admin Accounts</h2>
-        <Link href="/dashboards/super-admin/create">
+        <Link href="/dashboards/state-admin/create">
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
