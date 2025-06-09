@@ -31,14 +31,6 @@ export default function Sidebar({
           Dashboard
         </button>
         <button
-          onClick={() => setActiveTab('admins')}
-          className={`w-full text-left px-4 py-2 rounded-lg transition ${
-            activeTab === 'admins' ? 'bg-blue-700' : 'hover:bg-gray-800'
-          }`}
-        >
-          Admin Management
-        </button>
-        <button
           onClick={onLogout}
           className="w-full text-left px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 transition"
         >
