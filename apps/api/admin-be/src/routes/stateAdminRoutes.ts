@@ -84,5 +84,24 @@ router.get('/state-admins', async (req, res: any) => {
   }
 });
 
+// ----- 3. Get All Complaints -----
+router.get('/complaints',authenticateStateAdmin, async (req, res:any) => {
+  try {
+    const complaints = await prisma.complaint.findMany({
+      include: {
+        category: true,
+        complainant: true 
+      },
+      orderBy: {
+        submissionDate: 'desc' 
+      }
+    });
+
+    return res.json({ success: true, complaints });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ success: false, message: 'Failed to fetch complaints' });
+  }
+});
 
 export default router;

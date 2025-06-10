@@ -1,35 +1,47 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+
+const nodeEnv = process.env.NODE_ENV || 'development';
+const envFile = nodeEnv === 'production' ? '.env.prod' : '.env.local';
+dotenv.config({ path: envFile });
 
 const JWT_SECRET = process.env.JWT_SECRET!;
 
-export const authenticateStateAdmin = (req: Request, res: Response, next: NextFunction) => {
-  const authHeader = req.headers.authorization;
-  const cookieToken = req.cookies?.token;
+export const authenticateStateAdmin = (req: Request, res: any, next: NextFunction): void => {
+  console.log('[DEBUG] Starting authentication check');
+  console.log('[DEBUG] Cookies:', req.cookies);
+  console.log('[DEBUG] Headers:', req.headers);
   
-  let token: string | undefined;
-  
-  if (authHeader?.startsWith('Bearer ')) {
-    token = authHeader.split(' ')[1];
-  } else if (cookieToken) {
-    token = cookieToken;
-  }
+  const token = req.cookies?.token;
 
   if (!token) {
-    return res.status(401).json({ success: false, message: 'No token provided' });
+    console.log('[DEBUG] No token found in cookies');
+    return res.status(401).json({ success: false, message: 'Unauthorized: No token provided' });
   }
 
+  console.log('[DEBUG] Token found:', token.substring(0, 20) + '...');
+
   try {
-    const decoded = jwt.verify(token, JWT_SECRET) as any;
+    const decoded = jwt.verify(token, JWT_SECRET) as {
+      id: string;
+      email: string;
+      accessLevel: string;
+    };
+
+    console.log('[DEBUG] Token decoded successfully:', decoded);
 
     if (decoded.accessLevel !== 'DEPT_STATE_ADMIN') {
-      return res.status(403).json({ success: false, message: 'Unauthorized: Not a state admin' });
+      console.log('[DEBUG] Invalid accessLevel. Expected: STATE_ADMIN, Got:', decoded.accessLevel);
+      return res.status(403).json({ success: false, message: 'Forbidden: Invalid access level' });
     }
 
-    (req as any).user = decoded;
+    console.log('[DEBUG] Authentication successful, proceeding to next middleware');
+    (req as any).admin = decoded;
     next();
-  } catch {
-    return res.status(403).json({ success: false, message: 'Invalid or expired token' });
+  } catch (err) {
+    console.error('[DEBUG] Token verification failed:', err);
+    return res.status(401).json({ success: false, message: 'Unauthorized: Invalid token' });
   }
 };
 

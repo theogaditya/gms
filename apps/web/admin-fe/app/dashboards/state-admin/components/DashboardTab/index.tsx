@@ -42,14 +42,14 @@ export default function DashboardTab() {
     complaint: Complaint | null;
   }>({ type: 'delete', complaint: null });
 
-  const API_BASE="http://localhost:3002/api/super-admin";
+  const API_BASE= process.env.NEXT_PUBLIC_URL_ADMIN;
   
   const fetchComplaints = async () => {
     try {
       setLoading(true);
       setError(null);
       
-      const response = await fetch(`${API_BASE}/complaints`, { 
+      const response = await fetch(`${API_BASE}/api/state-admin/complaints`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
