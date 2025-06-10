@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { PrismaClient } from '../../../../../generated/prisma';
 import { agentSchema } from '../schemas/agentSchema';
+import { authenticateStateAdmin } from '../middleware/adminAuth';
 
 const prisma = new PrismaClient();
 
@@ -148,6 +149,78 @@ router.get('/complaints', async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, message: 'Failed to fetch complaints' });
+  }
+});
+
+// ----- 10. Update Complaint Status -----
+router.put('/complaints/:id/status', authenticateStateAdmin, async (req: any, res: any) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    const validStatuses = ['REGISTERED', 'UNDER_PROCESSING', 'FORWARDED', 'ON_HOLD', 'COMPLETED', 'REJECTED'];
+    if (!status || !validStatuses.includes(status)) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Invalid status. Valid statuses are: ' + validStatuses.join(', ')
+      });
+    }
+
+    // Check if complaint exists
+    const existingComplaint = await prisma.complaint.findUnique({
+      where: { id }
+    });
+
+    if (!existingComplaint) {
+      return res.status(404).json({ 
+        success: false, 
+        message: 'Complaint not found' 
+      });
+    }
+
+    const updatedComplaint = await prisma.complaint.update({
+      where: { id },
+      data: { 
+        status,
+        ...(status === 'COMPLETED' && { dateOfResolution: new Date() })
+      },
+      include: {
+        complainant: true,
+        category: true,
+        location: true,
+        upvotes: true,
+        assignedAgent: {
+          select: {
+            id: true,
+            fullName: true,
+            officialEmail: true
+          }
+        }
+      }
+    });
+
+    if (status === 'COMPLETED' && existingComplaint.assignedAgentId) {
+      await prisma.agent.update({
+        where: { id: existingComplaint.assignedAgentId },
+        data: {
+          currentWorkload: { decrement: 1 }
+        }
+      });
+    }
+
+    return res.json({ 
+      success: true, 
+      message: 'Complaint status updated successfully',
+      complaint: updatedComplaint 
+    });
+
+  } catch (error: any) {
+    console.error('Error updating complaint status:', error);
+    return res.status(500).json({ 
+      success: false, 
+      message: 'Failed to update complaint status',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
   }
 });
 

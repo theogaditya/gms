@@ -148,7 +148,9 @@ export const ComplaintStatus: {
   FORWARDED: 'FORWARDED',
   ON_HOLD: 'ON_HOLD',
   COMPLETED: 'COMPLETED',
-  REJECTED: 'REJECTED'
+  REJECTED: 'REJECTED',
+  ESCALATED_TO_MUNICIPAL_LEVEL: 'ESCALATED_TO_MUNICIPAL_LEVEL',
+  ESCALATED_TO_STATE_LEVEL: 'ESCALATED_TO_STATE_LEVEL'
 };
 
 export type ComplaintStatus = (typeof ComplaintStatus)[keyof typeof ComplaintStatus]

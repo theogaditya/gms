@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import StatCard from './StatCard';
 
@@ -8,8 +8,16 @@ interface Complaint {
   _id: string;
   text: string;
   createdAt: string;
-  status: 'Pending' | 'Solved' | 'In Progress' | 'Escalated' | 'On Hold' | 'Rejected';
+  status:
+    | 'Pending'
+    | 'Solved'
+    | 'In Progress'
+    | 'Escalated'
+    | 'Escalated to Municipal Level' // ✅ Add this
+    | 'On Hold'
+    | 'Rejected';
   subCategory: string;
+  standardizedSubCategory?: string;
   urgency: string;
 }
 
@@ -18,7 +26,14 @@ interface ComplaintDetail {
   seq: number;
   description: string;
   submissionDate: string;
-  status: 'Pending' | 'Solved' | 'In Progress' | 'Escalated' | 'On Hold' | 'Rejected';
+  status:
+    | 'Pending'
+    | 'Solved'
+    | 'In Progress'
+    | 'Escalated'
+    | 'Escalated to Municipal Level'
+    | 'On Hold'
+    | 'Rejected';
   urgency: string;
   assignedDepartment: string;
   categoryId: string;
@@ -60,6 +75,7 @@ export default function DashboardTab() {
   const [selectedComplaint, setSelectedComplaint] = useState<ComplaintDetail | null>(null);
   const [modalLoading, setModalLoading] = useState(false);
   const [statusDropdownOpen, setStatusDropdownOpen] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
 
   const mapStatus = (status: string): Complaint['status'] => {
     switch (status) {
@@ -68,49 +84,52 @@ export default function DashboardTab() {
       case 'UNDER_PROCESSING':
         return 'In Progress';
       case 'FORWARDED':
-        return 'In Progress';
+        return 'Escalated';
       case 'ON_HOLD':
         return 'On Hold';
       case 'COMPLETED':
         return 'Solved';
       case 'REJECTED':
         return 'Rejected';
+      case 'ESCALATED_TO_MUNICIPAL_LEVEL':
+        return 'Escalated to Municipal Level';
       default:
         return 'Pending';
     }
   };
 
-  useEffect(() => {
-    const fetchComplaints = async () => {
-      try {
-        const API_BASE = process.env.NEXT_PUBLIC_URL_ADMIN;
-        const response = await fetch(`${API_BASE}/api/agent/complaints`, {
-          credentials: 'include',
-        });
+  // Memoized fetch function to avoid infinite re-renders
+  const fetchComplaints = useCallback(async () => {
+    try {
+      const API_BASE = process.env.NEXT_PUBLIC_URL_ADMIN;
+      const response = await fetch(`${API_BASE}/api/agent/complaints`, {
+        credentials: 'include',
+      });
 
-        if (!response.ok) throw new Error('Failed to fetch complaints');
+      if (!response.ok) throw new Error('Failed to fetch complaints');
 
-        const data = await response.json();
+      const data = await response.json();
 
-        const complaints: Complaint[] = data.complaints.map((c: any) => ({
-          _id: c.id,
-          text: c.description,
-          createdAt: new Date(c.submissionDate).toLocaleString(),
-          status: mapStatus(c.status),
-          subCategory: c.subCategory,
-          urgency: c.urgency,
-        }));
+      const complaints: Complaint[] = data.complaints.map((c: any) => ({
+        _id: c.id,
+        text: c.description,
+        createdAt: new Date(c.submissionDate).toLocaleString(),
+        status: mapStatus(c.status),
+        subCategory: c.subCategory,
+        urgency: c.urgency,
+      }));
 
-        setStats({ totalComplaints: complaints.length, recent: complaints });
-      } catch (err) {
-        console.error('Error fetching complaints:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchComplaints();
+      setStats({ totalComplaints: complaints.length, recent: complaints });
+    } catch (err) {
+      console.error('Error fetching complaints:', err);
+    } finally {
+      setLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchComplaints();
+  }, [fetchComplaints]);
 
   const fetchComplaintDetails = async (complaintId: string) => {
     setModalLoading(true);
@@ -134,7 +153,7 @@ export default function DashboardTab() {
         seq: complaint.seq,
         description: complaint.description,
         submissionDate: new Date(complaint.submissionDate).toLocaleString(),
-        status: mapStatus(complaint.status),
+        status: complaint.status,
         urgency: complaint.urgency,
         assignedDepartment: complaint.assignedDepartment,
         categoryId: complaint.categoryId,
@@ -171,39 +190,59 @@ export default function DashboardTab() {
   const handleStatusChange = async (newStatus: string) => {
     if (!selectedComplaint) return;
     
+    setIsUpdating(true);
     try {
       const API_BASE = process.env.NEXT_PUBLIC_URL_ADMIN;
+      
+      const isEscalation = newStatus === 'ESCALATED_TO_MUNICIPAL_LEVEL';
+
       const response = await fetch(`${API_BASE}/api/agent/complaints/${selectedComplaint.id}/status`, {
         method: 'PUT',
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ status: newStatus }),
+        body: JSON.stringify(
+          isEscalation
+            ? { escalate: true }  
+            : { status: newStatus }  
+        ),
       });
 
-      if (!response.ok) throw new Error('Failed to update status');
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to update status');
+      }
 
-      // Update local state if API call succeeds
+      const data = await response.json();
+
+      if (!data.success) {
+        throw new Error(data.message || 'Failed to update status');
+      }
+
+      const updatedComplaint = data.complaint;
       setSelectedComplaint({
         ...selectedComplaint,
-        status: mapStatus(newStatus)
+        status: mapStatus(updatedComplaint.status),
+        dateOfResolution: updatedComplaint.dateOfResolution
+          ? new Date(updatedComplaint.dateOfResolution).toLocaleString()
+          : undefined,
       });
 
-      // Also update the recent complaints list
-      setStats(prev => ({
-        ...prev,
-        recent: prev.recent.map(complaint => 
-          complaint._id === selectedComplaint.id 
-            ? { ...complaint, status: mapStatus(newStatus) } 
-            : complaint
-        )
-      }));
-    } catch (err) {
+      await fetchComplaints();
+      console.log('Status updated successfully');
+    } catch (err: any) {
       console.error('Error updating status:', err);
+      alert(`Failed to update status: ${err.message}`);
     } finally {
+      setIsUpdating(false);
       setStatusDropdownOpen(false);
     }
+  };
+
+  const handleRefresh = async () => {
+    setLoading(true);
+    await fetchComplaints();
   };
 
   const getStatusOptions = () => [
@@ -282,6 +321,18 @@ export default function DashboardTab() {
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold text-white">Recent Complaints</h3>
           <div className="flex items-center gap-3">
+            {/* Refresh Button */}
+            <button
+              onClick={handleRefresh}
+              disabled={loading}
+              className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-800 text-white px-3 py-1 rounded text-sm font-medium transition-colors flex items-center gap-2"
+            >
+              <svg className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              Refresh
+            </button>
+
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value as any)}
@@ -327,7 +378,7 @@ export default function DashboardTab() {
                 <p className={`text-xs mt-1 font-semibold ${urgencyColors[complaint.urgency]}`}>
                   Priority: {complaint.urgency}
                 </p>
-                <p className="text-xs text-gray-400">{complaint.subCategory}</p>
+                <p className="text-xs text-gray-400">Sub Category: {complaint.subCategory}</p>
               </div>
             </li>
           ))}
@@ -373,19 +424,24 @@ export default function DashboardTab() {
                       <div className="relative">
                         <button
                           onClick={() => setStatusDropdownOpen(!statusDropdownOpen)}
-                          className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          disabled={isUpdating}
+                          className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-800 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
                         >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                          </svg>
-                          Update Status
+                          {isUpdating ? (
+                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                          ) : (
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                            </svg>
+                          )}
+                          {isUpdating ? 'Updating...' : 'Update Status'}
                           <svg className={`w-4 h-4 transition-transform ${statusDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                           </svg>
                         </button>
 
                         <AnimatePresence>
-                          {statusDropdownOpen && (
+                          {statusDropdownOpen && !isUpdating && (
                             <motion.div
                               initial={{ opacity: 0, y: -10 }}
                               animate={{ opacity: 1, y: 0 }}
@@ -419,7 +475,7 @@ export default function DashboardTab() {
                     </div>
                   </div>
 
-                  {/* Content Grid */}
+                  {/* Content Grid - Same as before */}
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     {/* Left Column */}
                     <div className="space-y-4">
@@ -445,7 +501,7 @@ export default function DashboardTab() {
                         <p className="text-white text-sm">{selectedComplaint.category?.name || 'N/A'}</p>
                         <p className="text-gray-400 text-xs mt-1">Sub: {selectedComplaint.subCategory}</p>
                         {selectedComplaint.standardizedSubCategory && (
-                          <p className="text-gray-400 text-xs">Standardized: {selectedComplaint.standardizedSubCategory}</p>
+                          <p className="text-gray-400 text-xs">Swaraj Glimpse: {selectedComplaint.standardizedSubCategory}</p>
                         )}
                       </div>
 

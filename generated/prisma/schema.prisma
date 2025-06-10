@@ -339,6 +339,8 @@ enum ComplaintStatus {
   ON_HOLD
   COMPLETED
   REJECTED
+  ESCALATED_TO_MUNICIPAL_LEVEL
+  ESCALATED_TO_STATE_LEVEL
 }
 
 enum ComplaintUrgency {

@@ -184,7 +184,32 @@ router.get('/complaints',authenticateAgent, async (req, res:any) => {
   }
 });
 
-// ----- 4. Get Complaint Details -----
+// // ----- 3. Get Agent Complaint  -----
+// router.get('/complaints', authenticateAgent, async (req:any, res:any) => {
+//   try {
+//     const agentId = req.agent.id;
+
+//     const complaints = await prisma.complaint.findMany({
+//       where: {
+//         assignedAgentId: agentId,
+//       },
+//       include: {
+//         category: true,
+//         complainant: true,
+//       },
+//       orderBy: {
+//         submissionDate: 'desc',
+//       },
+//     });
+
+//     return res.json({ success: true, complaints });
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json({ success: false, message: 'Failed to fetch complaints' });
+//   }
+// });
+
+// // ----- 4. Get Complaint Details -----
 router.get('/complaints/:id', authenticateAgent, async (req: any, res: any) => {
   try {
     const { id } = req.params;
@@ -217,6 +242,164 @@ router.get('/complaints/:id', authenticateAgent, async (req: any, res: any) => {
       success: false, 
       message: 'Failed to fetch complaint details',
       error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
+  }
+});
+
+// ----- 5. Update Complaint Status -----
+router.put('/complaints/:id/status', authenticateAgent, async (req: any, res: any) => {
+  try {
+    const { id } = req.params;
+    const { status, escalate } = req.body;
+
+    const validStatuses = [
+      'REGISTERED', 
+      'UNDER_PROCESSING', 
+      'FORWARDED', 
+      'ON_HOLD', 
+      'COMPLETED', 
+      'REJECTED',
+      'ESCALATED_TO_MUNICIPAL_LEVEL'
+    ];
+
+    let newStatus = escalate === true ? 'ESCALATED_TO_MUNICIPAL_LEVEL' : status;
+
+    if (!newStatus || !validStatuses.includes(newStatus)) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Invalid status. Valid statuses are: ' + validStatuses.join(', ')
+      });
+    }
+
+    const existingComplaint = await prisma.complaint.findUnique({
+      where: { id }
+    });
+
+    if (!existingComplaint) {
+      return res.status(404).json({ 
+        success: false, 
+        message: 'Complaint not found' 
+      });
+    }
+
+    const updatedComplaint = await prisma.complaint.update({
+      where: { id },
+      data: { 
+        status: newStatus,
+        ...(newStatus === 'COMPLETED' && { dateOfResolution: new Date() }),
+        ...(newStatus === 'ESCALATED_TO_MUNICIPAL_LEVEL' && { escalatedAt: new Date() }) // Optional field
+      },
+      include: {
+        complainant: true,
+        category: true,
+        location: true,
+        upvotes: true,
+        assignedAgent: {
+          select: {
+            id: true,
+            fullName: true,
+            officialEmail: true
+          }
+        }
+      }
+    });
+
+    if (newStatus === 'COMPLETED' && existingComplaint.assignedAgentId) {
+      await prisma.agent.update({
+        where: { id: existingComplaint.assignedAgentId },
+        data: {
+          currentWorkload: { decrement: 1 }
+        }
+      });
+    }
+
+    return res.json({ 
+      success: true, 
+      message: escalate 
+        ? 'Complaint escalated to municipal level successfully' 
+        : 'Complaint status updated successfully',
+      complaint: updatedComplaint 
+    });
+
+  } catch (error: any) {
+    console.error('Error updating complaint status:', error);
+    return res.status(500).json({ 
+      success: false, 
+      message: 'Failed to update complaint status',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
+  }
+});
+
+// Assigning Complaint
+router.post('/complaints/:complaintId/assign', async (req, res:any) => {
+  const { complaintId } = req.params;
+
+  if (!complaintId) {
+    return res.status(400).json({ message: 'Complaint ID is required' });
+  }
+
+  try {
+    // 1. Find the complaint
+    const complaint = await prisma.complaint.findUnique({
+      where: { id: complaintId },
+    });
+
+    if (!complaint) {
+      return res.status(404).json({ message: 'Complaint not found' });
+    }
+
+    if (complaint.assignedAgentId) {
+      return res.status(400).json({ message: 'Complaint is already assigned to an agent' });
+    }
+
+    // 2. Find most recently active agent who can take more work
+    const agent = await prisma.agent.findFirst({
+      where: {
+        status: 'ACTIVE',
+        currentWorkload: { lt: 10 },
+        availabilityStatus: 'At Work',
+      },
+      orderBy: {
+        lastLogin: 'desc', 
+      },
+    });
+
+    if (!agent) {
+      return res.status(404).json({ message: 'No available agent found' });
+    }
+
+    // 3. Assign agent to complaint
+    const updatedComplaint = await prisma.complaint.update({
+      where: { id: complaintId },
+      data: {
+        assignedAgentId: agent.id,
+      },
+      include: {
+        assignedAgent: true,
+      },
+    });
+
+    // 4. Update agent's workload
+    await prisma.agent.update({
+      where: { id: agent.id },
+      data: {
+        currentWorkload: { increment: 1 },
+      },
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: 'Complaint successfully assigned to agent',
+      complaint: updatedComplaint,
+    });
+
+  } catch (error: any) {
+    console.error('Assignment error:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to assign complaint',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined,
     });
   }
 });
