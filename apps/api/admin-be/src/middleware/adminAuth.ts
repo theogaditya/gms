@@ -75,12 +75,13 @@ export const authenticateMunicipalAdmin = (req: Request, res: Response, next: Ne
   }
 };
 
-export const authenticateAgent = (req: Request, res: Response, next: NextFunction) => {
+export const authenticateAgent = (req: Request, res: any, next: NextFunction):void => {
   const authHeader = req.headers.authorization;
-  const cookieToken = req.cookies?.token;
-  
+  const cookieToken = req.cookies?.agentToken;
+
   let token: string | undefined;
-  
+
+  // Get token from Bearer header or cookie
   if (authHeader?.startsWith('Bearer ')) {
     token = authHeader.split(' ')[1];
   } else if (cookieToken) {
@@ -92,50 +93,24 @@ export const authenticateAgent = (req: Request, res: Response, next: NextFunctio
   }
 
   try {
-    const decoded = jwt.verify(token, JWT_SECRET) as any;
+    const decoded = jwt.verify(token, JWT_SECRET) as {
+      id: string;
+      officialEmail: string;
+      accessLevel: string;
+      department: string;
+      type: string;
+    };
 
-    if (decoded.accessLevel !== 'AGENT' || decoded.type !== 'AGENT') {
+    // Check if token is for agent
+    if (decoded.type !== 'AGENT' || decoded.accessLevel !== 'AGENT') {
       return res.status(403).json({ success: false, message: 'Unauthorized: Not an agent' });
     }
 
-    (req as any).user = decoded;
+    // Attach agent info to req
+    (req as any).agent = decoded;
     next();
-  } catch {
+  } catch (err) {
+    console.error('[authenticateAgent] Token error:', err);
     return res.status(403).json({ success: false, message: 'Invalid or expired token' });
   }
-};
-
-export const authenticateMultiple = (allowedAccessLevels: string[]) => {
-  return (req: Request, res: Response, next: NextFunction) => {
-    const authHeader = req.headers.authorization;
-    const cookieToken = req.cookies?.token;
-    
-    let token: string | undefined;
-    
-    if (authHeader?.startsWith('Bearer ')) {
-      token = authHeader.split(' ')[1];
-    } else if (cookieToken) {
-      token = cookieToken;
-    }
-
-    if (!token) {
-      return res.status(401).json({ success: false, message: 'No token provided' });
-    }
-
-    try {
-      const decoded = jwt.verify(token, JWT_SECRET) as any;
-
-      if (!allowedAccessLevels.includes(decoded.accessLevel)) {
-        return res.status(403).json({ 
-          success: false, 
-          message: `Unauthorized: Access level not permitted. Required: ${allowedAccessLevels.join(' or ')}` 
-        });
-      }
-
-      (req as any).user = decoded;
-      next();
-    } catch {
-      return res.status(403).json({ success: false, message: 'Invalid or expired token' });
-    }
-  };
 };

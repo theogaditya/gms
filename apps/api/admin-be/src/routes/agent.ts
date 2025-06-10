@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { PrismaClient } from '../../../../../generated/prisma';
 import { loginSchema } from '../schemas/agentSchema';
+import { authenticateAgent } from '../middleware/adminAuth';
 
 const router = Router();
 const prisma = new PrismaClient();
@@ -81,7 +82,7 @@ router.post('/login', async (req, res: any) => {
     const { password: _, ...agentData } = agent;
 
     // Set HTTP-only cookie
-    res.cookie('token', token, {
+    res.cookie('agentToken', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
@@ -100,18 +101,6 @@ router.post('/login', async (req, res: any) => {
       message: 'Login failed',
       error: process.env.NODE_ENV === 'development' ? err.message : undefined
     });
-  }
-});
-
-// Agent Logout
-router.post('/logout', async (req, res: any) => {
-  try {
-    // Clear the token cookie
-    res.clearCookie('token');
-    res.status(200).json({ message: 'Logout successful' });
-  } catch (err: any) {
-    console.error('Agent logout error:', err);
-    res.status(500).json({ message: 'Logout failed' });
   }
 });
 
@@ -172,6 +161,26 @@ router.get('/me', async (req, res: any) => {
       return res.status(401).json({ message: 'Token expired' });
     }
     res.status(500).json({ message: 'Token verification failed' });
+  }
+});
+
+// ----- 3. Get All Complaints -----
+router.get('/complaints',authenticateAgent, async (req, res:any) => {
+  try {
+    const complaints = await prisma.complaint.findMany({
+      include: {
+        category: true,
+        complainant: true 
+      },
+      orderBy: {
+        submissionDate: 'desc' 
+      }
+    });
+
+    return res.json({ success: true, complaints });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ success: false, message: 'Failed to fetch complaints' });
   }
 });
 

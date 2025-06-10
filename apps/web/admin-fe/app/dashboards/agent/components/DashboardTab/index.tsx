@@ -25,16 +25,47 @@ export default function DashboardTab() {
   const [filterStatus, setFilterStatus] = useState<'All' | Complaint['status']>('All');
 
   useEffect(() => {
-    const mockComplaints: Complaint[] = [
-      { _id: '1', text: 'WiFi not working in hostel block B', createdAt: new Date().toLocaleString(), status: 'Pending' },
-      { _id: '2', text: 'Water leakage in lab 203', createdAt: new Date().toLocaleString(), status: 'Solved' },
-      { _id: '3', text: 'Air conditioner not functioning', createdAt: new Date().toLocaleString(), status: 'Escalated' },
-      { _id: '4', text: 'Projector is flickering', createdAt: new Date().toLocaleString(), status: 'In Progress' },
-    ];
+    const fetchComplaints = async () => {
+      try {
+        const API_BASE = process.env.NEXT_PUBLIC_URL_ADMIN;
+        const response = await fetch(`${API_BASE}/api/agent/complaints`, {
+          credentials: 'include', // Needed if you're using cookies
+        });
 
-    setStats({ totalComplaints: mockComplaints.length, recent: mockComplaints });
-    setLoading(false);
+        if (!response.ok) throw new Error('Failed to fetch complaints');
+
+        const data = await response.json();
+
+        const complaints: Complaint[] = data.complaints.map((c: any) => ({
+          _id: c.id,
+          text: c.description,
+          createdAt: new Date(c.submissionDate).toLocaleString(),
+          status: mapStatus(c.status),
+        }));
+
+        setStats({ totalComplaints: complaints.length, recent: complaints });
+      } catch (err) {
+        console.error('Error fetching complaints:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchComplaints();
   }, []);
+
+  const mapStatus = (status: string): Complaint['status'] => {
+    switch (status) {
+      case 'UNDER_PROCESSING':
+        return 'In Progress';
+      case 'RESOLVED':
+        return 'Solved';
+      case 'ESCALATED':
+        return 'Escalated';
+      default:
+        return 'Pending';
+    }
+  };
 
   const groupedByStatus = stats.recent.reduce((acc: Record<string, Complaint[]>, complaint) => {
     acc[complaint.status] = acc[complaint.status] || [];
@@ -61,13 +92,11 @@ export default function DashboardTab() {
         animate={{ opacity: 1 }}
         className="grid grid-cols-1 md:grid-cols-3 gap-6"
       >
-        {/* Stat Card */}
         <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow">
           <h3 className="text-sm font-medium text-gray-400 mb-1">Total Complaints</h3>
           <p className="text-3xl font-bold text-white">{stats.totalComplaints}</p>
         </div>
 
-        {/* Grouped Status */}
         <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow">
           <h3 className="text-sm font-medium text-gray-400 mb-3">Complaints by Status</h3>
           <div className="space-y-2">
@@ -81,7 +110,6 @@ export default function DashboardTab() {
         </div>
       </motion.section>
 
-      {/* Complaint List with Filter */}
       <div className="mt-6 bg-gray-800 p-6 rounded-xl border border-gray-700">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold text-white">Recent Complaints</h3>

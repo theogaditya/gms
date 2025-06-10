@@ -4,11 +4,25 @@ import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 
+interface Complainant {
+  id: string;
+  name: string;
+  email?: string;
+}
+
+interface Category {
+  id: string;
+  name: string;
+}
+
 interface Complaint {
-  _id: string;
-  text: string;
-  createdAt: string;
+  id: string;
+  title?: string;
+  description: string;
+  submissionDate: string;
   status: 'Pending' | 'Solved' | 'In Progress' | 'Escalated';
+  category?: Category;
+  complainant?: Complainant;
 }
 
 interface DashboardStats {
@@ -23,6 +37,7 @@ export default function DashboardTab() {
   });
 
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [filterStatus, setFilterStatus] = useState<'All' | Complaint['status']>('All');
 
   // Modal state
@@ -30,17 +45,56 @@ export default function DashboardTab() {
   const [modalComplaintId, setModalComplaintId] = useState<string | null>(null);
   const [modalAction, setModalAction] = useState<'escalate' | 'de-escalate' | null>(null);
 
-  useEffect(() => {
-    // Mock fetch complaints
-    const mockComplaints: Complaint[] = [
-      { _id: '1', text: 'WiFi not working in hostel block B', createdAt: new Date().toLocaleString(), status: 'Pending' },
-      { _id: '2', text: 'Water leakage in lab 203', createdAt: new Date().toLocaleString(), status: 'Solved' },
-      { _id: '3', text: 'Air conditioner not functioning', createdAt: new Date().toLocaleString(), status: 'Escalated' },
-      { _id: '4', text: 'Projector is flickering', createdAt: new Date().toLocaleString(), status: 'In Progress' },
-    ];
+  const API_BASE = process.env.NEXT_PUBLIC_URL_ADMIN;
 
-    setStats({ totalComplaints: mockComplaints.length, recent: mockComplaints });
-    setLoading(false);
+  const fetchComplaints = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      const response = await fetch(`${API_BASE}/api/municipal-admin/complaints`);
+      
+      if (!response.ok) {
+        throw new Error(`Failed to fetch complaints: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      
+      if (data.success && data.complaints) {
+        // Transform the data to match our interface
+        const transformedComplaints: Complaint[] = data.complaints.map((complaint: any) => ({
+          id: complaint.id,
+          title: complaint.title,
+          description: complaint.description || complaint.details || '',
+          submissionDate: new Date(complaint.submissionDate).toLocaleString(),
+          status: complaint.status || 'Pending',
+          category: complaint.category,
+          complainant: complaint.complainant,
+        }));
+
+        setStats({
+          totalComplaints: transformedComplaints.length,
+          recent: transformedComplaints,
+        });
+      } else {
+        throw new Error(data.message || 'Failed to load complaints');
+      }
+    } catch (err) {
+      console.error('Error fetching complaints:', err);
+      setError(err instanceof Error ? err.message : 'Failed to load complaints');
+      
+      // Fallback to empty state
+      setStats({
+        totalComplaints: 0,
+        recent: [],
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchComplaints();
   }, []);
 
   const groupedByStatus = stats.recent.reduce((acc: Record<string, Complaint[]>, complaint) => {
@@ -61,7 +115,7 @@ export default function DashboardTab() {
 
   // When escalate/de-escalate button is clicked, show modal popup
   const handleRequestToggleEscalation = (id: string) => {
-    const complaint = stats.recent.find(c => c._id === id);
+    const complaint = stats.recent.find(c => c.id === id);
     if (!complaint) return;
 
     const action = complaint.status === 'Escalated' ? 'de-escalate' : 'escalate';
@@ -71,20 +125,35 @@ export default function DashboardTab() {
   };
 
   // Confirm escalation change
-  const handleConfirmToggleEscalation = () => {
+  const handleConfirmToggleEscalation = async () => {
     if (!modalComplaintId || !modalAction) return;
 
-    const updated = stats.recent.map(c =>
-      c._id === modalComplaintId
-        ? {
-            ...c,
-            status: (modalAction === 'escalate' ? 'Escalated' : 'Pending') as Complaint['status'],
-          }
-        : c
-    );
+    try {
+      // TODO: Add API call to update complaint status on server
+      // const response = await fetch(`${API_BASE}/api/municipal-admin/complaints/${modalComplaintId}`, {
+      //   method: 'PATCH',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify({ 
+      //     status: modalAction === 'escalate' ? 'Escalated' : 'Pending' 
+      //   })
+      // });
 
-    setStats({ totalComplaints: updated.length, recent: updated });
-    closeModal();
+      // Update local state for now
+      const updated = stats.recent.map(c =>
+        c.id === modalComplaintId
+          ? {
+              ...c,
+              status: (modalAction === 'escalate' ? 'Escalated' : 'Pending') as Complaint['status'],
+            }
+          : c
+      );
+
+      setStats({ totalComplaints: updated.length, recent: updated });
+      closeModal();
+    } catch (err) {
+      console.error('Error updating complaint status:', err);
+      // Handle error (show toast, etc.)
+    }
   };
 
   const closeModal = () => {
@@ -93,14 +162,48 @@ export default function DashboardTab() {
     setModalAction(null);
   };
 
-  const handleStatusChange = (id: string, newStatus: Complaint['status']) => {
-    const updated = stats.recent.map(c =>
-      c._id === id ? { ...c, status: newStatus } : c
-    );
-    setStats({ totalComplaints: updated.length, recent: updated });
+  const handleStatusChange = async (id: string, newStatus: Complaint['status']) => {
+    try {
+      // TODO: Add API call to update complaint status on server
+      // const response = await fetch(`${API_BASE}/api/municipal-admin/complaints/${id}`, {
+      //   method: 'PATCH',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify({ status: newStatus })
+      // });
+
+      // Update local state for now
+      const updated = stats.recent.map(c =>
+        c.id === id ? { ...c, status: newStatus } : c
+      );
+      setStats({ totalComplaints: updated.length, recent: updated });
+    } catch (err) {
+      console.error('Error updating complaint status:', err);
+      // Handle error (show toast, etc.)
+    }
   };
 
-  if (loading) return <p className="text-white">Loading...</p>;
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-8">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+        <p className="text-white ml-3">Loading complaints...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="bg-red-900/20 border border-red-500 rounded-lg p-4 mb-6">
+        <p className="text-red-400">Error: {error}</p>
+        <button 
+          onClick={fetchComplaints}
+          className="mt-2 text-sm bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded"
+        >
+          Retry
+        </button>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -135,64 +238,93 @@ export default function DashboardTab() {
                 Create New Agent
               </motion.button>
             </Link>
-               <Link href="https://insight.batoi.com/management/44/32e98cab-a41c-48f0-8804-d3f1b4ec1363">
-            <button className="w-full bg-gray-700 text-white py-2 px-4 rounded-lg text-sm font-medium hover:bg-gray-600 transition">
-              View Reports
-            </button>
-          </Link>
+            <Link href="https://insight.batoi.com/management/44/32e98cab-a41c-48f0-8804-d3f1b4ec1363">
+              <button className="w-full bg-gray-700 text-white py-2 px-4 rounded-lg text-sm font-medium hover:bg-gray-600 transition">
+                View Reports
+              </button>
+            </Link>
           </div>
         </div>
 
         <div className="md:col-span-3 bg-gray-800 p-6 rounded-xl border border-gray-700 mt-6">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold text-white">Recent Complaints</h3>
-            <select
-              value={filterStatus}
-              onChange={(e) => setFilterStatus(e.target.value as any)}
-              className="bg-gray-700 text-white rounded px-3 py-1 text-sm focus:outline-none"
-            >
-              <option value="All">All</option>
-              <option value="Pending">Pending</option>
-              <option value="Solved">Solved</option>
-              <option value="Escalated">Escalated</option>
-              <option value="In Progress">In Progress</option>
-            </select>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={fetchComplaints}
+                className="text-sm bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded transition"
+              >
+                Refresh
+              </button>
+              <select
+                value={filterStatus}
+                onChange={(e) => setFilterStatus(e.target.value as any)}
+                className="bg-gray-700 text-white rounded px-3 py-1 text-sm focus:outline-none"
+              >
+                <option value="All">All</option>
+                <option value="Pending">Pending</option>
+                <option value="Solved">Solved</option>
+                <option value="Escalated">Escalated</option>
+                <option value="In Progress">In Progress</option>
+              </select>
+            </div>
           </div>
 
-          <ul className="space-y-4">
-            {filteredComplaints.map((complaint) => (
-              <li key={complaint._id} className="bg-gray-700 p-4 rounded-xl shadow space-y-2">
-                <div className="flex justify-between items-center">
-                  <div>
-                    <p className="text-white text-sm font-medium">{complaint.text}</p>
-                    <p className="text-xs text-gray-400">{complaint.createdAt}</p>
-                    <p className={`text-xs mt-1 font-semibold ${statusColors[complaint.status]}`}>
-                      {complaint.status}
-                    </p>
-                  </div>
+          {filteredComplaints.length === 0 ? (
+            <div className="text-center py-8">
+              <p className="text-gray-400">No complaints found</p>
+            </div>
+          ) : (
+            <ul className="space-y-4">
+              {filteredComplaints.map((complaint) => (
+                <li key={complaint.id} className="bg-gray-700 p-4 rounded-xl shadow space-y-2">
+                  <div className="flex justify-between items-start">
+                    <div className="flex-1">
+                      {complaint.title && (
+                        <h4 className="text-white text-sm font-semibold mb-1">{complaint.title}</h4>
+                      )}
+                      <p className="text-white text-sm">{complaint.description}</p>
+                      
+                      <div className="flex items-center gap-4 mt-2 text-xs text-gray-400">
+                        <span>{complaint.submissionDate}</span>
+                        {complaint.category && (
+                          <span className="bg-gray-600 px-2 py-1 rounded">
+                            {complaint.category.name}
+                          </span>
+                        )}
+                        {complaint.complainant && (
+                          <span>By: {complaint.complainant.name}</span>
+                        )}
+                      </div>
+                      
+                      <p className={`text-xs mt-2 font-semibold ${statusColors[complaint.status]}`}>
+                        {complaint.status}
+                      </p>
+                    </div>
 
-                  <div className="flex flex-col gap-2 items-end">
-                    <button
-                      onClick={() => handleRequestToggleEscalation(complaint._id)}
-                      className="text-xs bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md"
-                    >
-                      {complaint.status === 'Escalated' ? 'De-escalate' : 'Escalate'}
-                    </button>
+                    <div className="flex flex-col gap-2 items-end ml-4">
+                      <button
+                        onClick={() => handleRequestToggleEscalation(complaint.id)}
+                        className="text-xs bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md transition"
+                      >
+                        {complaint.status === 'Escalated' ? 'De-escalate' : 'Escalate'}
+                      </button>
 
-                    <select
-                      className="text-xs bg-gray-600 text-white rounded px-2 py-1"
-                      value={complaint.status}
-                      onChange={(e) => handleStatusChange(complaint._id, e.target.value as Complaint['status'])}
-                    >
-                      <option value="Pending">Pending</option>
-                      <option value="In Progress">In Progress</option>
-                      <option value="Solved">Solved</option>
-                    </select>
+                      <select
+                        className="text-xs bg-gray-600 text-white rounded px-2 py-1 focus:outline-none"
+                        value={complaint.status}
+                        onChange={(e) => handleStatusChange(complaint.id, e.target.value as Complaint['status'])}
+                      >
+                        <option value="Pending">Pending</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Solved">Solved</option>
+                      </select>
+                    </div>
                   </div>
-                </div>
-              </li>
-            ))}
-          </ul>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </motion.section>
 
@@ -215,13 +347,13 @@ export default function DashboardTab() {
               <div className="flex justify-end space-x-3">
                 <button
                   onClick={closeModal}
-                  className="px-3 py-1 bg-gray-700 text-white text-sm rounded hover:bg-gray-600"
+                  className="px-3 py-1 bg-gray-700 text-white text-sm rounded hover:bg-gray-600 transition"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleConfirmToggleEscalation}
-                  className="px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700"
+                  className="px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700 transition"
                 >
                   Confirm
                 </button>

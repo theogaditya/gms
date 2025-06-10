@@ -131,4 +131,25 @@ router.post('/create/agent', async (req, res: any) => {
   }
 });
 
+// ----- 9. Get All Complaints -----
+router.get('/complaints', async (req, res) => {
+  try {
+    const complaints = await prisma.complaint.findMany({
+      include: {
+        category: true,
+        complainant: true 
+      },
+      orderBy: {
+        submissionDate: 'desc' 
+      }
+    });
+
+    res.json({ success: true, complaints });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: 'Failed to fetch complaints' });
+  }
+});
+
+
 export default router;

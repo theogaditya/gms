@@ -358,7 +358,7 @@ router.patch('/admins/:id/status',authenticateSuperAdmin, async (req, res:any) =
 });
 
 // ----- 9. Get All Complaints -----
-router.get('/complaints', authenticateSuperAdmin, async (req, res) => {
+router.get('/complaints', async (req, res) => {
   try {
     const complaints = await prisma.complaint.findMany({
       include: {
