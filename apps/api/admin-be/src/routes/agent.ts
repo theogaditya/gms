@@ -184,4 +184,41 @@ router.get('/complaints',authenticateAgent, async (req, res:any) => {
   }
 });
 
+// ----- 4. Get Complaint Details -----
+router.get('/complaints/:id', authenticateAgent, async (req: any, res: any) => {
+  try {
+    const { id } = req.params;
+
+const complaint = await prisma.complaint.findUnique({
+  where: { id },
+  include: {
+    complainant: true,
+    category: true,
+    location: true
+  }
+});
+
+    if (!complaint) {
+      return res.status(404).json({ 
+        success: false, 
+        message: 'Complaint not found' 
+      });
+    }
+
+    return res.json({ 
+      success: true, 
+      complaint 
+    });
+
+  } catch (error: any) {
+    console.error('Error fetching complaint details:', error);
+    return res.status(500).json({ 
+      success: false, 
+      message: 'Failed to fetch complaint details',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
+  }
+});
+
+
 export default router;
