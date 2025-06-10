@@ -252,7 +252,44 @@ export default function DashboardTab() {
     { value: 'ON_HOLD', label: 'On Hold', color: 'text-orange-400' },
     { value: 'COMPLETED', label: 'Solved', color: 'text-green-400' },
     { value: 'REJECTED', label: 'Rejected', color: 'text-red-400' },
+    { value: 'ESCALATED_TO_MUNICIPAL_LEVEL', label: 'Escalate to Municipal', color: 'text-pink-400' }, // ✅ Add this line
   ];
+
+  const handleEscalate = async () => {
+    if (!selectedComplaint) return;
+    setIsUpdating(true);
+
+    try {
+      const API_BASE = process.env.NEXT_PUBLIC_URL_ADMIN;
+
+      const response = await fetch(`${API_BASE}/api/agent/complaints/${selectedComplaint.id}/escalate`, {
+        method: 'PUT',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const data = await response.json();
+
+      if (!data.success) {
+        throw new Error(data.message || 'Escalation failed');
+      }
+
+      setSelectedComplaint({
+        ...selectedComplaint,
+        status: mapStatus(data.complaint.status),
+      });
+
+      await fetchComplaints();
+      console.log('Escalation successful');
+    } catch (err: any) {
+      console.error('Escalation error:', err);
+      alert(`Escalation failed: ${err.message}`);
+    } finally {
+      setIsUpdating(false);
+    }
+  };
 
   // Rest of the component remains the same...
   const groupedByStatus = stats.recent.reduce((acc: Record<string, Complaint[]>, complaint) => {
@@ -420,6 +457,15 @@ export default function DashboardTab() {
                       <p className="text-sm text-gray-400">ID: {selectedComplaint.seq}</p>
                     </div>
                     <div className="flex items-center gap-3">
+                      {/* Escalate Button - left side */}
+                      <button
+                        onClick={handleEscalate}
+                        disabled={isUpdating}
+                        className="bg-red-600 hover:bg-red-700 disabled:bg-red-800 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-red-500"
+                      >
+                        Escalate to Municipal Level
+                      </button>
+                      
                       {/* Status Update Dropdown */}
                       <div className="relative">
                         <button
@@ -439,7 +485,6 @@ export default function DashboardTab() {
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                           </svg>
                         </button>
-
                         <AnimatePresence>
                           {statusDropdownOpen && !isUpdating && (
                             <motion.div

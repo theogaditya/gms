@@ -252,21 +252,29 @@ router.put('/complaints/:id/status', authenticateAgent, async (req: any, res: an
     const { id } = req.params;
     const { status, escalate } = req.body;
 
+    console.log('Incoming body:', req.body);
+
+    // Handle possible string "true" from frontend
+    const isEscalation = escalate === true || escalate === 'true';
+
     const validStatuses = [
-      'REGISTERED', 
-      'UNDER_PROCESSING', 
-      'FORWARDED', 
-      'ON_HOLD', 
-      'COMPLETED', 
+      'REGISTERED',
+      'UNDER_PROCESSING',
+      'FORWARDED',
+      'ON_HOLD',
+      'COMPLETED',
       'REJECTED',
       'ESCALATED_TO_MUNICIPAL_LEVEL'
     ];
 
-    let newStatus = escalate === true ? 'ESCALATED_TO_MUNICIPAL_LEVEL' : status;
+    // Set final status based on escalation or direct update
+    const newStatus = isEscalation ? 'ESCALATED_TO_MUNICIPAL_LEVEL' : status;
+
+    console.log('Resolved new status:', newStatus);
 
     if (!newStatus || !validStatuses.includes(newStatus)) {
-      return res.status(400).json({ 
-        success: false, 
+      return res.status(400).json({
+        success: false,
         message: 'Invalid status. Valid statuses are: ' + validStatuses.join(', ')
       });
     }
@@ -276,18 +284,18 @@ router.put('/complaints/:id/status', authenticateAgent, async (req: any, res: an
     });
 
     if (!existingComplaint) {
-      return res.status(404).json({ 
-        success: false, 
-        message: 'Complaint not found' 
+      return res.status(404).json({
+        success: false,
+        message: 'Complaint not found'
       });
     }
 
     const updatedComplaint = await prisma.complaint.update({
       where: { id },
-      data: { 
+      data: {
         status: newStatus,
         ...(newStatus === 'COMPLETED' && { dateOfResolution: new Date() }),
-        ...(newStatus === 'ESCALATED_TO_MUNICIPAL_LEVEL' && { escalatedAt: new Date() }) // Optional field
+        ...(newStatus === 'ESCALATED_TO_MUNICIPAL_LEVEL' && { escalatedAt: new Date() })
       },
       include: {
         complainant: true,
@@ -313,20 +321,57 @@ router.put('/complaints/:id/status', authenticateAgent, async (req: any, res: an
       });
     }
 
-    return res.json({ 
-      success: true, 
-      message: escalate 
-        ? 'Complaint escalated to municipal level successfully' 
+    console.log('Successfully updated complaint with status:', newStatus);
+
+    return res.json({
+      success: true,
+      message: isEscalation
+        ? 'Complaint escalated to municipal level successfully'
         : 'Complaint status updated successfully',
-      complaint: updatedComplaint 
+      complaint: updatedComplaint
     });
 
   } catch (error: any) {
     console.error('Error updating complaint status:', error);
-    return res.status(500).json({ 
-      success: false, 
+    return res.status(500).json({
+      success: false,
       message: 'Failed to update complaint status',
       error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
+  }
+});
+
+// ----- 6. Update Complaint Status -----
+router.put('/complaints/:id/escalate', authenticateAgent, async (req: any, res: any) => {
+  try {
+    const { id } = req.params;
+
+    const complaint = await prisma.complaint.findUnique({
+      where: { id },
+    });
+
+    if (!complaint) {
+      return res.status(404).json({ success: false, message: 'Complaint not found' });
+    }
+
+    const updated = await prisma.complaint.update({
+      where: { id },
+      data: {
+        status: 'ESCALATED_TO_MUNICIPAL_LEVEL',
+      },
+    });
+
+    return res.json({
+      success: true,
+      message: 'Complaint escalated to municipal level successfully',
+      complaint: updated,
+    });
+  } catch (error: any) {
+    console.error('Escalation error:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to escalate complaint',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined,
     });
   }
 });
