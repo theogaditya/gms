@@ -2,12 +2,14 @@ import express from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { PrismaClient } from '../../../../../generated/prisma';
+import { agentSchema } from '../schemas/agentSchema';
 
 const prisma = new PrismaClient();
 
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET!;
 
+// Login
 router.post('/login', async (req, res: any) => {
   const { officialEmail, password } = req.body;
 
@@ -47,6 +49,86 @@ router.post('/login', async (req, res: any) => {
       accessLevel: admin.accessLevel,
     },
   });
+});
+
+
+// Create Agent
+router.post('/create/agent', async (req, res: any) => {
+  const parse = agentSchema.safeParse(req.body);
+  if (!parse.success) {
+    return res.status(400).json({ 
+      message: 'Invalid input', 
+      errors: parse.error.errors 
+    });
+  }
+
+  const {
+    email, fullName, password,
+    phoneNumber, officialEmail, department,
+    municipality
+  } = parse.data;
+
+  try {
+    const existingAgent = await prisma.agent.findFirst({
+      where: {
+        OR: [
+          { email },
+          { officialEmail },
+        ]
+      }
+    });
+
+    if (existingAgent) {
+      return res.status(409).json({ 
+        message: 'Agent with this email, official email, or employee ID already exists' 
+      });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    
+    const agent = await prisma.agent.create({
+      data: {
+        email,
+        fullName,
+        password: hashedPassword,
+        phoneNumber,
+        officialEmail,
+        department,
+        municipality,
+      },
+      select: {
+        id: true,
+        email: true,
+        fullName: true,
+        employeeId: true,
+        phoneNumber: true,
+        officialEmail: true,
+        department: true,
+        municipality: true,
+        accessLevel: true,
+        dateOfCreation: true,
+        status: true,
+      }
+    });
+
+    res.status(201).json({ 
+      message: 'Agent created successfully', 
+      agent 
+    });
+  } catch (err: any) {
+    console.error('Agent creation error:', err);
+    
+    if (err.code === 'P2002') {
+      return res.status(409).json({ 
+        message: 'Agent with this email, official email, or employee ID already exists' 
+      });
+    }
+    
+    res.status(500).json({ 
+      message: 'Agent registration failed',
+      error: process.env.NODE_ENV === 'development' ? err.message : undefined
+    });
+  }
 });
 
 export default router;

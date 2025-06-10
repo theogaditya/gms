@@ -157,7 +157,6 @@ exports.Prisma.AgentScalarFieldEnum = {
   officialEmail: 'officialEmail',
   department: 'department',
   municipality: 'municipality',
-  autonomyLevel: 'autonomyLevel',
   accessLevel: 'accessLevel',
   workloadLimit: 'workloadLimit',
   currentWorkload: 'currentWorkload',
@@ -385,18 +384,19 @@ exports.Department = exports.$Enums.Department = {
   PUBLIC_GRIEVANCES: 'PUBLIC_GRIEVANCES'
 };
 
-exports.Status = exports.$Enums.Status = {
-  ACTIVE: 'ACTIVE',
-  INACTIVE: 'INACTIVE',
-  SUSPENDED: 'SUSPENDED'
-};
-
 exports.AccessLevel = exports.$Enums.AccessLevel = {
   SUPER_ADMIN: 'SUPER_ADMIN',
   SUPER_MUNICIPAL_ADMIN: 'SUPER_MUNICIPAL_ADMIN',
   SUPER_STATE_ADMIN: 'SUPER_STATE_ADMIN',
   DEPT_MUNICIPAL_ADMIN: 'DEPT_MUNICIPAL_ADMIN',
-  DEPT_STATE_ADMIN: 'DEPT_STATE_ADMIN'
+  DEPT_STATE_ADMIN: 'DEPT_STATE_ADMIN',
+  AGENT: 'AGENT'
+};
+
+exports.Status = exports.$Enums.Status = {
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
+  SUSPENDED: 'SUSPENDED'
 };
 
 exports.ComplaintUrgency = exports.$Enums.ComplaintUrgency = {

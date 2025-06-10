@@ -68,6 +68,7 @@ enum AccessLevel {
   SUPER_STATE_ADMIN
   DEPT_MUNICIPAL_ADMIN
   DEPT_STATE_ADMIN
+  AGENT
 }
 
 enum Department {
@@ -91,20 +92,19 @@ model Agent {
   id                 String    @id @default(uuid())
   email              String    @unique
   fullName           String
-  employeeId         String    @unique
+  employeeId         String    @default(uuid()) @unique
   password           String
   phoneNumber        String
   officialEmail      String    @unique
   department         Department
   municipality       String
-  autonomyLevel      String
-  accessLevel        String
+  accessLevel        AccessLevel @default(AGENT)
   workloadLimit      Int       @default(10)
   currentWorkload    Int       @default(0)
   availabilityStatus String    @default("At Work")
   dateOfCreation     DateTime  @default(now())
-  lastUpdated        Status    @default(ACTIVE)
-  status             String    @default("Active") //Enum Active, Inactive, Suspended
+  lastUpdated        DateTime  @updatedAt
+  status             Status    @default(ACTIVE)
   lastLogin          DateTime?
 
   // Performance metrics

@@ -20,27 +20,25 @@ type Department =
   | 'PUBLIC_GRIEVANCES';
 
 type AccessLevel = 'DEPT_MUNICIPAL_ADMIN' | 'DEPT_STATE_ADMIN';
-type AutonomyLevel = 'LOCAL' | 'REGIONAL' | 'STATE';
 
 export default function CreateAgent() {
   const router = useRouter();
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
-    employeeId: '',
     officialEmail: '',
     phoneNumber: '',
     password: '',
     confirmPassword: '',
     department: 'INFRASTRUCTURE' as Department,
     municipality: '',
-    autonomyLevel: 'LOCAL' as AutonomyLevel,
-    accessLevel: 'DEPT_MUNICIPAL_ADMIN' as AccessLevel,
+    accessLevel: 'AGENT' as const,
   });
 
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-
+  const API_BASE = process.env.NEXT_PUBLIC_URL_ADMIN;
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -58,10 +56,10 @@ export default function CreateAgent() {
       setError('Passwords do not match');
       return;
     }
-
+    
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:3002/api/municipal-admin/create/agent', {
+      const res = await fetch(`${API_BASE}/api/municipal-admin/create/agent`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -106,7 +104,6 @@ export default function CreateAgent() {
               {[
                 ['Full Name', 'fullName'],
                 ['Email', 'email'],
-                ['Employee ID', 'employeeId'],
                 ['Official Email', 'officialEmail'],
                 ['Phone Number', 'phoneNumber'],
                 ['Password', 'password'],
@@ -141,33 +138,6 @@ export default function CreateAgent() {
                   ].map(dep => (
                     <option key={dep} value={dep}>{dep.replace(/_/g, ' ')}</option>
                   ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="block mb-1 text-sm font-medium text-blue-200">Autonomy Level</label>
-                <select
-                  name="autonomyLevel"
-                  value={formData.autonomyLevel}
-                  onChange={handleChange}
-                  className="w-full rounded-lg px-4 py-2 bg-gray-700 text-white border border-gray-600"
-                >
-                  <option value="LOCAL">Local</option>
-                  <option value="REGIONAL">Regional</option>
-                  <option value="STATE">State</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block mb-1 text-sm font-medium text-blue-200">Access Level</label>
-                <select
-                  name="accessLevel"
-                  value={formData.accessLevel}
-                  onChange={handleChange}
-                  className="w-full rounded-lg px-4 py-2 bg-gray-700 text-white border border-gray-600"
-                >
-                  <option value="DEPT_MUNICIPAL_ADMIN">Municipal Admin</option>
-                  <option value="DEPT_STATE_ADMIN">State Admin</option>
                 </select>
               </div>
             </div>
