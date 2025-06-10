@@ -2,12 +2,15 @@
 
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import StatCard from './StatCard';
 
 interface Complaint {
   _id: string;
   text: string;
   createdAt: string;
-  status: 'Pending' | 'Solved' | 'In Progress' | 'Escalated';
+  status: 'Pending' | 'Solved' | 'In Progress' | 'Escalated' | 'On Hold' | 'Rejected';
+  subCategory: string;
+  urgency: string;
 }
 
 interface ComplaintDetail {
@@ -15,7 +18,7 @@ interface ComplaintDetail {
   seq: number;
   description: string;
   submissionDate: string;
-  status: 'Pending' | 'Solved' | 'In Progress' | 'Escalated';
+  status: 'Pending' | 'Solved' | 'In Progress' | 'Escalated' | 'On Hold' | 'Rejected';
   urgency: string;
   assignedDepartment: string;
   categoryId: string;
@@ -53,8 +56,29 @@ export default function DashboardTab() {
 
   const [loading, setLoading] = useState(true);
   const [filterStatus, setFilterStatus] = useState<'All' | Complaint['status']>('All');
+  const [filterUrgency, setFilterUrgency] = useState<'All' | 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL'>('All');
   const [selectedComplaint, setSelectedComplaint] = useState<ComplaintDetail | null>(null);
   const [modalLoading, setModalLoading] = useState(false);
+  const [statusDropdownOpen, setStatusDropdownOpen] = useState(false);
+
+  const mapStatus = (status: string): Complaint['status'] => {
+    switch (status) {
+      case 'REGISTERED':
+        return 'Pending';
+      case 'UNDER_PROCESSING':
+        return 'In Progress';
+      case 'FORWARDED':
+        return 'In Progress';
+      case 'ON_HOLD':
+        return 'On Hold';
+      case 'COMPLETED':
+        return 'Solved';
+      case 'REJECTED':
+        return 'Rejected';
+      default:
+        return 'Pending';
+    }
+  };
 
   useEffect(() => {
     const fetchComplaints = async () => {
@@ -73,6 +97,8 @@ export default function DashboardTab() {
           text: c.description,
           createdAt: new Date(c.submissionDate).toLocaleString(),
           status: mapStatus(c.status),
+          subCategory: c.subCategory,
+          urgency: c.urgency,
         }));
 
         setStats({ totalComplaints: complaints.length, recent: complaints });
@@ -139,21 +165,57 @@ export default function DashboardTab() {
 
   const closeModal = () => {
     setSelectedComplaint(null);
+    setStatusDropdownOpen(false);
   };
 
-  const mapStatus = (status: string): Complaint['status'] => {
-    switch (status) {
-      case 'UNDER_PROCESSING':
-        return 'In Progress';
-      case 'RESOLVED':
-        return 'Solved';
-      case 'ESCALATED':
-        return 'Escalated';
-      default:
-        return 'Pending';
+  const handleStatusChange = async (newStatus: string) => {
+    if (!selectedComplaint) return;
+    
+    try {
+      const API_BASE = process.env.NEXT_PUBLIC_URL_ADMIN;
+      const response = await fetch(`${API_BASE}/api/agent/complaints/${selectedComplaint.id}/status`, {
+        method: 'PUT',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status: newStatus }),
+      });
+
+      if (!response.ok) throw new Error('Failed to update status');
+
+      // Update local state if API call succeeds
+      setSelectedComplaint({
+        ...selectedComplaint,
+        status: mapStatus(newStatus)
+      });
+
+      // Also update the recent complaints list
+      setStats(prev => ({
+        ...prev,
+        recent: prev.recent.map(complaint => 
+          complaint._id === selectedComplaint.id 
+            ? { ...complaint, status: mapStatus(newStatus) } 
+            : complaint
+        )
+      }));
+    } catch (err) {
+      console.error('Error updating status:', err);
+    } finally {
+      setStatusDropdownOpen(false);
     }
   };
 
+  const getStatusOptions = () => [
+    { value: 'REGISTERED', label: 'Pending', color: 'text-blue-400' },
+    { value: 'UNDER_PROCESSING', label: 'In Progress', color: 'text-yellow-400' },
+    { value: 'FORWARDED', label: 'Escalated', color: 'text-purple-400' },
+    { value: 'ON_HOLD', label: 'On Hold', color: 'text-orange-400' },
+    { value: 'COMPLETED', label: 'Solved', color: 'text-green-400' },
+    { value: 'REJECTED', label: 'Rejected', color: 'text-red-400' },
+  ];
+
+  // Rest of the component remains the same...
   const groupedByStatus = stats.recent.reduce((acc: Record<string, Complaint[]>, complaint) => {
     acc[complaint.status] = acc[complaint.status] || [];
     acc[complaint.status].push(complaint);
@@ -165,6 +227,8 @@ export default function DashboardTab() {
     Solved: 'text-green-300',
     Escalated: 'text-red-400',
     'In Progress': 'text-blue-300',
+    'On Hold': 'text-orange-300',
+    Rejected: 'text-red-300',
   };
 
   const urgencyColors: Record<string, string> = {
@@ -174,8 +238,11 @@ export default function DashboardTab() {
     CRITICAL: 'text-red-600',
   };
 
-  const filteredComplaints =
-    filterStatus === 'All' ? stats.recent : stats.recent.filter((c) => c.status === filterStatus);
+  const filteredComplaints = stats.recent.filter((complaint) => {
+    const statusMatch = filterStatus === 'All' || complaint.status === filterStatus;
+    const urgencyMatch = filterUrgency === 'All' || complaint.urgency === filterUrgency;
+    return statusMatch && urgencyMatch;
+  });
 
   if (loading) return <p className="text-white">Loading...</p>;
 
@@ -184,40 +251,63 @@ export default function DashboardTab() {
       <motion.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="grid grid-cols-1 md:grid-cols-3 gap-6"
+        className="grid grid-cols-1 md:grid-cols-4 gap-6"
       >
-        <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow">
-          <h3 className="text-sm font-medium text-gray-400 mb-1">Total Complaints</h3>
-          <p className="text-3xl font-bold text-white">{stats.totalComplaints}</p>
-        </div>
-
-        <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow">
-          <h3 className="text-sm font-medium text-gray-400 mb-3">Complaints by Status</h3>
-          <div className="space-y-2">
-            {Object.entries(groupedByStatus).map(([status, complaints]) => (
-              <div key={status} className="flex justify-between text-sm">
-                <span className={`${statusColors[status] || 'text-white'}`}>{status}</span>
-                <span className="text-gray-300">{complaints.length}</span>
-              </div>
-            ))}
-          </div>
-        </div>
+        <StatCard 
+          title="Total Complaints" 
+          value={stats.totalComplaints.toString()} 
+          color="text-white" 
+        />
+        
+        <StatCard 
+          title="Pending" 
+          value={(groupedByStatus['Pending']?.length || 0).toString()} 
+          color="text-yellow-300" 
+        />
+        
+        <StatCard 
+          title="In Progress" 
+          value={(groupedByStatus['In Progress']?.length || 0).toString()} 
+          color="text-blue-300" 
+        />
+        
+        <StatCard 
+          title="Solved" 
+          value={(groupedByStatus['Solved']?.length || 0).toString()} 
+          color="text-green-300" 
+        />
       </motion.section>
 
       <div className="mt-6 bg-gray-800 p-6 rounded-xl border border-gray-700">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold text-white">Recent Complaints</h3>
-          <select
-            value={filterStatus}
-            onChange={(e) => setFilterStatus(e.target.value as any)}
-            className="bg-gray-700 text-white rounded px-3 py-1 text-sm focus:outline-none"
-          >
-            <option value="All">All</option>
-            <option value="Pending">Pending</option>
-            <option value="Solved">Solved</option>
-            <option value="Escalated">Escalated</option>
-            <option value="In Progress">In Progress</option>
-          </select>
+          <div className="flex items-center gap-3">
+            <select
+              value={filterStatus}
+              onChange={(e) => setFilterStatus(e.target.value as any)}
+              className="bg-gray-700 text-white rounded px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="All">All Status</option>
+              <option value="Pending">Pending</option>
+              <option value="Solved">Solved</option>
+              <option value="Escalated">Escalated</option>
+              <option value="In Progress">In Progress</option>
+              <option value="On Hold">On Hold</option>
+              <option value="Rejected">Rejected</option>
+            </select>
+            
+            <select
+              value={filterUrgency}
+              onChange={(e) => setFilterUrgency(e.target.value as any)}
+              className="bg-gray-700 text-white rounded px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="All">All Priority</option>
+              <option value="LOW">Low</option>
+              <option value="MEDIUM">Medium</option>
+              <option value="HIGH">High</option>
+              <option value="CRITICAL">Critical</option>
+            </select>
+          </div>
         </div>
 
         <ul className="space-y-4">
@@ -234,6 +324,10 @@ export default function DashboardTab() {
                 <p className={`text-xs mt-1 font-semibold ${statusColors[complaint.status]}`}>
                   {complaint.status}
                 </p>
+                <p className={`text-xs mt-1 font-semibold ${urgencyColors[complaint.urgency]}`}>
+                  Priority: {complaint.urgency}
+                </p>
+                <p className="text-xs text-gray-400">{complaint.subCategory}</p>
               </div>
             </li>
           ))}
@@ -274,14 +368,55 @@ export default function DashboardTab() {
                       <h2 className="text-xl font-bold text-white">Complaint Details</h2>
                       <p className="text-sm text-gray-400">ID: {selectedComplaint.seq}</p>
                     </div>
-                    <button
-                      onClick={closeModal}
-                      className="text-gray-400 hover:text-white transition-colors"
-                    >
-                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                      </svg>
-                    </button>
+                    <div className="flex items-center gap-3">
+                      {/* Status Update Dropdown */}
+                      <div className="relative">
+                        <button
+                          onClick={() => setStatusDropdownOpen(!statusDropdownOpen)}
+                          className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                          </svg>
+                          Update Status
+                          <svg className={`w-4 h-4 transition-transform ${statusDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </button>
+
+                        <AnimatePresence>
+                          {statusDropdownOpen && (
+                            <motion.div
+                              initial={{ opacity: 0, y: -10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: -10 }}
+                              className="absolute right-0 mt-2 w-48 bg-gray-700 border border-gray-600 rounded-lg shadow-lg z-10"
+                            >
+                              <div className="py-1">
+                                {getStatusOptions().map((option) => (
+                                  <button
+                                    key={option.value}
+                                    onClick={() => handleStatusChange(option.value)}
+                                    className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-600 transition-colors ${option.color}`}
+                                  >
+                                    {option.label}
+                                  </button>
+                                ))}
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+
+                      <button
+                        onClick={closeModal}
+                        className="text-gray-400 hover:text-white transition-colors"
+                      >
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </button>
+                    </div>
                   </div>
 
                   {/* Content Grid */}
@@ -296,10 +431,10 @@ export default function DashboardTab() {
                       <div className="bg-gray-700 p-4 rounded-lg">
                         <h3 className="text-sm font-medium text-gray-400 mb-2">Status & Priority</h3>
                         <div className="flex items-center gap-4">
-                          <span className={`px-2 py-1 rounded text-xs font-semibold ${statusColors[selectedComplaint.status]} bg-opacity-20`}>
+                          <span className={`px-3 py-1 rounded-full text-xs font-semibold ${statusColors[selectedComplaint.status]} bg-gray-600`}>
                             {selectedComplaint.status}
                           </span>
-                          <span className={`px-2 py-1 rounded text-xs font-semibold ${urgencyColors[selectedComplaint.urgency]} bg-opacity-20`}>
+                          <span className={`px-3 py-1 rounded-full text-xs font-semibold ${urgencyColors[selectedComplaint.urgency]} bg-gray-600`}>
                             {selectedComplaint.urgency}
                           </span>
                         </div>

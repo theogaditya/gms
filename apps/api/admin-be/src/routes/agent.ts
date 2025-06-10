@@ -189,14 +189,15 @@ router.get('/complaints/:id', authenticateAgent, async (req: any, res: any) => {
   try {
     const { id } = req.params;
 
-const complaint = await prisma.complaint.findUnique({
-  where: { id },
-  include: {
-    complainant: true,
-    category: true,
-    location: true
-  }
-});
+  const complaint = await prisma.complaint.findUnique({
+    where: { id },
+    include: {
+      complainant: true,
+      category: true,
+      location: true,
+      upvotes: true
+    }
+  });
 
     if (!complaint) {
       return res.status(404).json({ 
