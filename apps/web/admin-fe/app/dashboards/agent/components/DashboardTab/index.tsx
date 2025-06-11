@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import StatCard from './StatCard';
+import Link from 'next/link';
 
 interface Complaint {
   _id: string;
@@ -83,8 +84,6 @@ export default function DashboardTab() {
         return 'Pending';
       case 'UNDER_PROCESSING':
         return 'In Progress';
-      case 'FORWARDED':
-        return 'Escalated';
       case 'ON_HOLD':
         return 'On Hold';
       case 'COMPLETED':
@@ -92,7 +91,7 @@ export default function DashboardTab() {
       case 'REJECTED':
         return 'Rejected';
       case 'ESCALATED_TO_MUNICIPAL_LEVEL':
-        return 'Escalated to Municipal Level';
+        return 'Escalated';
       default:
         return 'Pending';
     }
@@ -252,7 +251,6 @@ export default function DashboardTab() {
     { value: 'ON_HOLD', label: 'On Hold', color: 'text-orange-400' },
     { value: 'COMPLETED', label: 'Solved', color: 'text-green-400' },
     { value: 'REJECTED', label: 'Rejected', color: 'text-red-400' },
-    { value: 'ESCALATED_TO_MUNICIPAL_LEVEL', label: 'Escalate to Municipal', color: 'text-pink-400' }, // ✅ Add this line
   ];
 
   const handleEscalate = async () => {
@@ -291,12 +289,24 @@ export default function DashboardTab() {
     }
   };
 
-  // Rest of the component remains the same...
   const groupedByStatus = stats.recent.reduce((acc: Record<string, Complaint[]>, complaint) => {
     acc[complaint.status] = acc[complaint.status] || [];
     acc[complaint.status].push(complaint);
     return acc;
   }, {});
+
+  const groupedByUrgency = stats.recent.reduce((acc: Record<string, Complaint[]>, complaint) => {
+    acc[complaint.urgency] = acc[complaint.urgency] || [];
+    acc[complaint.urgency].push(complaint);
+    return acc;
+  }, {});
+
+  const urgencyDisplayColors: Record<string, string> = {
+    LOW: 'text-green-300',
+    MEDIUM: 'text-yellow-300',
+    HIGH: 'text-orange-300',
+    CRITICAL: 'text-red-400',
+  };
 
   const statusColors: Record<string, string> = {
     Pending: 'text-yellow-300',
@@ -312,6 +322,15 @@ export default function DashboardTab() {
     MEDIUM: 'text-yellow-400',
     HIGH: 'text-red-400',
     CRITICAL: 'text-red-600',
+  };
+  
+  // Status display names
+  const statusDisplayNames: Record<string, string> = {
+    UNDER_PROCESSING: 'Under Processing',
+    RESOLVED: 'Resolved',
+    ESCALATED: 'Escalated',
+    IN_PROGRESS: 'In Progress',
+    CLOSED: 'Closed',
   };
 
   const filteredComplaints = stats.recent.filter((complaint) => {
@@ -329,29 +348,38 @@ export default function DashboardTab() {
         animate={{ opacity: 1 }}
         className="grid grid-cols-1 md:grid-cols-4 gap-6"
       >
-        <StatCard 
-          title="Total Complaints" 
-          value={stats.totalComplaints.toString()} 
-          color="text-white" 
-        />
-        
-        <StatCard 
-          title="Pending" 
-          value={(groupedByStatus['Pending']?.length || 0).toString()} 
-          color="text-yellow-300" 
-        />
-        
-        <StatCard 
-          title="In Progress" 
-          value={(groupedByStatus['In Progress']?.length || 0).toString()} 
-          color="text-blue-300" 
-        />
-        
-        <StatCard 
-          title="Solved" 
-          value={(groupedByStatus['Solved']?.length || 0).toString()} 
-          color="text-green-300" 
-        />
+        {/* Total Complaints Card */}
+        <StatCard title="Total Complaints" value={stats.totalComplaints.toString()} />
+
+        {/* Status Summary Card */}
+        <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow">
+          <h3 className="text-sm font-medium text-gray-400 mb-3">By Status</h3>
+          <div className="space-y-2">
+            {Object.entries(groupedByStatus).map(([status, complaints]) => (
+              <div key={status} className="flex justify-between text-sm">
+                <span className={`${statusColors[status] || 'text-white'}`}>
+                  {statusDisplayNames[status] || status}
+                </span>
+                <span className="text-gray-300">{complaints.length}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Urgency Summary Card */}
+        <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow">
+          <h3 className="text-sm font-medium text-gray-400 mb-3">By Priority</h3>
+          <div className="space-y-2">
+            {Object.entries(groupedByUrgency).map(([urgency, complaints]) => (
+              <div key={urgency} className="flex justify-between text-sm">
+                <span className={`${urgencyDisplayColors[urgency] || 'text-white'}`}>
+                  {urgency.charAt(0) + urgency.slice(1).toLowerCase()}
+                </span>
+                <span className="text-gray-300">{complaints.length}</span>
+              </div>
+            ))}
+          </div>
+        </div>
       </motion.section>
 
       <div className="mt-6 bg-gray-800 p-6 rounded-xl border border-gray-700">

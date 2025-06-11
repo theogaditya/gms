@@ -164,42 +164,17 @@ router.get('/me', async (req, res: any) => {
   }
 });
 
-// ----- 3. Get All Complaints -----
-router.get('/complaints',authenticateAgent, async (req, res:any) => {
-  try {
-    const complaints = await prisma.complaint.findMany({
-      include: {
-        category: true,
-        complainant: true 
-      },
-      orderBy: {
-        submissionDate: 'desc' 
-      }
-    });
-
-    return res.json({ success: true, complaints });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ success: false, message: 'Failed to fetch complaints' });
-  }
-});
-
-// // ----- 3. Get Agent Complaint  -----
-// router.get('/complaints', authenticateAgent, async (req:any, res:any) => {
+// // ----- 3. Get All Complaints -----
+// router.get('/complaints',authenticateAgent, async (req, res:any) => {
 //   try {
-//     const agentId = req.agent.id;
-
 //     const complaints = await prisma.complaint.findMany({
-//       where: {
-//         assignedAgentId: agentId,
-//       },
 //       include: {
 //         category: true,
-//         complainant: true,
+//         complainant: true 
 //       },
 //       orderBy: {
-//         submissionDate: 'desc',
-//       },
+//         submissionDate: 'desc' 
+//       }
 //     });
 
 //     return res.json({ success: true, complaints });
@@ -209,7 +184,32 @@ router.get('/complaints',authenticateAgent, async (req, res:any) => {
 //   }
 // });
 
-// // ----- 4. Get Complaint Details -----
+// ----- 3. Get Agent Complaint  -----
+router.get('/complaints', authenticateAgent, async (req:any, res:any) => {
+  try {
+    const agentId = req.agent.id;
+
+    const complaints = await prisma.complaint.findMany({
+      where: {
+        assignedAgentId: agentId,
+      },
+      include: {
+        category: true,
+        complainant: true,
+      },
+      orderBy: {
+        submissionDate: 'desc',
+      },
+    });
+
+    return res.json({ success: true, complaints });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ success: false, message: 'Failed to fetch complaints' });
+  }
+});
+
+// ----- 4. Get Complaint Details -----
 router.get('/complaints/:id', authenticateAgent, async (req: any, res: any) => {
   try {
     const { id } = req.params;

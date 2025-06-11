@@ -45,7 +45,7 @@ export const authenticateStateAdmin = (req: Request, res: any, next: NextFunctio
   }
 };
 
-export const authenticateMunicipalAdmin = (req: Request, res: Response, next: NextFunction) => {
+export const authenticateMunicipalAdmin = (req: Request, res: any, next: NextFunction):void => {
   const authHeader = req.headers.authorization;
   const cookieToken = req.cookies?.token;
   

@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { PrismaClient } from '../../../../../generated/prisma';
 import { agentSchema } from '../schemas/agentSchema';
-import { authenticateStateAdmin } from '../middleware/adminAuth';
+import { authenticateMunicipalAdmin } from '../middleware/adminAuth';
 
 const prisma = new PrismaClient();
 
@@ -54,7 +54,7 @@ router.post('/login', async (req, res: any) => {
 
 
 // Create Agent
-router.post('/create/agent', async (req, res: any) => {
+router.post('/create/agent',authenticateMunicipalAdmin, async (req, res: any) => {
   const parse = agentSchema.safeParse(req.body);
   if (!parse.success) {
     return res.status(400).json({ 
@@ -153,7 +153,7 @@ router.get('/complaints', async (req, res) => {
 });
 
 // ----- 10. Update Complaint Status -----
-router.put('/complaints/:id/status', authenticateStateAdmin, async (req: any, res: any) => {
+router.put('/complaints/:id/status', authenticateMunicipalAdmin, async (req: any, res: any) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
@@ -166,7 +166,6 @@ router.put('/complaints/:id/status', authenticateStateAdmin, async (req: any, re
       });
     }
 
-    // Check if complaint exists
     const existingComplaint = await prisma.complaint.findUnique({
       where: { id }
     });
@@ -220,6 +219,41 @@ router.put('/complaints/:id/status', authenticateStateAdmin, async (req: any, re
       success: false, 
       message: 'Failed to update complaint status',
       error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
+  }
+});
+
+// ----- 10. Update Complaint Status -----
+router.put('/complaints/:id/escalate', authenticateMunicipalAdmin, async (req: any, res: any) => {
+  try {
+    const { id } = req.params;
+
+    const complaint = await prisma.complaint.findUnique({
+      where: { id },
+    });
+
+    if (!complaint) {
+      return res.status(404).json({ success: false, message: 'Complaint not found' });
+    }
+
+    const updated = await prisma.complaint.update({
+      where: { id },
+      data: {
+        status: 'ESCALATED_TO_STATE_LEVEL',
+      },
+    });
+
+    return res.json({
+      success: true,
+      message: 'Complaint escalated to municipal level successfully',
+      complaint: updated,
+    });
+  } catch (error: any) {
+    console.error('Escalation error:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to escalate complaint',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined,
     });
   }
 });
