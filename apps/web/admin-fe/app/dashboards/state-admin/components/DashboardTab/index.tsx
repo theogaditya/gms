@@ -100,7 +100,7 @@ export default function DashboardTab() {
   const fetchComplaints = useCallback(async () => {
     try {
       const API_BASE = process.env.NEXT_PUBLIC_URL_ADMIN;
-      const response = await fetch(`${API_BASE}/api/agent/complaints`, {
+      const response = await fetch(`${API_BASE}/api/super-admin/complaints`, {
         credentials: 'include',
       });
 
