@@ -1,4 +1,4 @@
-import { NotFoundPage } from "@/components/ui/404-page-not-found";
+
 import TermsAndConditions from "@/components/tandc";
 export default function TC() {
   return (

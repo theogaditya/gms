@@ -16,6 +16,8 @@ import {
   LogOut,
 } from "lucide-react";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL 
+
 const options = [
   { label: "my profile", href: "/user" },
   { label: "community", href: "/community" },
@@ -26,7 +28,7 @@ function Profile() {
   useEffect(() => {
     const fetchStatus = async () => {
       try {
-        const res = await fetch("http://localhost:3001/api/auth/status", {
+        const res = await fetch(`${API_URL}/api/auth/status`, { 
           credentials: "include",
         });
         const data = await res.json();
@@ -75,7 +77,7 @@ function Profile() {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={async () => {
-          await fetch("http://localhost:3001/api/auth/logout", {
+          await fetch(`${API_URL}/api/auth/logout`, { 
             method: "POST",
             credentials: "include"
           });

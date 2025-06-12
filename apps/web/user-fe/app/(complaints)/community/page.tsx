@@ -1,43 +1,77 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { Search, ArrowUp, Clock, Flame, Mail, Sparkles } from 'lucide-react';
+import { Search, Clock, Flame, Sparkles } from 'lucide-react';
 import ComplaintCard from './ComplaintCard';
 import { Complaint } from '@/lib/types';
+import {
+  Announcement,
+  AnnouncementTag,
+  AnnouncementTitle,
+} from '@/components/ui/announcement';
+import { ArrowUpRightIcon } from 'lucide-react';
 const API_URL = process.env.NEXT_PUBLIC_API_URL; 
 
+type TabKey = 'forYou' | 'trending' | 'recent';
+
 const AllComplaintsPage = () => {
-  const [activeTab, setActiveTab] = useState('forYou');
+  const [activeTab, setActiveTab] = useState<TabKey>('forYou');
   const [searchQuery, setSearchQuery] = useState('');
-  const [complaints, setComplaints] = useState<Complaint[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  
+  // Separate states for each tab
+  const [complaintsForYou, setComplaintsForYou] = useState<Complaint[]>([]);
+  const [complaintsTrending, setComplaintsTrending] = useState<Complaint[]>([]);
+  const [complaintsRecent, setComplaintsRecent] = useState<Complaint[]>([]);
+  
+  // Separate loading states for each tab
+  const [loadingForYou, setLoadingForYou] = useState(true);
+  const [loadingTrending, setLoadingTrending] = useState(true);
+  const [loadingRecent, setLoadingRecent] = useState(true);
+  
   const [aiInsights, setAiInsights] = useState<string>('');
+  const [tabErrors, setTabErrors] = useState<Record<TabKey, string | null>>({
+    forYou: null,
+    trending: null,
+    recent: null,
+  });
 
   // Fetch complaints from backend
   useEffect(() => {
-    const fetchComplaints = async () => {
+    const fetchComplaints = async (tab: TabKey) => {
       try {
-        setLoading(true);
+        // Set loading state for this tab
+        if (tab === 'forYou') setLoadingForYou(true);
+        if (tab === 'trending') setLoadingTrending(true);
+        if (tab === 'recent') setLoadingRecent(true);
         
-        // Build query parameters based on active tab
+        setTabErrors(prev => ({...prev, [tab]: null}));
+        
+        // Build query parameters based on tab
         const params = new URLSearchParams();
         params.append('page', '1');
         params.append('limit', '50');
         
-        if (activeTab === 'forYou') {
+        if (tab === 'forYou') {
           params.append('forYou', 'true');
-        } else if (activeTab === 'trending') {
+        } else if (tab === 'trending') {
           params.append('sortBy', 'upvotes');
-        } else if (activeTab === 'recent') {
+        } else if (tab === 'recent') {
           params.append('sortBy', 'recent');
         }
         
         const response = await fetch(`${API_URL}/api/complaints/?${params.toString()}`, {
-          credentials: 'include', // Include cookies for authentication
+          credentials: 'include',
         });
         
         if (!response.ok) {
-          throw new Error('Failed to fetch complaints');
+          // Only show error for "For You" tab
+          if (tab === 'forYou') {
+            setTabErrors(prev => ({
+              ...prev,
+              forYou: 'No personalized complaints found. Please try again later.'
+              
+            }));
+          }
+          return;
         }
         
         const data = await response.json();
@@ -52,38 +86,70 @@ const AllComplaintsPage = () => {
           );
         }
         
-        setComplaints(fetchedComplaints);
-        setLoading(false);
+        // Update the correct state based on tab
+        if (tab === 'forYou') setComplaintsForYou(fetchedComplaints);
+        if (tab === 'trending') setComplaintsTrending(fetchedComplaints);
+        if (tab === 'recent') setComplaintsRecent(fetchedComplaints);
         
-        // Generate AI insights based on active tab
-        generateAiInsights(activeTab, fetchedComplaints);
+        // Generate AI insights only for the active tab
+        if (tab === activeTab) {
+          generateAiInsights(tab, fetchedComplaints);
+        }
+        
       } catch (err) {
-        setError('Failed to load complaints. Please try again later.');
-        setLoading(false);
+        if (tab === 'forYou') {
+          setTabErrors(prev => ({
+            ...prev,
+            forYou: 'Failed to load complaints. Please try again later.'
+          }));
+        }
+      } finally {
+        // Clear loading state for this tab
+        if (tab === 'forYou') setLoadingForYou(false);
+        if (tab === 'trending') setLoadingTrending(false);
+        if (tab === 'recent') setLoadingRecent(false);
       }
     };
     
-    fetchComplaints();
-  }, [activeTab, searchQuery]);
-  // Add this useEffect to handle real-time updates
-useEffect(() => {
-  const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-  const host = window.location.host;
-  const websocket = new WebSocket(`${protocol}//${host}`);
-  
-  websocket.onmessage = (event) => {
-    const message = JSON.parse(event.data);
-    if (message.type === 'upvote_update') {
-      setComplaints(prev => prev.map(c => 
-        c.id === message.data.complaintId 
-          ? {...c, upvotes: message.data.upvoteCount} 
-          : c
-      ));
+    // Fetch data for the active tab
+    fetchComplaints(activeTab);
+    
+    // Also fetch data for other tabs if they haven't been loaded yet
+    if (complaintsTrending.length === 0 && activeTab !== 'trending') {
+      fetchComplaints('trending');
     }
-  };
+    if (complaintsRecent.length === 0 && activeTab !== 'recent') {
+      fetchComplaints('recent');
+    }
+  }, [activeTab, searchQuery]);
 
-  return () => websocket.close();
-}, []);
+  // Add this useEffect to handle real-time updates
+  useEffect(() => {
+    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const host = window.location.host;
+    const websocket = new WebSocket(`${protocol}//${host}`);
+    
+    websocket.onmessage = (event) => {
+      const message = JSON.parse(event.data);
+      if (message.type === 'upvote_update') {
+        // Update complaints in all tabs that might contain this complaint
+        setComplaintsForYou(prev => updateComplaintInList(prev, message));
+        setComplaintsTrending(prev => updateComplaintInList(prev, message));
+        setComplaintsRecent(prev => updateComplaintInList(prev, message));
+      }
+    };
+
+    return () => websocket.close();
+  }, []);
+
+  // Helper function to update a complaint in a list
+  const updateComplaintInList = (complaints: Complaint[], message: any) => {
+    return complaints.map(c => 
+      c.id === message.data.complaintId 
+        ? {...c, upvotes: message.data.upvoteCount} 
+        : c
+    );
+  };
 
   const generateAiInsights = (tab: string, data: Complaint[]) => {
     if (data.length === 0) {
@@ -91,47 +157,46 @@ useEffect(() => {
       return;
     }
     
-    switch(tab) {
-      case 'forYou':
-        // Find most common issue in user's area
-        const issueCounts: Record<string, number> = {};
-        data.forEach(complaint => {
-          issueCounts[complaint.subCategory] = (issueCounts[complaint.subCategory] || 0) + 1;
-        });
-        
-        const mostCommonIssue = Object.entries(issueCounts)
-          .sort((a, b) => b[1] - a[1])[0]?.[0] || data[0].subCategory;
-          
-        setAiInsights(`Based on your location, ${mostCommonIssue} is the most reported issue in your area. Authorities are prioritizing resolution.`);
-        break;
-        
-      case 'trending':
-        // Find most upvoted complaint
-        const trendingComplaint = [...data].sort((a, b) => b.upvotes - a.upvotes)[0];
-        setAiInsights(`"${trendingComplaint.subCategory}" in ${trendingComplaint.district} is trending with ${trendingComplaint.upvotes} upvotes. Officials have been notified.`);
-        break;
-        
-      case 'recent':
-        const newestComplaint = [...data].sort((a, b) => 
-          new Date(b.dateOfPost).getTime() - new Date(a.dateOfPost).getTime()
-        )[0];
-        
-        setAiInsights(`New complaint filed: "${newestComplaint.subCategory}" in ${newestComplaint.district}. Average resolution time for similar issues is 3-5 days.`);
-        break;
-        
-      case 'newsletter':
-        setAiInsights('Subscribe to our newsletter for weekly insights on complaint resolution rates and government response times in your district.');
-        break;
-        
-      default:
-        setAiInsights('Swaraj AI is analyzing complaint patterns to provide actionable insights for your community.');
-    }
+    // Get unique hashtags from standardizedSubCategory
+    const hashtags = Array.from(
+      new Set(
+        data.slice(0, 10)
+          .map(complaint => complaint.standardizedSubCategory)
+          .filter(Boolean)
+          .map(cat => `${cat.replace(/\s+/g, '')}`)
+      )
+    ).join(' ');
+
+    setAiInsights(hashtags);
   };
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     // Search is implemented in the useEffect
   };
+
+  // Get complaints for the current tab
+  const getCurrentComplaints = () => {
+    switch (activeTab) {
+      case 'forYou': return complaintsForYou;
+      case 'trending': return complaintsTrending;
+      case 'recent': return complaintsRecent;
+      default: return [];
+    }
+  };
+
+  // Get loading state for current tab
+  const isLoading = () => {
+    switch (activeTab) {
+      case 'forYou': return loadingForYou;
+      case 'trending': return loadingTrending;
+      case 'recent': return loadingRecent;
+      default: return false;
+    }
+  };
+
+  const currentComplaints = getCurrentComplaints();
+  const loading = isLoading();
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-19">
@@ -187,38 +252,41 @@ useEffect(() => {
               <Clock className="h-4 w-4 mr-2" />
               Recent
             </button>
-            <button
-              onClick={() => setActiveTab('newsletter')}
-              className={`flex items-center px-3 py-2 text-sm font-medium rounded-lg whitespace-nowrap ${
-                activeTab === 'newsletter'
-                  ? 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300'
-                  : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'
-              }`}
-            >
-              <Mail className="h-4 w-4 mr-2" />
-              Newsletter
-            </button>
           </div>
         </div>
       </div>
 
       {/* Content */}
- <div className="max-w-4xl mx-auto px-4 py-6">
-      {/* Swaraj AI Section */}
-      <div className="mb-6 bg-gradient-to-r from-green-50 to-blue-50 dark:from-gray-800 dark:to-gray-800 p-4 rounded-xl border border-green-200 dark:border-gray-700">
-        <div className="flex items-start">
-          <div className="bg-gradient-to-r from-green-400 to-blue-500 rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0">
-            <Sparkles className="h-6 w-6 text-white" />
-          </div>
-          <div className="ml-4">
-            <h3 className="font-semibold text-gray-900 dark:text-white mb-1">Swaraj AI Insights</h3>
-            <p className="text-gray-700 dark:text-gray-300">{aiInsights}</p>
+      <div className="max-w-4xl mx-auto px-4 py-6">
+        {/* Swaraj AI Section */}
+        <div className="mb-6 bg-gradient-to-r from-green-50 to-blue-50 dark:from-gray-800 dark:to-gray-800 p-4 rounded-xl border border-green-200 dark:border-gray-700">
+          <div className="flex items-start">
+            <div className="bg-gradient-to-r from-green-400 to-blue-500 rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0">
+              <Sparkles className="h-6 w-6 text-white" />
+            </div>
+            <div className="ml-4">
+              <div className="flex items-center gap-2 mb-1">
+                <h3 className="font-semibold text-gray-900 dark:text-white">Swaraj Glimpse</h3>
+                <span className="text-xs text-gray-500 dark:text-gray-400 font-normal">
+                  Powered by Swaraj AI
+                </span>
+              </div>
+              <br/>
+              <div className="flex flex-wrap gap-2">
+                {aiInsights.split(' ').map((tag, index) => (
+                  <span 
+                    key={index} 
+                    className="bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 px-2 py-1 rounded-md text-sm"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Only show complaints list and no-complaints message if NOT in newsletter tab */}
-      {activeTab !== 'newsletter' && (
+        {/* Complaints list and no-complaints message */}
         <>
           {loading && (
             <div className="flex justify-center py-10">
@@ -226,13 +294,14 @@ useEffect(() => {
             </div>
           )}
 
-          {error && (
+          {tabErrors[activeTab] && (
             <div className="bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 p-4 rounded-lg mb-6">
-              {error}
+              {tabErrors[activeTab]}
+              
             </div>
           )}
 
-          {!loading && !error && complaints.length === 0 && (
+          {!loading && !tabErrors[activeTab] && currentComplaints.length === 0 && (
             <div className="text-center py-10">
               <div className="bg-gray-200 dark:bg-gray-700 border-2 border-dashed rounded-xl w-16 h-16 mx-auto" />
               <h3 className="mt-4 text-lg font-medium text-gray-900 dark:text-white">
@@ -246,17 +315,16 @@ useEffect(() => {
             </div>
           )}
 
-          {!loading && !error && complaints.length > 0 && (
+          {!loading && currentComplaints.length > 0 && (
             <div className="space-y-5">
-              {complaints.map((complaint) => (
+              {currentComplaints.map((complaint) => (
                 <ComplaintCard key={complaint.id} complaint={complaint} />
               ))}
             </div>
           )}
         </>
-      )}
+      </div>
     </div>
-  </div>
-);
+  );
 }
 export default AllComplaintsPage;

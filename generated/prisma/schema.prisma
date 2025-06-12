@@ -107,9 +107,9 @@ model Agent {
   lastLogin          DateTime?
 
   // Performance metrics
-  resolutionRate      Float   @default(0)
+  resolutionRate      Float       @default(0)
   avgResolutionTime   String?
-  collaborationMetric Int     @default(0)
+  collaborationMetric Int         @default(0)
 
   // Relationships
   assignedComplaints   Complaint[]               @relation("AssignedAgentComplaints")
