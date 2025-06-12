@@ -1,6 +1,7 @@
 {
   "name": "gms",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
@@ -47,7 +48,9 @@
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "express": "^5.1.0",
+    "framer-motion": "^12.16.0",
     "jsonwebtoken": "^9.0.2",
+    "next": "^15.3.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "uuid": "^11.1.0",

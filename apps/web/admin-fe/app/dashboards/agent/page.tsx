@@ -1,0 +1,32 @@
+'use client';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Sidebar from './components/Sidebar';
+import DashboardTab from './components/DashboardTab';
+import Header from './components/Header';
+import Footer from './components/Footer';
+
+export default function SuperAdminDashboard() {
+  const router = useRouter();
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'admins' | 'settings'>('dashboard');
+
+  function handleLogout() {
+    localStorage.removeItem('authToken');
+    router.push('/');
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800">
+      <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} onLogout={handleLogout} />
+
+      <main className="ml-64 p-6">
+        <Header activeTab={activeTab} />
+
+        {activeTab === 'dashboard' && <DashboardTab />}
+
+        <Footer />
+      </main>
+    </div>
+  );
+}

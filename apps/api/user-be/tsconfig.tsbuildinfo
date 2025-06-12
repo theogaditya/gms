@@ -1,1 +1,2 @@
 {"root":["./src/index.ts","./src/middleware/jwtAuth.ts","./src/routes/aigenRoutes.ts","./src/routes/authRoutes.ts","./src/routes/complaintRoutes.ts","./src/routes/userRoutes.ts","./src/schemas/authSchema.ts","./src/schemas/complaintSchema.ts","./src/utils/mailer.ts"],"version":"5.8.3"}
+
