@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { signupSchema, signinSchema } from '../schemas/authSchema';
 import { z } from 'zod';
+import { sendWelcomeEmail } from '../utils/mailer';
 
 const router = Router();
 const prisma = new PrismaClient();
@@ -66,6 +67,8 @@ router.post('/signup', async (req, res: any) => {
           },
         });
       }
+
+      sendWelcomeEmail(email, name).catch(console.error);
 
       return { user, userLocation };
     });

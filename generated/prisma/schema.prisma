@@ -67,6 +67,7 @@ enum AccessLevel {
   SUPER_STATE_ADMIN
   DEPT_MUNICIPAL_ADMIN
   DEPT_STATE_ADMIN
+  AGENT
 }
 
 enum Department {
@@ -87,29 +88,27 @@ enum Department {
 
 // Agent model
 model Agent {
-  id                 String     @id @default(uuid())
-  email              String     @unique
-  fullName           String
-  employeeId         String     @unique
-  password           String
-  phoneNumber        String
-  officialEmail      String     @unique
-  department         Department
-  municipality       String
-  autonomyLevel      String
-  accessLevel        String
-  workloadLimit      Int        @default(10)
-  currentWorkload    Int        @default(0)
-  availabilityStatus String     @default("At Work")
-  dateOfCreation     DateTime   @default(now())
-  lastUpdated        Status     @default(ACTIVE)
-  status             String     @default("Active") //Enum Active, Inactive, Suspended
-  lastLogin          DateTime?
-
+  id                  String      @id @default(uuid())
+  email               String      @unique
+  fullName            String
+  employeeId          String      @unique @default(uuid())
+  password            String
+  phoneNumber         String
+  officialEmail       String      @unique
+  department          Department
+  municipality        String
+  accessLevel         AccessLevel @default(AGENT)
+  workloadLimit       Int         @default(10)
+  currentWorkload     Int         @default(0)
+  availabilityStatus  String      @default("At Work")
+  dateOfCreation      DateTime    @default(now())
+  lastUpdated         DateTime    @updatedAt
+  status              Status      @default(ACTIVE)
+  lastLogin           DateTime?
   // Performance metrics
-  resolutionRate      Float   @default(0)
+  resolutionRate      Float       @default(0)
   avgResolutionTime   String?
-  collaborationMetric Int     @default(0)
+  collaborationMetric Int         @default(0)
 
   // Relationships
   assignedComplaints   Complaint[]               @relation("AssignedAgentComplaints")
@@ -339,6 +338,8 @@ enum ComplaintStatus {
   ON_HOLD
   COMPLETED
   REJECTED
+  ESCALATED_TO_MUNICIPAL_LEVEL
+  ESCALATED_TO_STATE_LEVEL
 }
 
 enum ComplaintUrgency {

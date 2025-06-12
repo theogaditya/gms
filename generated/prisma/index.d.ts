@@ -116,7 +116,8 @@ export const AccessLevel: {
   SUPER_MUNICIPAL_ADMIN: 'SUPER_MUNICIPAL_ADMIN',
   SUPER_STATE_ADMIN: 'SUPER_STATE_ADMIN',
   DEPT_MUNICIPAL_ADMIN: 'DEPT_MUNICIPAL_ADMIN',
-  DEPT_STATE_ADMIN: 'DEPT_STATE_ADMIN'
+  DEPT_STATE_ADMIN: 'DEPT_STATE_ADMIN',
+  AGENT: 'AGENT'
 };
 
 export type AccessLevel = (typeof AccessLevel)[keyof typeof AccessLevel]
@@ -147,7 +148,9 @@ export const ComplaintStatus: {
   FORWARDED: 'FORWARDED',
   ON_HOLD: 'ON_HOLD',
   COMPLETED: 'COMPLETED',
-  REJECTED: 'REJECTED'
+  REJECTED: 'REJECTED',
+  ESCALATED_TO_MUNICIPAL_LEVEL: 'ESCALATED_TO_MUNICIPAL_LEVEL',
+  ESCALATED_TO_STATE_LEVEL: 'ESCALATED_TO_STATE_LEVEL'
 };
 
 export type ComplaintStatus = (typeof ComplaintStatus)[keyof typeof ComplaintStatus]
@@ -5050,14 +5053,13 @@ export namespace Prisma {
     officialEmail: string | null
     department: $Enums.Department | null
     municipality: string | null
-    autonomyLevel: string | null
-    accessLevel: string | null
+    accessLevel: $Enums.AccessLevel | null
     workloadLimit: number | null
     currentWorkload: number | null
     availabilityStatus: string | null
     dateOfCreation: Date | null
-    lastUpdated: $Enums.Status | null
-    status: string | null
+    lastUpdated: Date | null
+    status: $Enums.Status | null
     lastLogin: Date | null
     resolutionRate: number | null
     avgResolutionTime: string | null
@@ -5075,14 +5077,13 @@ export namespace Prisma {
     officialEmail: string | null
     department: $Enums.Department | null
     municipality: string | null
-    autonomyLevel: string | null
-    accessLevel: string | null
+    accessLevel: $Enums.AccessLevel | null
     workloadLimit: number | null
     currentWorkload: number | null
     availabilityStatus: string | null
     dateOfCreation: Date | null
-    lastUpdated: $Enums.Status | null
-    status: string | null
+    lastUpdated: Date | null
+    status: $Enums.Status | null
     lastLogin: Date | null
     resolutionRate: number | null
     avgResolutionTime: string | null
@@ -5100,7 +5101,6 @@ export namespace Prisma {
     officialEmail: number
     department: number
     municipality: number
-    autonomyLevel: number
     accessLevel: number
     workloadLimit: number
     currentWorkload: number
@@ -5141,7 +5141,6 @@ export namespace Prisma {
     officialEmail?: true
     department?: true
     municipality?: true
-    autonomyLevel?: true
     accessLevel?: true
     workloadLimit?: true
     currentWorkload?: true
@@ -5166,7 +5165,6 @@ export namespace Prisma {
     officialEmail?: true
     department?: true
     municipality?: true
-    autonomyLevel?: true
     accessLevel?: true
     workloadLimit?: true
     currentWorkload?: true
@@ -5191,7 +5189,6 @@ export namespace Prisma {
     officialEmail?: true
     department?: true
     municipality?: true
-    autonomyLevel?: true
     accessLevel?: true
     workloadLimit?: true
     currentWorkload?: true
@@ -5303,14 +5300,13 @@ export namespace Prisma {
     officialEmail: string
     department: $Enums.Department
     municipality: string
-    autonomyLevel: string
-    accessLevel: string
+    accessLevel: $Enums.AccessLevel
     workloadLimit: number
     currentWorkload: number
     availabilityStatus: string
     dateOfCreation: Date
-    lastUpdated: $Enums.Status
-    status: string
+    lastUpdated: Date
+    status: $Enums.Status
     lastLogin: Date | null
     resolutionRate: number
     avgResolutionTime: string | null
@@ -5347,7 +5343,6 @@ export namespace Prisma {
     officialEmail?: boolean
     department?: boolean
     municipality?: boolean
-    autonomyLevel?: boolean
     accessLevel?: boolean
     workloadLimit?: boolean
     currentWorkload?: boolean
@@ -5376,7 +5371,6 @@ export namespace Prisma {
     officialEmail?: boolean
     department?: boolean
     municipality?: boolean
-    autonomyLevel?: boolean
     accessLevel?: boolean
     workloadLimit?: boolean
     currentWorkload?: boolean
@@ -5402,7 +5396,6 @@ export namespace Prisma {
     officialEmail?: boolean
     department?: boolean
     municipality?: boolean
-    autonomyLevel?: boolean
     accessLevel?: boolean
     workloadLimit?: boolean
     currentWorkload?: boolean
@@ -5428,7 +5421,6 @@ export namespace Prisma {
     officialEmail?: boolean
     department?: boolean
     municipality?: boolean
-    autonomyLevel?: boolean
     accessLevel?: boolean
     workloadLimit?: boolean
     currentWorkload?: boolean
@@ -5443,7 +5435,7 @@ export namespace Prisma {
     managedByMunicipalId?: boolean
   }
 
-  export type AgentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "fullName" | "employeeId" | "password" | "phoneNumber" | "officialEmail" | "department" | "municipality" | "autonomyLevel" | "accessLevel" | "workloadLimit" | "currentWorkload" | "availabilityStatus" | "dateOfCreation" | "lastUpdated" | "status" | "lastLogin" | "resolutionRate" | "avgResolutionTime" | "collaborationMetric" | "managedByMunicipalId", ExtArgs["result"]["agent"]>
+  export type AgentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "fullName" | "employeeId" | "password" | "phoneNumber" | "officialEmail" | "department" | "municipality" | "accessLevel" | "workloadLimit" | "currentWorkload" | "availabilityStatus" | "dateOfCreation" | "lastUpdated" | "status" | "lastLogin" | "resolutionRate" | "avgResolutionTime" | "collaborationMetric" | "managedByMunicipalId", ExtArgs["result"]["agent"]>
   export type AgentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     assignedComplaints?: boolean | Agent$assignedComplaintsArgs<ExtArgs>
     coAssignedComplaints?: boolean | Agent$coAssignedComplaintsArgs<ExtArgs>
@@ -5474,14 +5466,13 @@ export namespace Prisma {
       officialEmail: string
       department: $Enums.Department
       municipality: string
-      autonomyLevel: string
-      accessLevel: string
+      accessLevel: $Enums.AccessLevel
       workloadLimit: number
       currentWorkload: number
       availabilityStatus: string
       dateOfCreation: Date
-      lastUpdated: $Enums.Status
-      status: string
+      lastUpdated: Date
+      status: $Enums.Status
       lastLogin: Date | null
       resolutionRate: number
       avgResolutionTime: string | null
@@ -5922,14 +5913,13 @@ export namespace Prisma {
     readonly officialEmail: FieldRef<"Agent", 'String'>
     readonly department: FieldRef<"Agent", 'Department'>
     readonly municipality: FieldRef<"Agent", 'String'>
-    readonly autonomyLevel: FieldRef<"Agent", 'String'>
-    readonly accessLevel: FieldRef<"Agent", 'String'>
+    readonly accessLevel: FieldRef<"Agent", 'AccessLevel'>
     readonly workloadLimit: FieldRef<"Agent", 'Int'>
     readonly currentWorkload: FieldRef<"Agent", 'Int'>
     readonly availabilityStatus: FieldRef<"Agent", 'String'>
     readonly dateOfCreation: FieldRef<"Agent", 'DateTime'>
-    readonly lastUpdated: FieldRef<"Agent", 'Status'>
-    readonly status: FieldRef<"Agent", 'String'>
+    readonly lastUpdated: FieldRef<"Agent", 'DateTime'>
+    readonly status: FieldRef<"Agent", 'Status'>
     readonly lastLogin: FieldRef<"Agent", 'DateTime'>
     readonly resolutionRate: FieldRef<"Agent", 'Float'>
     readonly avgResolutionTime: FieldRef<"Agent", 'String'>
@@ -21410,7 +21400,6 @@ export namespace Prisma {
     officialEmail: 'officialEmail',
     department: 'department',
     municipality: 'municipality',
-    autonomyLevel: 'autonomyLevel',
     accessLevel: 'accessLevel',
     workloadLimit: 'workloadLimit',
     currentWorkload: 'currentWorkload',
@@ -21734,6 +21723,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'AccessLevel'
+   */
+  export type EnumAccessLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AccessLevel'>
+    
+
+
+  /**
+   * Reference to a field of type 'AccessLevel[]'
+   */
+  export type ListEnumAccessLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AccessLevel[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -21772,20 +21775,6 @@ export namespace Prisma {
    * Reference to a field of type 'Float[]'
    */
   export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'AccessLevel'
-   */
-  export type EnumAccessLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AccessLevel'>
-    
-
-
-  /**
-   * Reference to a field of type 'AccessLevel[]'
-   */
-  export type ListEnumAccessLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AccessLevel[]'>
     
 
 
@@ -22007,14 +21996,13 @@ export namespace Prisma {
     officialEmail?: StringFilter<"Agent"> | string
     department?: EnumDepartmentFilter<"Agent"> | $Enums.Department
     municipality?: StringFilter<"Agent"> | string
-    autonomyLevel?: StringFilter<"Agent"> | string
-    accessLevel?: StringFilter<"Agent"> | string
+    accessLevel?: EnumAccessLevelFilter<"Agent"> | $Enums.AccessLevel
     workloadLimit?: IntFilter<"Agent"> | number
     currentWorkload?: IntFilter<"Agent"> | number
     availabilityStatus?: StringFilter<"Agent"> | string
     dateOfCreation?: DateTimeFilter<"Agent"> | Date | string
-    lastUpdated?: EnumStatusFilter<"Agent"> | $Enums.Status
-    status?: StringFilter<"Agent"> | string
+    lastUpdated?: DateTimeFilter<"Agent"> | Date | string
+    status?: EnumStatusFilter<"Agent"> | $Enums.Status
     lastLogin?: DateTimeNullableFilter<"Agent"> | Date | string | null
     resolutionRate?: FloatFilter<"Agent"> | number
     avgResolutionTime?: StringNullableFilter<"Agent"> | string | null
@@ -22035,7 +22023,6 @@ export namespace Prisma {
     officialEmail?: SortOrder
     department?: SortOrder
     municipality?: SortOrder
-    autonomyLevel?: SortOrder
     accessLevel?: SortOrder
     workloadLimit?: SortOrder
     currentWorkload?: SortOrder
@@ -22066,14 +22053,13 @@ export namespace Prisma {
     phoneNumber?: StringFilter<"Agent"> | string
     department?: EnumDepartmentFilter<"Agent"> | $Enums.Department
     municipality?: StringFilter<"Agent"> | string
-    autonomyLevel?: StringFilter<"Agent"> | string
-    accessLevel?: StringFilter<"Agent"> | string
+    accessLevel?: EnumAccessLevelFilter<"Agent"> | $Enums.AccessLevel
     workloadLimit?: IntFilter<"Agent"> | number
     currentWorkload?: IntFilter<"Agent"> | number
     availabilityStatus?: StringFilter<"Agent"> | string
     dateOfCreation?: DateTimeFilter<"Agent"> | Date | string
-    lastUpdated?: EnumStatusFilter<"Agent"> | $Enums.Status
-    status?: StringFilter<"Agent"> | string
+    lastUpdated?: DateTimeFilter<"Agent"> | Date | string
+    status?: EnumStatusFilter<"Agent"> | $Enums.Status
     lastLogin?: DateTimeNullableFilter<"Agent"> | Date | string | null
     resolutionRate?: FloatFilter<"Agent"> | number
     avgResolutionTime?: StringNullableFilter<"Agent"> | string | null
@@ -22094,7 +22080,6 @@ export namespace Prisma {
     officialEmail?: SortOrder
     department?: SortOrder
     municipality?: SortOrder
-    autonomyLevel?: SortOrder
     accessLevel?: SortOrder
     workloadLimit?: SortOrder
     currentWorkload?: SortOrder
@@ -22127,14 +22112,13 @@ export namespace Prisma {
     officialEmail?: StringWithAggregatesFilter<"Agent"> | string
     department?: EnumDepartmentWithAggregatesFilter<"Agent"> | $Enums.Department
     municipality?: StringWithAggregatesFilter<"Agent"> | string
-    autonomyLevel?: StringWithAggregatesFilter<"Agent"> | string
-    accessLevel?: StringWithAggregatesFilter<"Agent"> | string
+    accessLevel?: EnumAccessLevelWithAggregatesFilter<"Agent"> | $Enums.AccessLevel
     workloadLimit?: IntWithAggregatesFilter<"Agent"> | number
     currentWorkload?: IntWithAggregatesFilter<"Agent"> | number
     availabilityStatus?: StringWithAggregatesFilter<"Agent"> | string
     dateOfCreation?: DateTimeWithAggregatesFilter<"Agent"> | Date | string
-    lastUpdated?: EnumStatusWithAggregatesFilter<"Agent"> | $Enums.Status
-    status?: StringWithAggregatesFilter<"Agent"> | string
+    lastUpdated?: DateTimeWithAggregatesFilter<"Agent"> | Date | string
+    status?: EnumStatusWithAggregatesFilter<"Agent"> | $Enums.Status
     lastLogin?: DateTimeNullableWithAggregatesFilter<"Agent"> | Date | string | null
     resolutionRate?: FloatWithAggregatesFilter<"Agent"> | number
     avgResolutionTime?: StringNullableWithAggregatesFilter<"Agent"> | string | null
@@ -23524,20 +23508,19 @@ export namespace Prisma {
     id?: string
     email: string
     fullName: string
-    employeeId: string
+    employeeId?: string
     password: string
     phoneNumber: string
     officialEmail: string
     department: $Enums.Department
     municipality: string
-    autonomyLevel: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     workloadLimit?: number
     currentWorkload?: number
     availabilityStatus?: string
     dateOfCreation?: Date | string
-    lastUpdated?: $Enums.Status
-    status?: string
+    lastUpdated?: Date | string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     resolutionRate?: number
     avgResolutionTime?: string | null
@@ -23551,20 +23534,19 @@ export namespace Prisma {
     id?: string
     email: string
     fullName: string
-    employeeId: string
+    employeeId?: string
     password: string
     phoneNumber: string
     officialEmail: string
     department: $Enums.Department
     municipality: string
-    autonomyLevel: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     workloadLimit?: number
     currentWorkload?: number
     availabilityStatus?: string
     dateOfCreation?: Date | string
-    lastUpdated?: $Enums.Status
-    status?: string
+    lastUpdated?: Date | string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     resolutionRate?: number
     avgResolutionTime?: string | null
@@ -23584,14 +23566,13 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     municipality?: StringFieldUpdateOperationsInput | string
-    autonomyLevel?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     workloadLimit?: IntFieldUpdateOperationsInput | number
     currentWorkload?: IntFieldUpdateOperationsInput | number
     availabilityStatus?: StringFieldUpdateOperationsInput | string
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
-    lastUpdated?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
-    status?: StringFieldUpdateOperationsInput | string
+    lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     resolutionRate?: FloatFieldUpdateOperationsInput | number
     avgResolutionTime?: NullableStringFieldUpdateOperationsInput | string | null
@@ -23611,14 +23592,13 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     municipality?: StringFieldUpdateOperationsInput | string
-    autonomyLevel?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     workloadLimit?: IntFieldUpdateOperationsInput | number
     currentWorkload?: IntFieldUpdateOperationsInput | number
     availabilityStatus?: StringFieldUpdateOperationsInput | string
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
-    lastUpdated?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
-    status?: StringFieldUpdateOperationsInput | string
+    lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     resolutionRate?: FloatFieldUpdateOperationsInput | number
     avgResolutionTime?: NullableStringFieldUpdateOperationsInput | string | null
@@ -23632,20 +23612,19 @@ export namespace Prisma {
     id?: string
     email: string
     fullName: string
-    employeeId: string
+    employeeId?: string
     password: string
     phoneNumber: string
     officialEmail: string
     department: $Enums.Department
     municipality: string
-    autonomyLevel: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     workloadLimit?: number
     currentWorkload?: number
     availabilityStatus?: string
     dateOfCreation?: Date | string
-    lastUpdated?: $Enums.Status
-    status?: string
+    lastUpdated?: Date | string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     resolutionRate?: number
     avgResolutionTime?: string | null
@@ -23663,14 +23642,13 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     municipality?: StringFieldUpdateOperationsInput | string
-    autonomyLevel?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     workloadLimit?: IntFieldUpdateOperationsInput | number
     currentWorkload?: IntFieldUpdateOperationsInput | number
     availabilityStatus?: StringFieldUpdateOperationsInput | string
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
-    lastUpdated?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
-    status?: StringFieldUpdateOperationsInput | string
+    lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     resolutionRate?: FloatFieldUpdateOperationsInput | number
     avgResolutionTime?: NullableStringFieldUpdateOperationsInput | string | null
@@ -23687,14 +23665,13 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     municipality?: StringFieldUpdateOperationsInput | string
-    autonomyLevel?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     workloadLimit?: IntFieldUpdateOperationsInput | number
     currentWorkload?: IntFieldUpdateOperationsInput | number
     availabilityStatus?: StringFieldUpdateOperationsInput | string
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
-    lastUpdated?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
-    status?: StringFieldUpdateOperationsInput | string
+    lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     resolutionRate?: FloatFieldUpdateOperationsInput | number
     avgResolutionTime?: NullableStringFieldUpdateOperationsInput | string | null
@@ -25254,6 +25231,13 @@ export namespace Prisma {
     not?: NestedEnumDepartmentFilter<$PrismaModel> | $Enums.Department
   }
 
+  export type EnumAccessLevelFilter<$PrismaModel = never> = {
+    equals?: $Enums.AccessLevel | EnumAccessLevelFieldRefInput<$PrismaModel>
+    in?: $Enums.AccessLevel[] | ListEnumAccessLevelFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AccessLevel[] | ListEnumAccessLevelFieldRefInput<$PrismaModel>
+    not?: NestedEnumAccessLevelFilter<$PrismaModel> | $Enums.AccessLevel
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -25309,7 +25293,6 @@ export namespace Prisma {
     officialEmail?: SortOrder
     department?: SortOrder
     municipality?: SortOrder
-    autonomyLevel?: SortOrder
     accessLevel?: SortOrder
     workloadLimit?: SortOrder
     currentWorkload?: SortOrder
@@ -25341,7 +25324,6 @@ export namespace Prisma {
     officialEmail?: SortOrder
     department?: SortOrder
     municipality?: SortOrder
-    autonomyLevel?: SortOrder
     accessLevel?: SortOrder
     workloadLimit?: SortOrder
     currentWorkload?: SortOrder
@@ -25366,7 +25348,6 @@ export namespace Prisma {
     officialEmail?: SortOrder
     department?: SortOrder
     municipality?: SortOrder
-    autonomyLevel?: SortOrder
     accessLevel?: SortOrder
     workloadLimit?: SortOrder
     currentWorkload?: SortOrder
@@ -25396,6 +25377,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumDepartmentFilter<$PrismaModel>
     _max?: NestedEnumDepartmentFilter<$PrismaModel>
+  }
+
+  export type EnumAccessLevelWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AccessLevel | EnumAccessLevelFieldRefInput<$PrismaModel>
+    in?: $Enums.AccessLevel[] | ListEnumAccessLevelFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AccessLevel[] | ListEnumAccessLevelFieldRefInput<$PrismaModel>
+    not?: NestedEnumAccessLevelWithAggregatesFilter<$PrismaModel> | $Enums.AccessLevel
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAccessLevelFilter<$PrismaModel>
+    _max?: NestedEnumAccessLevelFilter<$PrismaModel>
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -25452,13 +25443,6 @@ export namespace Prisma {
     _sum?: NestedFloatFilter<$PrismaModel>
     _min?: NestedFloatFilter<$PrismaModel>
     _max?: NestedFloatFilter<$PrismaModel>
-  }
-
-  export type EnumAccessLevelFilter<$PrismaModel = never> = {
-    equals?: $Enums.AccessLevel | EnumAccessLevelFieldRefInput<$PrismaModel>
-    in?: $Enums.AccessLevel[] | ListEnumAccessLevelFieldRefInput<$PrismaModel>
-    notIn?: $Enums.AccessLevel[] | ListEnumAccessLevelFieldRefInput<$PrismaModel>
-    not?: NestedEnumAccessLevelFilter<$PrismaModel> | $Enums.AccessLevel
   }
 
   export type FloatNullableFilter<$PrismaModel = never> = {
@@ -25585,16 +25569,6 @@ export namespace Prisma {
     resolutionRate?: SortOrder
     slaComplianceRate?: SortOrder
     escalationCount?: SortOrder
-  }
-
-  export type EnumAccessLevelWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.AccessLevel | EnumAccessLevelFieldRefInput<$PrismaModel>
-    in?: $Enums.AccessLevel[] | ListEnumAccessLevelFieldRefInput<$PrismaModel>
-    notIn?: $Enums.AccessLevel[] | ListEnumAccessLevelFieldRefInput<$PrismaModel>
-    not?: NestedEnumAccessLevelWithAggregatesFilter<$PrismaModel> | $Enums.AccessLevel
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumAccessLevelFilter<$PrismaModel>
-    _max?: NestedEnumAccessLevelFilter<$PrismaModel>
   }
 
   export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -26499,6 +26473,10 @@ export namespace Prisma {
     set?: $Enums.Department
   }
 
+  export type EnumAccessLevelFieldUpdateOperationsInput = {
+    set?: $Enums.AccessLevel
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -26653,10 +26631,6 @@ export namespace Prisma {
     connectOrCreate?: NewsUpdateCreateOrConnectWithoutCreatedByInput | NewsUpdateCreateOrConnectWithoutCreatedByInput[]
     createMany?: NewsUpdateCreateManyCreatedByInputEnvelope
     connect?: NewsUpdateWhereUniqueInput | NewsUpdateWhereUniqueInput[]
-  }
-
-  export type EnumAccessLevelFieldUpdateOperationsInput = {
-    set?: $Enums.AccessLevel
   }
 
   export type NullableFloatFieldUpdateOperationsInput = {
@@ -28000,6 +27974,13 @@ export namespace Prisma {
     not?: NestedEnumDepartmentFilter<$PrismaModel> | $Enums.Department
   }
 
+  export type NestedEnumAccessLevelFilter<$PrismaModel = never> = {
+    equals?: $Enums.AccessLevel | EnumAccessLevelFieldRefInput<$PrismaModel>
+    in?: $Enums.AccessLevel[] | ListEnumAccessLevelFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AccessLevel[] | ListEnumAccessLevelFieldRefInput<$PrismaModel>
+    not?: NestedEnumAccessLevelFilter<$PrismaModel> | $Enums.AccessLevel
+  }
+
   export type NestedEnumStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.Status | EnumStatusFieldRefInput<$PrismaModel>
     in?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
@@ -28037,6 +28018,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumDepartmentFilter<$PrismaModel>
     _max?: NestedEnumDepartmentFilter<$PrismaModel>
+  }
+
+  export type NestedEnumAccessLevelWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AccessLevel | EnumAccessLevelFieldRefInput<$PrismaModel>
+    in?: $Enums.AccessLevel[] | ListEnumAccessLevelFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AccessLevel[] | ListEnumAccessLevelFieldRefInput<$PrismaModel>
+    not?: NestedEnumAccessLevelWithAggregatesFilter<$PrismaModel> | $Enums.AccessLevel
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAccessLevelFilter<$PrismaModel>
+    _max?: NestedEnumAccessLevelFilter<$PrismaModel>
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -28095,13 +28086,6 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
-  export type NestedEnumAccessLevelFilter<$PrismaModel = never> = {
-    equals?: $Enums.AccessLevel | EnumAccessLevelFieldRefInput<$PrismaModel>
-    in?: $Enums.AccessLevel[] | ListEnumAccessLevelFieldRefInput<$PrismaModel>
-    notIn?: $Enums.AccessLevel[] | ListEnumAccessLevelFieldRefInput<$PrismaModel>
-    not?: NestedEnumAccessLevelFilter<$PrismaModel> | $Enums.AccessLevel
-  }
-
   export type NestedFloatNullableFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel> | null
     in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
@@ -28111,16 +28095,6 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type NestedEnumAccessLevelWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.AccessLevel | EnumAccessLevelFieldRefInput<$PrismaModel>
-    in?: $Enums.AccessLevel[] | ListEnumAccessLevelFieldRefInput<$PrismaModel>
-    notIn?: $Enums.AccessLevel[] | ListEnumAccessLevelFieldRefInput<$PrismaModel>
-    not?: NestedEnumAccessLevelWithAggregatesFilter<$PrismaModel> | $Enums.AccessLevel
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumAccessLevelFilter<$PrismaModel>
-    _max?: NestedEnumAccessLevelFilter<$PrismaModel>
   }
 
   export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -28830,20 +28804,19 @@ export namespace Prisma {
     id?: string
     email: string
     fullName: string
-    employeeId: string
+    employeeId?: string
     password: string
     phoneNumber: string
     officialEmail: string
     department: $Enums.Department
     municipality: string
-    autonomyLevel: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     workloadLimit?: number
     currentWorkload?: number
     availabilityStatus?: string
     dateOfCreation?: Date | string
-    lastUpdated?: $Enums.Status
-    status?: string
+    lastUpdated?: Date | string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     resolutionRate?: number
     avgResolutionTime?: string | null
@@ -28856,20 +28829,19 @@ export namespace Prisma {
     id?: string
     email: string
     fullName: string
-    employeeId: string
+    employeeId?: string
     password: string
     phoneNumber: string
     officialEmail: string
     department: $Enums.Department
     municipality: string
-    autonomyLevel: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     workloadLimit?: number
     currentWorkload?: number
     availabilityStatus?: string
     dateOfCreation?: Date | string
-    lastUpdated?: $Enums.Status
-    status?: string
+    lastUpdated?: Date | string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     resolutionRate?: number
     avgResolutionTime?: string | null
@@ -29175,14 +29147,13 @@ export namespace Prisma {
     officialEmail?: StringFilter<"Agent"> | string
     department?: EnumDepartmentFilter<"Agent"> | $Enums.Department
     municipality?: StringFilter<"Agent"> | string
-    autonomyLevel?: StringFilter<"Agent"> | string
-    accessLevel?: StringFilter<"Agent"> | string
+    accessLevel?: EnumAccessLevelFilter<"Agent"> | $Enums.AccessLevel
     workloadLimit?: IntFilter<"Agent"> | number
     currentWorkload?: IntFilter<"Agent"> | number
     availabilityStatus?: StringFilter<"Agent"> | string
     dateOfCreation?: DateTimeFilter<"Agent"> | Date | string
-    lastUpdated?: EnumStatusFilter<"Agent"> | $Enums.Status
-    status?: StringFilter<"Agent"> | string
+    lastUpdated?: DateTimeFilter<"Agent"> | Date | string
+    status?: EnumStatusFilter<"Agent"> | $Enums.Status
     lastLogin?: DateTimeNullableFilter<"Agent"> | Date | string | null
     resolutionRate?: FloatFilter<"Agent"> | number
     avgResolutionTime?: StringNullableFilter<"Agent"> | string | null
@@ -30966,20 +30937,19 @@ export namespace Prisma {
     id?: string
     email: string
     fullName: string
-    employeeId: string
+    employeeId?: string
     password: string
     phoneNumber: string
     officialEmail: string
     department: $Enums.Department
     municipality: string
-    autonomyLevel: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     workloadLimit?: number
     currentWorkload?: number
     availabilityStatus?: string
     dateOfCreation?: Date | string
-    lastUpdated?: $Enums.Status
-    status?: string
+    lastUpdated?: Date | string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     resolutionRate?: number
     avgResolutionTime?: string | null
@@ -30992,20 +30962,19 @@ export namespace Prisma {
     id?: string
     email: string
     fullName: string
-    employeeId: string
+    employeeId?: string
     password: string
     phoneNumber: string
     officialEmail: string
     department: $Enums.Department
     municipality: string
-    autonomyLevel: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     workloadLimit?: number
     currentWorkload?: number
     availabilityStatus?: string
     dateOfCreation?: Date | string
-    lastUpdated?: $Enums.Status
-    status?: string
+    lastUpdated?: Date | string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     resolutionRate?: number
     avgResolutionTime?: string | null
@@ -31023,20 +30992,19 @@ export namespace Prisma {
     id?: string
     email: string
     fullName: string
-    employeeId: string
+    employeeId?: string
     password: string
     phoneNumber: string
     officialEmail: string
     department: $Enums.Department
     municipality: string
-    autonomyLevel: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     workloadLimit?: number
     currentWorkload?: number
     availabilityStatus?: string
     dateOfCreation?: Date | string
-    lastUpdated?: $Enums.Status
-    status?: string
+    lastUpdated?: Date | string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     resolutionRate?: number
     avgResolutionTime?: string | null
@@ -31049,20 +31017,19 @@ export namespace Prisma {
     id?: string
     email: string
     fullName: string
-    employeeId: string
+    employeeId?: string
     password: string
     phoneNumber: string
     officialEmail: string
     department: $Enums.Department
     municipality: string
-    autonomyLevel: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     workloadLimit?: number
     currentWorkload?: number
     availabilityStatus?: string
     dateOfCreation?: Date | string
-    lastUpdated?: $Enums.Status
-    status?: string
+    lastUpdated?: Date | string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     resolutionRate?: number
     avgResolutionTime?: string | null
@@ -31552,14 +31519,13 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     municipality?: StringFieldUpdateOperationsInput | string
-    autonomyLevel?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     workloadLimit?: IntFieldUpdateOperationsInput | number
     currentWorkload?: IntFieldUpdateOperationsInput | number
     availabilityStatus?: StringFieldUpdateOperationsInput | string
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
-    lastUpdated?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
-    status?: StringFieldUpdateOperationsInput | string
+    lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     resolutionRate?: FloatFieldUpdateOperationsInput | number
     avgResolutionTime?: NullableStringFieldUpdateOperationsInput | string | null
@@ -31578,14 +31544,13 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     municipality?: StringFieldUpdateOperationsInput | string
-    autonomyLevel?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     workloadLimit?: IntFieldUpdateOperationsInput | number
     currentWorkload?: IntFieldUpdateOperationsInput | number
     availabilityStatus?: StringFieldUpdateOperationsInput | string
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
-    lastUpdated?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
-    status?: StringFieldUpdateOperationsInput | string
+    lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     resolutionRate?: FloatFieldUpdateOperationsInput | number
     avgResolutionTime?: NullableStringFieldUpdateOperationsInput | string | null
@@ -33153,20 +33118,19 @@ export namespace Prisma {
     id?: string
     email: string
     fullName: string
-    employeeId: string
+    employeeId?: string
     password: string
     phoneNumber: string
     officialEmail: string
     department: $Enums.Department
     municipality: string
-    autonomyLevel: string
-    accessLevel: string
+    accessLevel?: $Enums.AccessLevel
     workloadLimit?: number
     currentWorkload?: number
     availabilityStatus?: string
     dateOfCreation?: Date | string
-    lastUpdated?: $Enums.Status
-    status?: string
+    lastUpdated?: Date | string
+    status?: $Enums.Status
     lastLogin?: Date | string | null
     resolutionRate?: number
     avgResolutionTime?: string | null
@@ -33242,14 +33206,13 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     municipality?: StringFieldUpdateOperationsInput | string
-    autonomyLevel?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     workloadLimit?: IntFieldUpdateOperationsInput | number
     currentWorkload?: IntFieldUpdateOperationsInput | number
     availabilityStatus?: StringFieldUpdateOperationsInput | string
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
-    lastUpdated?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
-    status?: StringFieldUpdateOperationsInput | string
+    lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     resolutionRate?: FloatFieldUpdateOperationsInput | number
     avgResolutionTime?: NullableStringFieldUpdateOperationsInput | string | null
@@ -33268,14 +33231,13 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     municipality?: StringFieldUpdateOperationsInput | string
-    autonomyLevel?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     workloadLimit?: IntFieldUpdateOperationsInput | number
     currentWorkload?: IntFieldUpdateOperationsInput | number
     availabilityStatus?: StringFieldUpdateOperationsInput | string
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
-    lastUpdated?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
-    status?: StringFieldUpdateOperationsInput | string
+    lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     resolutionRate?: FloatFieldUpdateOperationsInput | number
     avgResolutionTime?: NullableStringFieldUpdateOperationsInput | string | null
@@ -33294,14 +33256,13 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     municipality?: StringFieldUpdateOperationsInput | string
-    autonomyLevel?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     workloadLimit?: IntFieldUpdateOperationsInput | number
     currentWorkload?: IntFieldUpdateOperationsInput | number
     availabilityStatus?: StringFieldUpdateOperationsInput | string
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
-    lastUpdated?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
-    status?: StringFieldUpdateOperationsInput | string
+    lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     resolutionRate?: FloatFieldUpdateOperationsInput | number
     avgResolutionTime?: NullableStringFieldUpdateOperationsInput | string | null
@@ -34624,14 +34585,13 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     municipality?: StringFieldUpdateOperationsInput | string
-    autonomyLevel?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     workloadLimit?: IntFieldUpdateOperationsInput | number
     currentWorkload?: IntFieldUpdateOperationsInput | number
     availabilityStatus?: StringFieldUpdateOperationsInput | string
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
-    lastUpdated?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
-    status?: StringFieldUpdateOperationsInput | string
+    lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     resolutionRate?: FloatFieldUpdateOperationsInput | number
     avgResolutionTime?: NullableStringFieldUpdateOperationsInput | string | null
@@ -34650,14 +34610,13 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     municipality?: StringFieldUpdateOperationsInput | string
-    autonomyLevel?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     workloadLimit?: IntFieldUpdateOperationsInput | number
     currentWorkload?: IntFieldUpdateOperationsInput | number
     availabilityStatus?: StringFieldUpdateOperationsInput | string
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
-    lastUpdated?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
-    status?: StringFieldUpdateOperationsInput | string
+    lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     resolutionRate?: FloatFieldUpdateOperationsInput | number
     avgResolutionTime?: NullableStringFieldUpdateOperationsInput | string | null
@@ -34676,14 +34635,13 @@ export namespace Prisma {
     officialEmail?: StringFieldUpdateOperationsInput | string
     department?: EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
     municipality?: StringFieldUpdateOperationsInput | string
-    autonomyLevel?: StringFieldUpdateOperationsInput | string
-    accessLevel?: StringFieldUpdateOperationsInput | string
+    accessLevel?: EnumAccessLevelFieldUpdateOperationsInput | $Enums.AccessLevel
     workloadLimit?: IntFieldUpdateOperationsInput | number
     currentWorkload?: IntFieldUpdateOperationsInput | number
     availabilityStatus?: StringFieldUpdateOperationsInput | string
     dateOfCreation?: DateTimeFieldUpdateOperationsInput | Date | string
-    lastUpdated?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
-    status?: StringFieldUpdateOperationsInput | string
+    lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     resolutionRate?: FloatFieldUpdateOperationsInput | number
     avgResolutionTime?: NullableStringFieldUpdateOperationsInput | string | null

@@ -13,6 +13,7 @@ import {
 import { MoveRight, Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Profile } from "@/components/profile"
+const API_URL = process.env.NEXT_PUBLIC_API_URL 
 
 function Header1() {
     const navigationItems = [
@@ -57,7 +58,7 @@ function Header1() {
     useEffect(() => {
         const checkLogin = async () => {
             try {
-                const res = await fetch('http://localhost:3001/api/auth/status', {
+                const res = await fetch(`${API_URL}/api/auth/status`, { 
                     method: 'GET',
                     credentials: 'include',
                 });
@@ -126,8 +127,8 @@ function Header1() {
         <header
             className={`w-full z-50 fixed top-0 left-0 right-0 transition-all duration-300 ${
                 isScrolled
-                    ? 'bg-white/3 dark:bg-gray-900/5 backdrop-blur-sm'
-                    : 'bg-white/1 dark:bg-gray-900/1 backdrop-blur-sm'
+                    ? 'bg-white/10 dark:bg-gray-900/5 backdrop-blur-sm'
+                    : 'bg-white/80 dark:bg-gray-900/1 backdrop-blur-sm'
             }`}
         >
             <div className="container relative mx-auto px-4 sm:px-6 lg:px-8 overflow-visible">

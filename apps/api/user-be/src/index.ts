@@ -16,6 +16,9 @@ import { jwtAuth } from './middleware/jwtAuth';
 import { PrismaClient } from '../../../../generated/prisma';
 import { initializeWebSocket } from './routes/complaintRoutes';
 import http from 'http';
+import WebSocket from 'ws';
+import aigenRoutes from './routes/aigenRoutes';
+
 
 const app = express();
 const prisma = new PrismaClient();
@@ -39,6 +42,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/complaints', complatintRoutes);
 app.use('/api/complaints', complatintRoutes);
 app.use('/api/user', userRoutes);
+app.use('/api/ai', aigenRoutes);
 app.get('/', (req,res)=>{ res.json('Hello World')})
 
 // Protected route for testing jwtAuth
