@@ -3,7 +3,6 @@
 import { useEffect, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import StatCard from './StatCard';
-import Link from 'next/link';
 
 interface Complaint {
   _id: string;
