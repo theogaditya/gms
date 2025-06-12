@@ -23,6 +23,7 @@ export default function AdminSignIn() {
         SUPER_ADMIN: `${API_BASE}/api/super-admin/login`,
         DEPT_STATE_ADMIN: `${API_BASE}/api/state-admin/login`,
         DEPT_MUNICIPAL_ADMIN: `${API_BASE}/api/municipal-admin/login`,
+        AGENT: `${API_BASE}/api/agent/login`,
       };
       
       const res = await fetch(endpointMap[role], {
@@ -42,7 +43,7 @@ export default function AdminSignIn() {
         throw new Error(data.message || 'Login failed');
       }
 
-      const accessLevel = data.admin?.accessLevel;
+      const accessLevel = data.admin?.accessLevel || data.agent?.accessLevel;
 
       switch (accessLevel) {
         case 'SUPER_ADMIN':
@@ -53,6 +54,9 @@ export default function AdminSignIn() {
           break;
         case 'DEPT_MUNICIPAL_ADMIN':
           router.push('/dashboards/municipal-admin');
+          break;
+        case 'AGENT':
+          router.push('/dashboards/agent');
           break;
         default:
           throw new Error('Unauthorized access level');
@@ -102,12 +106,16 @@ export default function AdminSignIn() {
                 <option value="SUPER_ADMIN">Super Admin</option>
                 <option value="DEPT_STATE_ADMIN">State Admin</option>
                 <option value="DEPT_MUNICIPAL_ADMIN">Municipal Admin</option>
+                <option value="AGENT">Agent</option>
               </select>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">Admin Email</label>
-              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="admin@company.com"
+              <label className="block text-sm font-medium text-gray-300 mb-1">
+                {role === 'AGENT' ? 'Agent Email' : 'Admin Email'}
+              </label>
+              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} 
+                placeholder={role === 'AGENT' ? 'agent@company.com' : 'admin@company.com'}
                 className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" required />
             </div>
 

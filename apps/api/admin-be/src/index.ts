@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import superAdminRoutes from './routes/superAdminRoutes';
 import stateAdminRoutes from './routes/stateAdminRoutes';
 import municipalAdminRoutes from './routes/municipalAdminRoutes';
+import agentRoutes from './routes/agent';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 
@@ -28,6 +29,7 @@ app.use(
 app.use('/api/super-admin', superAdminRoutes);
 app.use('/api/state-admin', stateAdminRoutes);
 app.use('/api/municipal-admin', municipalAdminRoutes);
+app.use('/api/agent', agentRoutes);
 
 // Start server
 const PORT = process.env.ADMIN_BE_PORT;

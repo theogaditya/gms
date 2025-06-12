@@ -88,23 +88,24 @@ enum Department {
 
 // Agent model
 model Agent {
-  id                  String      @id @default(uuid())
-  email               String      @unique
-  fullName            String
-  employeeId          String      @unique @default(uuid())
-  password            String
-  phoneNumber         String
-  officialEmail       String      @unique
-  department          Department
-  municipality        String
-  accessLevel         AccessLevel @default(AGENT)
-  workloadLimit       Int         @default(10)
-  currentWorkload     Int         @default(0)
-  availabilityStatus  String      @default("At Work")
-  dateOfCreation      DateTime    @default(now())
-  lastUpdated         DateTime    @updatedAt
-  status              Status      @default(ACTIVE)
-  lastLogin           DateTime?
+  id                 String      @id @default(uuid())
+  email              String      @unique
+  fullName           String
+  employeeId         String      @unique @default(uuid())
+  password           String
+  phoneNumber        String
+  officialEmail      String      @unique
+  department         Department
+  municipality       String
+  accessLevel        AccessLevel @default(AGENT)
+  workloadLimit      Int         @default(10)
+  currentWorkload    Int         @default(0)
+  availabilityStatus String      @default("At Work")
+  dateOfCreation     DateTime    @default(now())
+  lastUpdated        DateTime    @updatedAt
+  status             Status      @default(ACTIVE)
+  lastLogin          DateTime?
+
   // Performance metrics
   resolutionRate      Float       @default(0)
   avgResolutionTime   String?

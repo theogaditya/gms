@@ -1,1 +1,1 @@
-{"root":["./src/index.ts","./src/middleware/adminauth.ts","./src/middleware/superadminauth.ts","./src/routes/municipaladminroutes.ts","./src/routes/stateadminroutes.ts","./src/routes/superadminroutes.ts","./src/schemas/superadminschema.ts"],"version":"5.8.3"}
+{"root":["./src/index.ts","./src/middleware/adminauth.ts","./src/middleware/superadminauth.ts","./src/routes/agent.ts","./src/routes/municipaladminroutes.ts","./src/routes/stateadminroutes.ts","./src/routes/superadminroutes.ts","./src/schemas/agentschema.ts","./src/schemas/superadminschema.ts"],"version":"5.8.3"}
