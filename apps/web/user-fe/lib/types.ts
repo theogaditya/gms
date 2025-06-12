@@ -4,6 +4,7 @@ export interface Complaint {
   seq: number;
   category: string;
   subCategory: string;
+  standardizedSubCategory: string; 
   district: string;
   city: string;
   pin: string;

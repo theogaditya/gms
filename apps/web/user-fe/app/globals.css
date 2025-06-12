@@ -139,3 +139,27 @@
 }
 
 
+
+/*
+  This hides the Google Translate banner iframe.
+  !important is used to make sure our style overrides any inline styles from Google.
+*/
+.goog-te-banner-frame {
+  display: none !important;
+}
+
+/*
+  When the banner is active, Google adds `top: 40px` to the body,
+  creating a gap at the top. This rule resets it.
+*/
+body {
+  top: 0px !important;
+}
+
+/*
+  This is a helper class to ensure that the main page element
+  doesn't get shifted by the translation script.
+*/
+.skiptranslate {
+  position: static !important;
+}

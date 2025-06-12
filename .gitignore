@@ -36,3 +36,10 @@ yarn-error.log*
 # Misc
 .DS_Store
 *.pem
+
+
+configmap.yaml
+service.yaml
+deployment.yaml
+secret-google.yaml
+secret.yaml

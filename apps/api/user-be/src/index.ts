@@ -18,6 +18,7 @@ import { initializeWebSocket } from './routes/complaintRoutes';
 import { createServer } from 'http';
 import http from 'http';
 import WebSocket from 'ws';
+import aigenRoutes from './routes/aigenRoutes';
 
 
 const app = express();
@@ -42,6 +43,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/complaints', complatintRoutes);
 app.use('/api/complaints', complatintRoutes);
 app.use('/api/user', userRoutes);
+app.use('/api/ai', aigenRoutes);
 app.get('/', (req,res)=>{ res.json('Hello World')})
 
 // Protected route for testing jwtAuth
