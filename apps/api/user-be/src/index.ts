@@ -13,7 +13,7 @@ import authRoutes from './routes/authRoutes';
 import complatintRoutes from './routes/complaintRoutes';
 import userRoutes from './routes/userRoutes';
 import { jwtAuth } from './middleware/jwtAuth';
-import { PrismaClient } from '../../../../generated/prisma';
+import { PrismaClient } from '@prisma/client';
 import { initializeWebSocket } from './routes/complaintRoutes';
 import http from 'http';
 import WebSocket from 'ws';
