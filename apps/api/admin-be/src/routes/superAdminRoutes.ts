@@ -9,7 +9,7 @@ import {
   createStateAdminSchema,
   createMunicipalAdminSchema
 } from '../schemas/superAdminSchema';
-import { Department, PrismaClient } from '../../../../../generated/prisma';
+import { Department, PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 const router = express.Router();
@@ -188,63 +188,63 @@ router.get('/profile', authenticateSuperAdmin, async (req, res: any) => {
   }
 });
 
-// ----- 5. Create State Admin -----
-router.post('/create/state-admins', authenticateSuperAdmin, async (req, res: any) => {
-  const parseResult = createStateAdminSchema.safeParse(req.body);
+// // ----- 5. Create State Admin -----
+// router.post('/create/state-admins', authenticateSuperAdmin, async (req, res: any) => {
+//   const parseResult = createStateAdminSchema.safeParse(req.body);
 
-  if (!parseResult.success) {
-    return res.status(400).json({ success: false, errors: parseResult.error.flatten() });
-  }
+//   if (!parseResult.success) {
+//     return res.status(400).json({ success: false, errors: parseResult.error.flatten() });
+//   }
 
-  const data = parseResult.data;
+//   const data = parseResult.data;
 
-  try {
-    const existing = await prisma.departmentStateAdmin.findFirst({
-      where: { officialEmail: data.officialEmail },
-    });
+//   try {
+//     const existing = await prisma.departmentStateAdmin.findFirst({
+//       where: { officialEmail: data.officialEmail },
+//     });
 
-    if (existing) {
-      return res.status(409).json({
-        success: false,
-        message: 'Admin with given email or ID already exists'
-      });
-    }
+//     if (existing) {
+//       return res.status(409).json({
+//         success: false,
+//         message: 'Admin with given email or ID already exists'
+//       });
+//     }
 
-    const hashedPassword = await bcrypt.hash(data.password, 10);
+//     const hashedPassword = await bcrypt.hash(data.password, 10);
 
-    const newAdmin = await prisma.departmentStateAdmin.create({
-      data: {
-        fullName: data.fullName,
-        officialEmail: data.officialEmail,
-        phoneNumber: data.phoneNumber,
-        password: hashedPassword,
-        department: data.department as Department,
-        state: data.state,
-        managedMunicipalities: data.managedMunicipalities || []
-      }
-    });
+//     const newAdmin = await prisma.departmentStateAdmin.create({
+//       data: {
+//         fullName: data.fullName,
+//         officialEmail: data.officialEmail,
+//         phoneNumber: data.phoneNumber,
+//         password: hashedPassword,
+//         department: data.department as Department,
+//         state: data.state,
+//         managedMunicipalities: data.managedMunicipalities || []
+//       }
+//     });
 
-    return res.status(201).json({
-      success: true,
-      message: 'State Department Admin created successfully',
-      data: {
-        id: newAdmin.id,
-        fullName: newAdmin.fullName,
-        officialEmail: newAdmin.officialEmail,
-        state: newAdmin.state,
-        department: newAdmin.department,
-        managedMunicipalities: newAdmin.managedMunicipalities,
-        accessLevel: newAdmin.accessLevel,
-        dateOfCreation: newAdmin.dateOfCreation,
-        status: newAdmin.status,
-      }
-    });
+//     return res.status(201).json({
+//       success: true,
+//       message: 'State Department Admin created successfully',
+//       data: {
+//         id: newAdmin.id,
+//         fullName: newAdmin.fullName,
+//         officialEmail: newAdmin.officialEmail,
+//         state: newAdmin.state,
+//         department: newAdmin.department,
+//         managedMunicipalities: newAdmin.managedMunicipalities,
+//         accessLevel: newAdmin.accessLevel,
+//         dateOfCreation: newAdmin.dateOfCreation,
+//         status: newAdmin.status,
+//       }
+//     });
 
-  } catch (error) {
-    console.error('Create State Admin Error:', error);
-    return res.status(500).json({ success: false, message: 'Server error' });
-  }
-});
+//   } catch (error) {
+//     console.error('Create State Admin Error:', error);
+//     return res.status(500).json({ success: false, message: 'Server error' });
+//   }
+// });
 
 // ----- 6. Create Municipal Admin -----
 router.post('/create/municipal-admins', authenticateSuperAdmin, async (req, res: any) => {

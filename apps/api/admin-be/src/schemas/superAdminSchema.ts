@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { Department } from '../../../../../generated/prisma';
+import { Department } from '@prisma/client';
 
 export const superAdminLoginSchema = z.object({
   officialEmail: z.string().email('Invalid email format'),

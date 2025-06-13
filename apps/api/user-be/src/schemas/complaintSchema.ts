@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { ComplaintStatus, ComplaintUrgency } from '../../../../../generated/prisma';
+import { ComplaintStatus, ComplaintUrgency } from '@prisma/client';
 
 // Base complaint schema for creation - using categoryName instead of categoryId
 export const createComplaintSchema = z.object({

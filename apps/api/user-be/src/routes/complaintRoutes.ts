@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import { PrismaClient } from "../../../../../generated/prisma";
+import { PrismaClient } from "@prisma/client";
 import { jwtAuth } from "../middleware/jwtAuth";
 import {
   createComplaintSchema,
@@ -12,7 +12,7 @@ import WebSocket from "ws";
 import {
   ComplaintStatus,
   ComplaintUrgency,
-} from "../../../../../generated/prisma";
+} from "@prisma/client";
 import dotenv from "dotenv";
 const { VertexAI } = require("@google-cloud/vertexai"); //vertexai
 import { sendComplaintConfirmationEmail } from "../utils/mailer";
