@@ -3,16 +3,17 @@ const { VertexAI } = require('@google-cloud/vertexai');
 import { Router, Request, Response } from 'express';
 const router = Router();
 router.use(express.json()); //
+import { PrismaClient } from "@prisma/client";
 
 const PROJECT_ID = process.env.GCP_PROJECT_ID;
 const LOCATION = process.env.GCP_LOCATION; 
 const ENDPOINT_ID = process.env.ENDPOINT_ID;
 
-if (!process.env.GOOGLE_APPLICATION_CREDENTIALS) {
-  console.error('ERROR: The GOOGLE_APPLICATION_CREDENTIALS environment variable is not set.');
-  console.error('Please set it to the path of your service account key file.');
-  process.exit(1);
-}
+// if (!process.env.GOOGLE_APPLICATION_CREDENTIALS) {
+//   console.error('ERROR: The GOOGLE_APPLICATION_CREDENTIALS environment variable is not set.');
+//   console.error('Please set it to the path of your service account key file.');
+//   process.exit(1);
+// }
 
 if (!PROJECT_ID || !LOCATION || !ENDPOINT_ID) {
     console.error("ERROR: Missing required environment variables (GCP_PROJECT_ID, GCP_LOCATION, ENDPOINT_ID).");

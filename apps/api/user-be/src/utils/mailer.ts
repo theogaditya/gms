@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer';
+import { PrismaClient } from "@prisma/client"
 
 const transporter = nodemailer.createTransport({
   host: process.env.EMAIL_HOST,

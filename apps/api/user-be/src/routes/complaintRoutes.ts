@@ -9,10 +9,10 @@ import {
 } from "../schemas/complaintSchema";
 import { z } from "zod";
 import WebSocket from "ws";
-import {
-  ComplaintStatus,
-  ComplaintUrgency,
-} from "@prisma/client";
+// import {
+//   ComplaintStatus,
+//   ComplaintUrgency,
+// } from "@";
 import dotenv from "dotenv";
 const { VertexAI } = require("@google-cloud/vertexai"); //vertexai
 import { sendComplaintConfirmationEmail } from "../utils/mailer";
@@ -209,24 +209,33 @@ const broadcastUpvoteUpdate = (
 const PROJECT_ID = process.env.GCP_PROJECT_ID;
 const LOCATION = process.env.GCP_LOCATION;
 const ENDPOINT_ID = process.env.ENDPOINT_ID;
+const CLIENT_EMAIL = process.env.CLIENT_EMAIL;
+const PRIVATE_KEY = process.env.PRIVATE_KEY;
 
-if (!process.env.GOOGLE_APPLICATION_CREDENTIALS) {
-  console.error(
-    "ERROR: The GOOGLE_APPLICATION_CREDENTIALS environment variable is not set."
-  );
-  console.error("Please set it to the path of your service account key file.");
-  process.exit(1);
+// if (!process.env.GOOGLE_APPLICATION_CREDENTIALS) {
+//   console.error(
+//     "ERROR: The GOOGLE_APPLICATION_CREDENTIALS environment variable is not set."
+//   );
+//   console.error("Please set it to the path of your service account key file.");
+//   process.exit(1);
+// }
+
+if (!PROJECT_ID || !LOCATION || !ENDPOINT_ID || !CLIENT_EMAIL || !PRIVATE_KEY) {
+    console.error("ERROR: Missing required environment variables (GCP_PROJECT_ID, GCP_LOCATION, ENDPOINT_ID, CLIENT_EMAIL, or PRIVATE_KEY).");
+    console.error("Please ensure your .env file is set up correctly with all required values.");
+    process.exit(1);
 }
 
-if (!PROJECT_ID || !LOCATION || !ENDPOINT_ID) {
-  console.error(
-    "ERROR: Missing required environment variables (GCP_PROJECT_ID, GCP_LOCATION, ENDPOINT_ID)."
-  );
-  console.error("Please ensure your .env file is set up correctly.");
-  process.exit(1);
-}
+const vertex_ai = new VertexAI({
+  project: PROJECT_ID,
+  location: LOCATION,
+  credentials: {
+    client_email: CLIENT_EMAIL,
+    // The private key from .env needs to have its newline characters correctly formatted.
+    private_key: PRIVATE_KEY.replace(/\\n/g, '\n'),
+  }
+});
 
-const vertex_ai = new VertexAI({ project: PROJECT_ID, location: LOCATION });
 
 const modelEndpointPath = `projects/${PROJECT_ID}/locations/${LOCATION}/endpoints/${ENDPOINT_ID}`;
 
