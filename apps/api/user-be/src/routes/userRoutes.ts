@@ -1,6 +1,6 @@
 // userRoutes.ts
 import express, { Request, Response } from 'express';
-import { PrismaClient } from '../../../../../generated/prisma';
+import { PrismaClient } from "@prisma/client";
 import { jwtAuth } from '../middleware/jwtAuth';
 
 const router = express.Router();

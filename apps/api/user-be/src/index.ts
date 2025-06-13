@@ -13,7 +13,7 @@ import authRoutes from './routes/authRoutes';
 import complatintRoutes from './routes/complaintRoutes';
 import userRoutes from './routes/userRoutes';
 import { jwtAuth } from './middleware/jwtAuth';
-import { PrismaClient } from '../../../../generated/prisma';
+import { PrismaClient } from "@prisma/client";
 import { initializeWebSocket } from './routes/complaintRoutes';
 import { createServer } from 'http';
 import http from 'http';
@@ -40,7 +40,6 @@ app.use(cookieParser());
 
 // Routes
 app.use('/api/auth', authRoutes);
-app.use('/api/complaints', complatintRoutes);
 app.use('/api/complaints', complatintRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/ai', aigenRoutes);
