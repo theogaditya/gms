@@ -9,7 +9,7 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
-{
+      {
         protocol: 'https',
         hostname: 'swarajdesk.adityahota.online',
         port: '',
