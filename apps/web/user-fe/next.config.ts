@@ -25,6 +25,18 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ['framer-motion'],
   },
+  
+};
+
+module.exports = {
+  async rewrites() {
+    return [
+      {
+        source: "/api/:path*",
+        destination: "https://user-be-97618793412.europe-west1.run.app/api/:path*",
+      },
+    ];
+  },
 };
 
 export default nextConfig;

@@ -8,7 +8,7 @@
     "dev": "cross-env NODE_ENV=development tsc -b && cross-env NODE_ENV=development node dist/index.js",
     "build": "cross-env NODE_ENV=production tsc -b && cross-env NODE_ENV=production" 
   },
-
+  
   "keywords": [],
   "author": "",
   "license": "ISC",
