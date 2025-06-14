@@ -1,4 +1,6 @@
+
 import { Router, Request, Response } from 'express';import { PrismaClient } from "@prisma/client";import bcrypt from 'bcrypt';
+
 import jwt from 'jsonwebtoken';
 import { signupSchema, signinSchema } from '../schemas/authSchema';
 import { z } from 'zod';
@@ -33,7 +35,7 @@ router.post('/signup', async (req, res: any) => {
     
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
-    
+
     // Create user with location in a transaction
     const result = await prisma.$transaction(async (tx) => {
       // Create user
@@ -70,7 +72,7 @@ router.post('/signup', async (req, res: any) => {
 
       return { user, userLocation };
     });
-    
+
     // Generate JWT
     const token = jwt.sign(
       { id: result.user.id }, 

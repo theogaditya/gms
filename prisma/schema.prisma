@@ -325,6 +325,7 @@ enum ComplaintStatus {
   ESCALATED_TO_MUNICIPAL_LEVEL 
   ESCALATED_TO_STATE_LEVEL 
 }
+
 enum ComplaintUrgency {
   LOW
   MEDIUM
