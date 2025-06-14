@@ -29,7 +29,7 @@ const server = http.createServer(app);
 //'http://localhost:3000', 'http://localhost:3002'
 app.use(
   cors({
-    origin: ['*','http://localhost:3000'], 
+    origin: ['http://localhost:3000', 'http://localhost:3002'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"]

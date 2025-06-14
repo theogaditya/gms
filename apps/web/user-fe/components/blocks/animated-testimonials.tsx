@@ -3,7 +3,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Separator } from "@/components/ui/separator"
 import { Quote, Star } from "lucide-react"
-import { motion, useAnimation, useInView } from "framer-motion"
+import { motion, useAnimation, useInView, easeOut, easeInOut } from "framer-motion"
 import { useEffect, useRef, useState } from "react"
 
 export interface Testimonial {
@@ -15,7 +15,6 @@ export interface Testimonial {
   rating: number
   avatar: string
 }
-
 
 export interface AnimatedTestimonialsProps {
   title?: string
@@ -29,13 +28,11 @@ export interface AnimatedTestimonialsProps {
 }
 
 export function AnimatedTestimonials({
-
   title = "Loved by the community",
   subtitle = "Hear from citizens and officials who are transforming complaints into constructive change through our platform.",
   badgeText = "Trusted by Citizens",
   testimonials = [],
   autoRotateInterval = 6000,
-
   className,
 }: AnimatedTestimonialsProps) {
   const [activeIndex, setActiveIndex] = useState(0)
@@ -56,7 +53,7 @@ export function AnimatedTestimonials({
       },
     },
   }
-
+  
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
@@ -64,7 +61,7 @@ export function AnimatedTestimonials({
       y: 0,
       transition: {
         duration: 0.5,
-        ease: "easeOut",
+        ease: easeOut, // Use imported constant
       },
     },
   }
@@ -152,7 +149,7 @@ export function AnimatedTestimonials({
                   x: activeIndex === index ? 0 : 100,
                   scale: activeIndex === index ? 1 : 0.9,
                 }}
-                transition={{ duration: 0.5, ease: "easeInOut" }}
+                transition={{ duration: 0.5, ease: easeInOut }} // Use imported constant
                 style={{ zIndex: activeIndex === index ? 10 : 0 }}
               >
                 <div className="bg-card border shadow-lg rounded-lg sm:rounded-xl p-4 sm:p-6 md:p-7 lg:p-8 h-full flex flex-col">
@@ -185,7 +182,6 @@ export function AnimatedTestimonials({
                       <h3 className="font-semibold">{testimonial.name}</h3>
                       <p className="text-sm text-muted-foreground">
                         {testimonial.role}, {testimonial.panchayat}
-
                       </p>
                     </div>
                   </div>
