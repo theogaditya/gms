@@ -26,10 +26,10 @@ const prisma = new PrismaClient();
 const server = http.createServer(app);
 
 // Middleware 
-//'http://localhost:3000', 'http://localhost:3002'
+//'http://localhost:3000', 'http://localhost:3002', 'https://swarajnew.adityahota.online'
 app.use(
   cors({
-    origin: ['http://localhost:3000', 'http://localhost:3002'],
+    origin: ['http://localhost:3000', 'http://localhost:3002','https://swarajnew.adityahota.online'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"]
