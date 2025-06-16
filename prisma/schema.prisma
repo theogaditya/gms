@@ -324,6 +324,7 @@ enum ComplaintStatus {
   REJECTED
   ESCALATED_TO_MUNICIPAL_LEVEL 
   ESCALATED_TO_STATE_LEVEL 
+  DELETED
 }
 
 enum ComplaintUrgency {
