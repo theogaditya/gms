@@ -378,7 +378,32 @@ router.get('/complaints', async (req, res) => {
 });
 
 // ----- 10. Delete A Complaint -----
+router.patch('/delete/:id', async (req, res:any) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
 
+    if (status !== 'DELETED') {
+      return res.status(400).json({ error: 'Invalid status update' });
+    }
+
+    const updatedComplaint = await prisma.complaint.update({
+      where: { id },
+      data: { 
+        status: 'DELETED',
+      }
+    });
+
+    res.json({
+      message: 'Complaint status updated to DELETED',
+      data: updatedComplaint
+    });
+
+  } catch (error) {
+    console.error('Error updating complaint status:', error);
+    res.status(500).json({ error: 'Failed to update complaint status' });
+  }
+});
 
 // ----- 11. Escalate A Complaint ----- 
 

@@ -142,21 +142,26 @@ export default function DashboardTab() {
   // Delete complaint handler
   const handleDelete = async (id: string) => {
     try {
-      const response = await fetch(`${API_BASE}/api/super-admin/complaints/${id}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-      });
+      const response = await fetch(
+        `${API_BASE}/api/super-admin/delete/${id}`, 
+        {
+          method: 'PATCH', 
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify({ status: 'DELETED' })  
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`Failed to delete complaint: ${response.status}`);
       }
 
-      // Remove from local state
+      // Update local state
       const updated = stats.recent.filter(c => c.id !== id);
       setStats({ totalComplaints: updated.length, recent: updated });
+      
     } catch (err) {
       console.error('Error deleting complaint:', err);
       setError(err instanceof Error ? err.message : 'Failed to delete complaint');
