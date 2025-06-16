@@ -16,19 +16,13 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
     ],
-    // Add timeout and retry configurations
     minimumCacheTTL: 60,
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
-  // Add experimental features for better image handling
   experimental: {
     optimizePackageImports: ['framer-motion'],
   },
-  
-};
-
-module.exports = {
   async rewrites() {
     return [
       {
