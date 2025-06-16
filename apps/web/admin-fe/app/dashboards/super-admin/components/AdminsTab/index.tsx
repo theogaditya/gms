@@ -117,7 +117,6 @@ export default function AdminsTab() {
                       </span>
                     </td>
                     <td className="px-6 py-4 text-sm text-blue-100">
-                      <button className="text-blue-400 hover:text-blue-300 mr-3">Edit</button>
                       <button 
                         onClick={() => handleDeactivateAdmin(admin.id)} 
                         className={`mr-3 ${admin.status === 'Active' ? 'text-red-400 hover:text-red-300' : 'text-green-400 hover:text-green-300'}`}

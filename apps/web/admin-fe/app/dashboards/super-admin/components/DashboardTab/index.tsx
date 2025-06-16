@@ -12,6 +12,7 @@ interface Complaint {
   urgency: 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
   categoryId: string;
   subCategory: string;
+  standardizedSubCategory?: string;
   assignedDepartment: string;
   complainant?: {
     name: string;
@@ -429,6 +430,7 @@ export default function DashboardTab() {
                 <p className="text-sm text-blue-100 mb-1">{item.description}</p>
                 <div className="text-xs text-gray-400 space-y-1">
                   <p>Category: {item.category?.name || 'N/A'} - {item.subCategory}</p>
+                  <p>Swaraj AI: {item.standardizedSubCategory}</p>
                   <p>Department: {item.assignedDepartment}</p>
                   <p>Submitted: {formatDate(item.submissionDate)}</p>
                   {item.complainant && (

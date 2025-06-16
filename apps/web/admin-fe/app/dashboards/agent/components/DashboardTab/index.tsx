@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import StatCard from './StatCard';
+import { Sparkles } from 'lucide-react'
 
 interface Complaint {
   _id: string;
@@ -246,7 +247,6 @@ export default function DashboardTab() {
   const getStatusOptions = () => [
     { value: 'REGISTERED', label: 'Pending', color: 'text-blue-400' },
     { value: 'UNDER_PROCESSING', label: 'In Progress', color: 'text-yellow-400' },
-    { value: 'FORWARDED', label: 'Escalated', color: 'text-purple-400' },
     { value: 'ON_HOLD', label: 'On Hold', color: 'text-orange-400' },
     { value: 'COMPLETED', label: 'Solved', color: 'text-green-400' },
     { value: 'REJECTED', label: 'Rejected', color: 'text-red-400' },
@@ -571,9 +571,12 @@ export default function DashboardTab() {
                       <div className="bg-gray-700 p-4 rounded-lg">
                         <h3 className="text-sm font-medium text-gray-400 mb-2">Category</h3>
                         <p className="text-white text-sm">{selectedComplaint.category?.name || 'N/A'}</p>
-                        <p className="text-gray-400 text-xs mt-1">Sub: {selectedComplaint.subCategory}</p>
+                        <p className="text-gray-400 text-xs mt-1">Sub Category: {selectedComplaint.subCategory}</p>
                         {selectedComplaint.standardizedSubCategory && (
-                          <p className="text-gray-400 text-xs">Swaraj Glimpse: {selectedComplaint.standardizedSubCategory}</p>
+                          <p className="text-gray-400 text-xs flex items-center gap-1">
+                            <Sparkles className="w-4 h-4 text-gray-400" />
+                            Swaraj AI: {selectedComplaint.standardizedSubCategory}
+                          </p>
                         )}
                       </div>
 

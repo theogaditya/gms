@@ -13,10 +13,13 @@ export default function Sidebar({
 }) {
   return (
     <aside className="fixed inset-y-0 left-0 w-64 bg-gray-900 text-white border-r border-gray-800">
-      <div className="p-4 border-b border-gray-800">
-        <h1 className="text-xl font-bold">Admin Portal</h1>
-        <p className="text-blue-100 text-sm">Restricted access - Authorized personnel only</p>
-        <p>Powered b SWARAJ AI</p>
+      <div className="p-6 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 border-gray-700 shadow-md">
+        <h1 className="text-2xl font-semibold text-white tracking-wide">SwarajDesk Admin Portal</h1>
+        <p className="text-sm text-gray-300 mt-1">
+          Powered by <span className="font-medium text-blue-400">Swaraj AI</span>
+          <br />
+          <span className="italic text-red-400">Restricted access:</span> Authorized personnel only.
+        </p>
       </div>
       <nav className="p-4 space-y-2">
         <button

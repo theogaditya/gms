@@ -17,7 +17,7 @@ interface Agent {
 export default function AgentsTab() {
   const [agents, setAgents] = useState<Agent[]>([]);
   const [loading, setLoading] = useState(false);
-  const API_BASE = "http://localhost:3002/api/agents"; // Updated endpoint
+  const API_BASE = "http://localhost:3002/api/municipal-admin"; // Updated endpoint
 
   const handleToggleAgentStatus = async (id: string) => {
     const agent = agents.find((a) => a.id === id);
@@ -47,32 +47,39 @@ export default function AgentsTab() {
     }
   };
 
-  useEffect(() => {
-    const fetchAgents = async () => {
-      try {
-        setLoading(true);
-        const res = await fetch(`${API_BASE}`, {
-          method: 'GET',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-        });
-        const data = await res.json();
-        if (data.success) {
-          const formattedAgents = data.agents.map((agent: Agent) => ({
-            ...agent,
-            status: agent.status.charAt(0).toUpperCase() + agent.status.slice(1).toLowerCase()
-          }));
-          setAgents(formattedAgents);
-        }
-      } catch (err) {
-        console.error('Failed to fetch agents:', err);
-      } finally {
-        setLoading(false);
+useEffect(() => {
+  const fetchAgents = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch(`${API_BASE}/all`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+      });
+      const data = await res.json();
+      
+      if (data.success) {
+        const formattedAgents = data.agents.map((agent: Agent) => ({
+          ...agent,
+          status: agent.status 
+            ? agent.status.charAt(0).toUpperCase() + agent.status.slice(1).toLowerCase()
+            : 'Inactive' // Default value if status is missing
+        }));
+        setAgents(formattedAgents);
+      } else {
+        console.error('Failed to fetch agents:', data.message);
+        setAgents([]); // Set empty array if request fails
       }
-    };
+    } catch (err) {
+      console.error('Failed to fetch agents:', err);
+      setAgents([]); // Set empty array on error
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    fetchAgents();
-  }, []);
+  fetchAgents();
+}, []);
 
   return (
     <motion.section initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="bg-gray-800 rounded-xl border border-gray-700 overflow-hidden">
@@ -116,7 +123,6 @@ export default function AgentsTab() {
                       </span>
                     </td>
                     <td className="px-6 py-4 text-sm text-blue-100">
-                      <button className="text-blue-400 hover:text-blue-300 mr-3">Edit</button>
                       <button 
                         onClick={() => handleToggleAgentStatus(agent.id)} 
                         className={`mr-3 ${agent.status === 'Active' ? 'text-red-400 hover:text-red-300' : 'text-green-400 hover:text-green-300'}`}

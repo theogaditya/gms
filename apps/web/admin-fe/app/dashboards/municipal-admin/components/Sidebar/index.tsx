@@ -36,7 +36,7 @@ export default function Sidebar({
             activeTab === 'admins' ? 'bg-blue-700' : 'hover:bg-gray-800'
           }`}
         >
-          Admin Management
+          Agent Management
         </button>
         <button
           onClick={onLogout}
