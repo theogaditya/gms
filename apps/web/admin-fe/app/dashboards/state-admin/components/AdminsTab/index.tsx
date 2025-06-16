@@ -8,7 +8,7 @@ import AdminSkeletonRow from './AdminSkeletonRow';
 interface Admin {
   id: string;
   name: string;
-  email: string;
+  officialEmail: string;
   department: string;
   accessLevel: string;
   status: string;
@@ -105,7 +105,7 @@ export default function AdminsTab() {
               : admins.map((admin) => (
                   <tr key={admin.id}>
                     <td className="px-6 py-4 text-sm font-medium text-white">{admin.name}</td>
-                    <td className="px-6 py-4 text-sm text-blue-100">{admin.email}</td>
+                    <td className="px-6 py-4 text-sm text-blue-100">{admin.officialEmail}</td>
                     <td className="px-6 py-4 text-sm text-blue-100">{admin.department}</td>
                     <td className="px-6 py-4 text-sm text-blue-100">{admin.accessLevel}</td>
                     <td className="px-6 py-4">
@@ -116,7 +116,6 @@ export default function AdminsTab() {
                       </span>
                     </td>
                     <td className="px-6 py-4 text-sm text-blue-100">
-                      <button className="text-blue-400 hover:text-blue-300 mr-3">Edit</button>
                       <button 
                         onClick={() => handleDeactivateAdmin(admin.id)} 
                         className={`mr-3 ${admin.status === 'Active' ? 'text-red-400 hover:text-red-300' : 'text-green-400 hover:text-green-300'}`}

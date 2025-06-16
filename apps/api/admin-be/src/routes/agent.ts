@@ -168,9 +168,14 @@ router.get('/me', async (req, res: any) => {
 router.get('/complaints',authenticateAgent, async (req, res:any) => {
   try {
     const complaints = await prisma.complaint.findMany({
+      where: {
+        status: {
+          not: 'DELETED'
+        }
+      },
       include: {
         category: true,
-        complainant: true 
+        complainant: true,
       },
       orderBy: {
         submissionDate: 'desc' 
