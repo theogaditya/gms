@@ -54,7 +54,7 @@ router.post('/login', async (req, res: any) => {
 
 
 // Create Agent
-router.post('/create/agent',authenticateMunicipalAdmin, async (req, res: any) => {
+router.post('/create/agent', async (req, res: any) => {
   const parse = agentSchema.safeParse(req.body);
   if (!parse.success) {
     return res.status(400).json({ 
@@ -133,9 +133,14 @@ router.post('/create/agent',authenticateMunicipalAdmin, async (req, res: any) =>
 });
 
 // ----- 9. Get All Complaints -----
-router.get('/complaints', async (req, res) => {
+router.get('/complaints', async (req, res:any) => {
   try {
     const complaints = await prisma.complaint.findMany({
+      where: {
+        status: {
+         not:'DELETED'
+      },
+    },
       include: {
         category: true,
         complainant: true 
@@ -258,5 +263,90 @@ router.put('/complaints/:id/escalate', authenticateMunicipalAdmin, async (req: a
   }
 });
 
+// ---- Get Agents ---- //
+router.get('/all', async (req, res) => {
+  try {
+    const agents = await prisma.agent.findMany({
+      select: {
+        id: true,
+        fullName: true,  
+        email: true,
+        department: true,
+        accessLevel: true,
+        status: true,
+      }
+    });
+      
+    res.status(200).json({ 
+      success: true, 
+      agents: agents.map(agent => ({
+        ...agent,
+        name: agent.fullName, 
+        status: agent.status || 'INACTIVE'
+      }))
+    });
+  } catch (error) {
+    console.error('Error fetching agents:', error);
+    res.status(500).json({ success: false, message: 'Failed to fetch agents' });
+  }
+});
+
+// ---- Update Agent Status ---- //
+router.patch('/:id/status', async (req, res:any) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  // Validate input
+  if (!status || !['ACTIVE', 'INACTIVE'].includes(status)) {
+    return res.status(400).json({ 
+      success: false, 
+      message: 'Invalid status. Must be either "ACTIVE" or "INACTIVE"' 
+    });
+  }
+
+  try {
+    // Update the agent status
+    const updatedAgent = await prisma.agent.update({
+      where: { id },
+      data: { status },
+      select: {
+        id: true,
+        fullName: true,
+        email: true,
+        department: true,
+        accessLevel: true,
+        status: true
+      }
+    });
+
+    // Format the response to match frontend expectations
+    const formattedAgent = {
+      ...updatedAgent,
+      name: updatedAgent.fullName,
+      status: updatedAgent.status.charAt(0).toUpperCase() + 
+             updatedAgent.status.slice(1).toLowerCase()
+    };
+
+    res.status(200).json({ 
+      success: true,
+      agent: formattedAgent
+    });
+
+  } catch (error:any) {
+    console.error('Error updating agent status:', error);
+    
+    if (error.code === 'P2025') {
+      return res.status(404).json({ 
+        success: false, 
+        message: 'Agent not found' 
+      });
+    }
+    
+    res.status(500).json({ 
+      success: false, 
+      message: 'Failed to update agent status' 
+    });
+  }
+});
 
 export default router;

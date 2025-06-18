@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import StatCard from './StatCard';
 import Link from 'next/link';
+import { Sparkles } from 'lucide-react'
 
 interface Complaint {
   _id: string;
@@ -16,7 +17,8 @@ interface Complaint {
     | 'Escalated'
     | 'Escalated to Municipal Level' 
     | 'On Hold'
-    | 'Rejected';
+    | 'Rejected' 
+    | 'DELETED';
   subCategory: string;
   standardizedSubCategory?: string;
   urgency: string;
@@ -34,7 +36,8 @@ interface ComplaintDetail {
     | 'Escalated'
     | 'Escalated to Municipal Level'
     | 'On Hold'
-    | 'Rejected';
+    | 'Rejected' 
+    | 'DELETED';
   urgency: string;
   assignedDepartment: string;
   categoryId: string;
@@ -95,14 +98,14 @@ export default function DashboardTab() {
       case 'ESCALATED_TO_STATE_LEVEL':
         return 'Escalated';
       default:
-        return 'Pending';
+        return 'DELETED';
     }
   };
 
   const fetchComplaints = useCallback(async () => {
     try {
       const API_BASE = process.env.NEXT_PUBLIC_URL_ADMIN;
-      const response = await fetch(`${API_BASE}/api/super-admin/complaints`, {
+      const response = await fetch(`${API_BASE}/api/municipal-admin/complaints`, {
         credentials: 'include',
       });
 
@@ -248,7 +251,6 @@ export default function DashboardTab() {
   const getStatusOptions = () => [
     { value: 'REGISTERED', label: 'Pending', color: 'text-blue-400' },
     { value: 'UNDER_PROCESSING', label: 'In Progress', color: 'text-yellow-400' },
-    { value: 'FORWARDED', label: 'Escalated', color: 'text-purple-400' },
     { value: 'ON_HOLD', label: 'On Hold', color: 'text-orange-400' },
     { value: 'COMPLETED', label: 'Solved', color: 'text-green-400' },
     { value: 'REJECTED', label: 'Rejected', color: 'text-red-400' },
@@ -318,6 +320,7 @@ export default function DashboardTab() {
     'In Progress': 'text-blue-300',
     'On Hold': 'text-orange-300',
     Rejected: 'text-red-300',
+    DELETED: 'text-gray-400',
   };
 
   const urgencyColors: Record<string, string> = {
@@ -390,7 +393,7 @@ export default function DashboardTab() {
           <div className="space-y-3 flex flex-col">
             <Link href="https://insight.batoi.com/management/44/32e98cab-a41c-48f0-8804-d3f1b4ec1363">
               <button className="w-full bg-gray-700 text-white py-2 px-4 rounded-lg text-sm font-medium hover:bg-gray-600 transition">
-                View Reports
+                Batoi Insights
               </button>
             </Link>
             <button
@@ -582,9 +585,12 @@ export default function DashboardTab() {
                       <div className="bg-gray-700 p-4 rounded-lg">
                         <h3 className="text-sm font-medium text-gray-400 mb-2">Category</h3>
                         <p className="text-white text-sm">{selectedComplaint.category?.name || 'N/A'}</p>
-                        <p className="text-gray-400 text-xs mt-1">Sub: {selectedComplaint.subCategory}</p>
+                        <p className="text-gray-400 text-xs mt-1">Sub Category: {selectedComplaint.subCategory}</p>
                         {selectedComplaint.standardizedSubCategory && (
-                          <p className="text-gray-400 text-xs">Swaraj Glimpse: {selectedComplaint.standardizedSubCategory}</p>
+                          <p className="text-gray-400 text-xs flex items-center gap-1">
+                            <Sparkles className="w-4 h-4 text-gray-400" />
+                            Swaraj AI: {selectedComplaint.standardizedSubCategory}
+                          </p>
                         )}
                       </div>
 
