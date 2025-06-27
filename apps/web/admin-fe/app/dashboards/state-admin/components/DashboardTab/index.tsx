@@ -356,7 +356,7 @@ export default function DashboardTab() {
         <div className="bg-gray-800 p-6 rounded-xl border border-gray-700">
           <h3 className="text-lg font-semibold text-white mb-4">Quick Actions</h3>
           <div className="space-y-3 flex flex-col">
-            <Link href="https://insight.batoi.com/management/44/32e98cab-a41c-48f0-8804-d3f1b4ec1363">
+            <Link href="https://insight.batoi.com/management/21/32e98cab-a41c-48f0-8804-d3f1b4ec1363">
               <button className="w-full bg-gray-700 text-white py-2 px-4 rounded-lg text-sm font-medium hover:bg-gray-600 transition">
                 Batoi Insights
               </button>
