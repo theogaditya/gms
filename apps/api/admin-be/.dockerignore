@@ -1,0 +1,13 @@
+dist
+uploads
+*.log
+*.tsbuildinfo
+*.env
+.cache
+.git
+.gitignore
+npm-debug.log
+turbo
+seed.ts
+seed.js
+orbital-builder-454706-h5-b59cc62acc56.json
