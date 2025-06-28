@@ -20,6 +20,7 @@ interface Complaint {
   subCategory: string;
   standardizedSubCategory?: string;
   urgency: string;
+  assignedAgentId?: string;
 }
 
 interface ComplaintDetail {
@@ -77,6 +78,7 @@ export default function DashboardTab() {
   const [modalLoading, setModalLoading] = useState(false);
   const [statusDropdownOpen, setStatusDropdownOpen] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [assigningComplaintId, setAssigningComplaintId] = useState<string | null>(null);
 
   const mapStatus = (status: string): Complaint['status'] => {
     switch (status) {
@@ -97,7 +99,7 @@ export default function DashboardTab() {
     }
   };
 
-  // Memoized fetch function to avoid infinite re-renders
+  // Memoized  function to avoid infinite re-renders
   const fetchComplaints = useCallback(async () => {
     try {
       const API_BASE = process.env.NEXT_PUBLIC_URL_ADMIN;
@@ -116,6 +118,7 @@ export default function DashboardTab() {
         status: mapStatus(c.status),
         subCategory: c.subCategory,
         urgency: c.urgency,
+        assignedAgentId: c.assignedAgentId || null,
       }));
 
       setStats({ totalComplaints: complaints.length, recent: complaints });
@@ -236,6 +239,26 @@ export default function DashboardTab() {
     } finally {
       setIsUpdating(false);
       setStatusDropdownOpen(false);
+    }
+  };
+
+  const handleAssign = async (complaintId: string) => {
+    try {
+      setAssigningComplaintId(complaintId);
+      const API_BASE = process.env.NEXT_PUBLIC_URL_ADMIN;
+      const res = await fetch(`${API_BASE}/api/agent/complaints/${complaintId}/assign`, {
+        method: 'POST',
+        credentials: 'include',
+      });
+
+      const data = await res.json();
+      alert(data.message);
+      
+      setAssigningComplaintId(null);
+      handleRefresh();
+    } catch (error) {
+      console.error('Assignment error:', error);
+      alert('Something went wrong');
     }
   };
 
@@ -426,26 +449,73 @@ export default function DashboardTab() {
         </div>
 
         <ul className="space-y-4">
-          {filteredComplaints.map((complaint) => (
-            <li key={complaint._id} className="bg-gray-700 p-4 rounded-xl shadow space-y-2">
-              <div>
-                <p 
-                  className="text-white text-sm font-medium cursor-pointer hover:text-blue-300 transition-colors"
-                  onClick={() => handleComplaintClick(complaint._id)}
-                >
-                  {complaint.text}
-                </p>
-                <p className="text-xs text-gray-400">{complaint.createdAt}</p>
-                <p className={`text-xs mt-1 font-semibold ${statusColors[complaint.status]}`}>
-                  {complaint.status}
-                </p>
-                <p className={`text-xs mt-1 font-semibold ${urgencyColors[complaint.urgency]}`}>
-                  Priority: {complaint.urgency}
-                </p>
-                <p className="text-xs text-gray-400">Sub Category: {complaint.subCategory}</p>
-              </div>
-            </li>
-          ))}
+          {filteredComplaints.map((complaint) => {
+            const isAssigned = !!complaint.assignedAgentId;
+            const isEscalated = complaint.status === 'Escalated' || complaint.status === 'Escalated to Municipal Level';
+            const showAssignButton = !isAssigned && !isEscalated;
+            const isLoading = assigningComplaintId === complaint._id;
+            return (
+              <li key={complaint._id} className="bg-gray-700 p-4 rounded-xl shadow space-y-2">
+                <div className="flex justify-between items-start gap-4">
+                  {/* Left side: Complaint content */}
+                  <div className="flex-1 space-y-1">
+                    <p
+                      className="text-white text-sm font-medium cursor-pointer hover:text-blue-300 transition-colors"
+                      onClick={() => handleComplaintClick(complaint._id)}
+                    >
+                      {complaint.text}
+                    </p>
+                    <p className="text-xs text-gray-400">{complaint.createdAt}</p>
+                    <p className={`text-xs mt-1 font-semibold ${statusColors[complaint.status]}`}>
+                      {complaint.status}
+                    </p>
+                    <p className={`text-xs mt-1 font-semibold ${urgencyColors[complaint.urgency]}`}>
+                      Priority: {complaint.urgency}
+                    </p>
+                    <p className="text-xs text-gray-400">Sub Category: {complaint.subCategory}</p>
+                  </div>
+
+                  {/* Right side: Assign button */}
+                  {!isEscalated && (
+                    <button
+                      disabled={isAssigned || isLoading}
+                      onClick={() => handleAssign(complaint._id)}
+                      className={`h-fit px-3 py-1 text-sm rounded-md font-semibold transition-colors min-w-[100px] flex items-center justify-center
+                        ${isAssigned || isLoading
+                          ? 'bg-gray-500 text-white cursor-not-allowed'
+                          : 'bg-red-600 hover:bg-red-700 text-white'}
+                      `}
+                    >
+                      {isLoading ? (
+                        <svg
+                          className="animate-spin h-4 w-4 text-white"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          ></circle>
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                          ></path>
+                        </svg>
+                      ) : (
+                        isAssigned ? 'Assigned' : 'Assign'
+                      )}
+                    </button>
+                  )}
+                </div>
+              </li>
+            );
+          })}
         </ul>
       </div>
 
