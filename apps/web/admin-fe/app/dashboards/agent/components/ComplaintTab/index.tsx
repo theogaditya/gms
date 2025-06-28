@@ -56,7 +56,7 @@ export default function ComplaintsTab() {
   const [modalLoading, setModalLoading] = useState(false);
   const [statusDropdownOpen, setStatusDropdownOpen] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
-  const API_BASE = process.env.NEXT_PUBLIC_URL_ADMIN;
+  const API_BASE = process.env.NEXT_PUBLIC_URL_ADMIN; 
 
   const mapStatus = (status: string): string => {
     switch (status) {
@@ -99,7 +99,7 @@ export default function ComplaintsTab() {
   const fetchComplaints = useCallback(async () => {
     try {
       setLoading(true);
-      const res = await fetch(`${API_BASE}/me/complaints`, {
+      const res = await fetch(`${API_BASE}/api/agent/me/complaints`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
