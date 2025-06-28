@@ -56,7 +56,7 @@ export default function ComplaintsTab() {
   const [modalLoading, setModalLoading] = useState(false);
   const [statusDropdownOpen, setStatusDropdownOpen] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
-  const API_BASE = "http://localhost:3002/api/agent";
+  const API_BASE = process.env.NEXT_PUBLIC_URL_ADMIN;
 
   const mapStatus = (status: string): string => {
     switch (status) {
