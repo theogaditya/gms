@@ -298,16 +298,6 @@ export default function ComplaintsTab() {
     { value: 'REJECTED', label: 'Rejected', color: 'text-red-400' },
   ];
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-  };
-
   const getPriorityColor = (priority: string) => {
     switch (priority?.toLowerCase()) {
       case 'high':
@@ -443,9 +433,6 @@ export default function ComplaintsTab() {
                         <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(complaint.status)}`}>
                           {mapStatus(complaint.status)}
                         </span>
-                      </td>
-                      <td className="px-6 py-4 text-sm text-blue-100">
-                        {formatDate(complaint.createdAt)}
                       </td>
                       <td className="px-6 py-4 text-sm">
                         <div className="flex space-x-2">
