@@ -1,26 +1,22 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import StatCard from './StatCard';
-import { Sparkles } from 'lucide-react'
+import ComplaintSkeletonRow from './complaintSkeletonRow';
+import { Sparkles } from 'lucide-react';
 
 interface Complaint {
-  _id: string;
-  text: string;
+  id: string;
+  title: string;
+  description: string;
+  status: string;
+  priority: string;
+  category: string;
   createdAt: string;
-  status:
-    | 'Pending'
-    | 'Solved'
-    | 'In Progress'
-    | 'Escalated'
-    | 'Escalated to Municipal Level' // ✅ Add this
-    | 'On Hold'
-    | 'Rejected';
-  subCategory: string;
-  standardizedSubCategory?: string;
-  urgency: string;
-  assignedAgentId?: string;
+  updatedAt: string;
+  citizenName?: string;
+  citizenEmail?: string;
+  assignedAgentId: string;
 }
 
 interface ComplaintDetail {
@@ -28,14 +24,7 @@ interface ComplaintDetail {
   seq: number;
   description: string;
   submissionDate: string;
-  status:
-    | 'Pending'
-    | 'Solved'
-    | 'In Progress'
-    | 'Escalated'
-    | 'Escalated to Municipal Level'
-    | 'On Hold'
-    | 'Rejected';
+  status: string;
   urgency: string;
   assignedDepartment: string;
   categoryId: string;
@@ -60,27 +49,16 @@ interface ComplaintDetail {
   };
 }
 
-interface DashboardStats {
-  totalComplaints: number;
-  recent: Complaint[];
-}
-
-export default function DashboardTab() {
-  const [stats, setStats] = useState<DashboardStats>({
-    totalComplaints: 0,
-    recent: [],
-  });
-
-  const [loading, setLoading] = useState(true);
-  const [filterStatus, setFilterStatus] = useState<'All' | Complaint['status']>('All');
-  const [filterUrgency, setFilterUrgency] = useState<'All' | 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL'>('All');
+export default function ComplaintsTab() {
+  const [complaints, setComplaints] = useState<Complaint[]>([]);
+  const [loading, setLoading] = useState(false);
   const [selectedComplaint, setSelectedComplaint] = useState<ComplaintDetail | null>(null);
   const [modalLoading, setModalLoading] = useState(false);
   const [statusDropdownOpen, setStatusDropdownOpen] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
-  const [assigningComplaintId, setAssigningComplaintId] = useState<string | null>(null);
+  const API_BASE = "http://localhost:3002/api/agent";
 
-  const mapStatus = (status: string): Complaint['status'] => {
+  const mapStatus = (status: string): string => {
     switch (status) {
       case 'REGISTERED':
         return 'Pending';
@@ -89,55 +67,64 @@ export default function DashboardTab() {
       case 'ON_HOLD':
         return 'On Hold';
       case 'COMPLETED':
-        return 'Solved';
+        return 'Resolved';
       case 'REJECTED':
         return 'Rejected';
       case 'ESCALATED_TO_MUNICIPAL_LEVEL':
         return 'Escalated';
       default:
-        return 'Pending';
+        return status;
     }
   };
 
-  // Memoized  function to avoid infinite re-renders
+  const reverseMapStatus = (status: string): string => {
+    switch (status.toLowerCase()) {
+      case 'pending':
+        return 'REGISTERED';
+      case 'in progress':
+        return 'UNDER_PROCESSING';
+      case 'on hold':
+        return 'ON_HOLD';
+      case 'resolved':
+        return 'COMPLETED';
+      case 'rejected':
+        return 'REJECTED';
+      case 'escalated':
+        return 'ESCALATED_TO_MUNICIPAL_LEVEL';
+      default:
+        return status;
+    }
+  };
+
   const fetchComplaints = useCallback(async () => {
     try {
-      const API_BASE = process.env.NEXT_PUBLIC_URL_ADMIN;
-      const response = await fetch(`${API_BASE}/api/agent/complaints`, {
+      setLoading(true);
+      const res = await fetch(`${API_BASE}/me/complaints`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
       });
-
-      if (!response.ok) throw new Error('Failed to fetch complaints');
-
-      const data = await response.json();
-
-      const complaints: Complaint[] = data.complaints.map((c: any) => ({
-        _id: c.id,
-        text: c.description,
-        createdAt: new Date(c.submissionDate).toLocaleString(),
-        status: mapStatus(c.status),
-        subCategory: c.subCategory,
-        urgency: c.urgency,
-        assignedAgentId: c.assignedAgentId || null,
-      }));
-
-      setStats({ totalComplaints: complaints.length, recent: complaints });
+      const data = await res.json();
+      
+      if (res.ok) {
+        setComplaints(data || []);
+      } else {
+        console.error('Failed to fetch complaints:', data.message);
+        setComplaints([]);
+      }
     } catch (err) {
-      console.error('Error fetching complaints:', err);
+      console.error('Failed to fetch complaints:', err);
+      setComplaints([]);
     } finally {
       setLoading(false);
     }
-  }, []);
-
-  useEffect(() => {
-    fetchComplaints();
-  }, [fetchComplaints]);
+  }, [API_BASE]);
 
   const fetchComplaintDetails = async (complaintId: string) => {
     setModalLoading(true);
     try {
-      const API_BASE = process.env.NEXT_PUBLIC_URL_ADMIN;
-      const response = await fetch(`${API_BASE}/api/agent/complaints/${complaintId}`, {
+      const API_BASE_ADMIN = process.env.NEXT_PUBLIC_URL_ADMIN;
+      const response = await fetch(`${API_BASE_ADMIN}/api/agent/complaints/${complaintId}`, {
         credentials: 'include',
       });
 
@@ -175,6 +162,7 @@ export default function DashboardTab() {
       setSelectedComplaint(complaintDetail);
     } catch (err) {
       console.error('Error fetching complaint details:', err);
+      alert('Failed to load complaint details');
     } finally {
       setModalLoading(false);
     }
@@ -189,16 +177,39 @@ export default function DashboardTab() {
     setStatusDropdownOpen(false);
   };
 
+  const handleUpdateComplaintStatus = async (id: string, newStatus: string) => {
+    try {
+      const res = await fetch(`${API_BASE}/complaints/${id}/status`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: newStatus }),
+        credentials: 'include'
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        setComplaints(prev => prev.map(complaint =>
+          complaint.id === id ? { ...complaint, status: newStatus } : complaint
+        ));
+      } else {
+        alert('Failed to update status: ' + data.message);
+      }
+    } catch (err) {
+      console.error(err);
+      alert('An error occurred while updating status.');
+    }
+  };
+
   const handleStatusChange = async (newStatus: string) => {
     if (!selectedComplaint) return;
     
     setIsUpdating(true);
     try {
-      const API_BASE = process.env.NEXT_PUBLIC_URL_ADMIN;
+      const API_BASE_ADMIN = process.env.NEXT_PUBLIC_URL_ADMIN;
       
       const isEscalation = newStatus === 'ESCALATED_TO_MUNICIPAL_LEVEL';
 
-      const response = await fetch(`${API_BASE}/api/agent/complaints/${selectedComplaint.id}/status`, {
+      const response = await fetch(`${API_BASE_ADMIN}/api/agent/complaints/${selectedComplaint.id}/status`, {
         method: 'PUT',
         credentials: 'include',
         headers: {
@@ -225,12 +236,13 @@ export default function DashboardTab() {
       const updatedComplaint = data.complaint;
       setSelectedComplaint({
         ...selectedComplaint,
-        status: mapStatus(updatedComplaint.status),
+        status: updatedComplaint.status,
         dateOfResolution: updatedComplaint.dateOfResolution
           ? new Date(updatedComplaint.dateOfResolution).toLocaleString()
           : undefined,
       });
 
+      // Refresh the complaints list
       await fetchComplaints();
       console.log('Status updated successfully');
     } catch (err: any) {
@@ -242,47 +254,14 @@ export default function DashboardTab() {
     }
   };
 
-  const handleAssign = async (complaintId: string) => {
-    try {
-      setAssigningComplaintId(complaintId);
-      const API_BASE = process.env.NEXT_PUBLIC_URL_ADMIN;
-      const res = await fetch(`${API_BASE}/api/agent/complaints/${complaintId}/assign`, {
-        method: 'POST',
-        credentials: 'include',
-      });
-
-      const data = await res.json();
-      alert(data.message);
-      
-      setAssigningComplaintId(null);
-      handleRefresh();
-    } catch (error) {
-      console.error('Assignment error:', error);
-      alert('Something went wrong');
-    }
-  };
-
-  const handleRefresh = async () => {
-    setLoading(true);
-    await fetchComplaints();
-  };
-
-  const getStatusOptions = () => [
-    { value: 'REGISTERED', label: 'Pending', color: 'text-blue-400' },
-    { value: 'UNDER_PROCESSING', label: 'In Progress', color: 'text-yellow-400' },
-    { value: 'ON_HOLD', label: 'On Hold', color: 'text-orange-400' },
-    { value: 'COMPLETED', label: 'Solved', color: 'text-green-400' },
-    { value: 'REJECTED', label: 'Rejected', color: 'text-red-400' },
-  ];
-
   const handleEscalate = async () => {
     if (!selectedComplaint) return;
     setIsUpdating(true);
 
     try {
-      const API_BASE = process.env.NEXT_PUBLIC_URL_ADMIN;
+      const API_BASE_ADMIN = process.env.NEXT_PUBLIC_URL_ADMIN;
 
-      const response = await fetch(`${API_BASE}/api/agent/complaints/${selectedComplaint.id}/escalate`, {
+      const response = await fetch(`${API_BASE_ADMIN}/api/agent/complaints/${selectedComplaint.id}/escalate`, {
         method: 'PUT',
         credentials: 'include',
         headers: {
@@ -298,7 +277,7 @@ export default function DashboardTab() {
 
       setSelectedComplaint({
         ...selectedComplaint,
-        status: mapStatus(data.complaint.status),
+        status: data.complaint.status,
       });
 
       await fetchComplaints();
@@ -311,32 +290,68 @@ export default function DashboardTab() {
     }
   };
 
-  const groupedByStatus = stats.recent.reduce((acc: Record<string, Complaint[]>, complaint) => {
-    acc[complaint.status] = acc[complaint.status] || [];
-    acc[complaint.status].push(complaint);
-    return acc;
-  }, {});
+  const getStatusOptions = () => [
+    { value: 'REGISTERED', label: 'Pending', color: 'text-blue-400' },
+    { value: 'UNDER_PROCESSING', label: 'In Progress', color: 'text-yellow-400' },
+    { value: 'ON_HOLD', label: 'On Hold', color: 'text-orange-400' },
+    { value: 'COMPLETED', label: 'Resolved', color: 'text-green-400' },
+    { value: 'REJECTED', label: 'Rejected', color: 'text-red-400' },
+  ];
 
-  const groupedByUrgency = stats.recent.reduce((acc: Record<string, Complaint[]>, complaint) => {
-    acc[complaint.urgency] = acc[complaint.urgency] || [];
-    acc[complaint.urgency].push(complaint);
-    return acc;
-  }, {});
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
 
-  const urgencyDisplayColors: Record<string, string> = {
-    LOW: 'text-green-300',
-    MEDIUM: 'text-yellow-300',
-    HIGH: 'text-orange-300',
-    CRITICAL: 'text-red-400',
+  const getPriorityColor = (priority: string) => {
+    switch (priority?.toLowerCase()) {
+      case 'high':
+      case 'critical':
+        return 'bg-red-900 text-red-200';
+      case 'medium':
+        return 'bg-yellow-900 text-yellow-200';
+      case 'low':
+        return 'bg-green-900 text-green-200';
+      default:
+        return 'bg-gray-700 text-gray-300';
+    }
+  };
+
+  const getStatusColor = (status: string) => {
+    switch (status?.toLowerCase()) {
+      case 'resolved':
+      case 'completed':
+        return 'bg-green-900 text-green-200';
+      case 'in_progress':
+      case 'under_processing':
+        return 'bg-blue-900 text-blue-200';
+      case 'pending':
+      case 'registered':
+        return 'bg-yellow-900 text-yellow-200';
+      case 'rejected':
+        return 'bg-red-900 text-red-200';
+      case 'escalated':
+      case 'escalated_to_municipal_level':
+        return 'bg-purple-900 text-purple-200';
+      case 'on_hold':
+        return 'bg-orange-900 text-orange-200';
+      default:
+        return 'bg-gray-700 text-gray-300';
+    }
   };
 
   const statusColors: Record<string, string> = {
-    Pending: 'text-yellow-300',
-    Solved: 'text-green-300',
-    Escalated: 'text-red-400',
-    'In Progress': 'text-blue-300',
-    'On Hold': 'text-orange-300',
-    Rejected: 'text-red-300',
+    'REGISTERED': 'text-yellow-300',
+    'UNDER_PROCESSING': 'text-blue-300',
+    'ON_HOLD': 'text-orange-300',
+    'COMPLETED': 'text-green-300',
+    'REJECTED': 'text-red-300',
+    'ESCALATED_TO_MUNICIPAL_LEVEL': 'text-purple-300',
   };
 
   const urgencyColors: Record<string, string> = {
@@ -345,179 +360,128 @@ export default function DashboardTab() {
     HIGH: 'text-red-400',
     CRITICAL: 'text-red-600',
   };
-  
-  // Status display names
-  const statusDisplayNames: Record<string, string> = {
-    UNDER_PROCESSING: 'Under Processing',
-    RESOLVED: 'Resolved',
-    ESCALATED: 'Escalated',
-    IN_PROGRESS: 'In Progress',
-    CLOSED: 'Closed',
-  };
 
-  const filteredComplaints = stats.recent.filter((complaint) => {
-    const statusMatch = filterStatus === 'All' || complaint.status === filterStatus;
-    const urgencyMatch = filterUrgency === 'All' || complaint.urgency === filterUrgency;
-    return statusMatch && urgencyMatch;
-  });
-
-  if (loading) return <p className="text-white">Loading...</p>;
+  useEffect(() => {
+    fetchComplaints();
+  }, [fetchComplaints]);
 
   return (
     <>
-      <motion.section
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="grid grid-cols-1 md:grid-cols-4 gap-6"
+      <motion.section 
+        initial={{ opacity: 0 }} 
+        animate={{ opacity: 1 }} 
+        className="bg-gray-800 rounded-xl border border-gray-700 overflow-hidden"
       >
-        {/* Total Complaints Card */}
-        <StatCard title="Total Complaints" value={stats.totalComplaints.toString()} />
-
-        {/* Status Summary Card */}
-        <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow">
-          <h3 className="text-sm font-medium text-gray-400 mb-3">By Status</h3>
-          <div className="space-y-2">
-            {Object.entries(groupedByStatus).map(([status, complaints]) => (
-              <div key={status} className="flex justify-between text-sm">
-                <span className={`${statusColors[status] || 'text-white'}`}>
-                  {statusDisplayNames[status] || status}
-                </span>
-                <span className="text-gray-300">{complaints.length}</span>
-              </div>
-            ))}
+        <div className="p-6 border-b border-gray-700 flex justify-between items-center">
+          <div>
+            <h2 className="text-xl font-semibold text-white">Assigned Complaints</h2>
+            <p className="text-sm text-gray-400 mt-1">
+              Total: {complaints.length} complaints assigned to you
+            </p>
           </div>
-        </div>
-
-        {/* Urgency Summary Card */}
-        <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow">
-          <h3 className="text-sm font-medium text-gray-400 mb-3">By Priority</h3>
-          <div className="space-y-2">
-            {Object.entries(groupedByUrgency).map(([urgency, complaints]) => (
-              <div key={urgency} className="flex justify-between text-sm">
-                <span className={`${urgencyDisplayColors[urgency] || 'text-white'}`}>
-                  {urgency.charAt(0) + urgency.slice(1).toLowerCase()}
-                </span>
-                <span className="text-gray-300">{complaints.length}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </motion.section>
-
-      <div className="mt-6 bg-gray-800 p-6 rounded-xl border border-gray-700">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold text-white">Recent Complaints</h3>
-          <div className="flex items-center gap-3">
-            {/* Refresh Button */}
+          <div className="flex space-x-2">
             <button
-              onClick={handleRefresh}
+              onClick={fetchComplaints}
               disabled={loading}
-              className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-800 text-white px-3 py-1 rounded text-sm font-medium transition-colors flex items-center gap-2"
+              className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-800 text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2"
             >
               <svg className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
               </svg>
               Refresh
             </button>
-
-            <select
-              value={filterStatus}
-              onChange={(e) => setFilterStatus(e.target.value as any)}
-              className="bg-gray-700 text-white rounded px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            <select 
+              className="bg-gray-700 text-white px-3 py-2 rounded-lg text-sm border border-gray-600"
+              onChange={(e) => {
+                // Add filter functionality here if needed
+                console.log('Filter by:', e.target.value);
+              }}
             >
-              <option value="All">All Status</option>
-              <option value="Pending">Pending</option>
-              <option value="Solved">Solved</option>
-              <option value="Escalated">Escalated</option>
-              <option value="In Progress">In Progress</option>
-              <option value="On Hold">On Hold</option>
-              <option value="Rejected">Rejected</option>
-            </select>
-            
-            <select
-              value={filterUrgency}
-              onChange={(e) => setFilterUrgency(e.target.value as any)}
-              className="bg-gray-700 text-white rounded px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="All">All Priority</option>
-              <option value="LOW">Low</option>
-              <option value="MEDIUM">Medium</option>
-              <option value="HIGH">High</option>
-              <option value="CRITICAL">Critical</option>
+              <option value="">All Status</option>
+              <option value="pending">Pending</option>
+              <option value="in_progress">In Progress</option>
+              <option value="resolved">Resolved</option>
+              <option value="rejected">Rejected</option>
+              <option value="escalated">Escalated</option>
             </select>
           </div>
         </div>
-
-        <ul className="space-y-4">
-          {filteredComplaints.map((complaint) => {
-            const isAssigned = !!complaint.assignedAgentId;
-            const isEscalated = complaint.status === 'Escalated' || complaint.status === 'Escalated to Municipal Level';
-            const showAssignButton = !isAssigned && !isEscalated;
-            const isLoading = assigningComplaintId === complaint._id;
-            return (
-              <li key={complaint._id} className="bg-gray-700 p-4 rounded-xl shadow space-y-2">
-                <div className="flex justify-between items-start gap-4">
-                  {/* Left side: Complaint content */}
-                  <div className="flex-1 space-y-1">
-                    <p
-                      className="text-white text-sm font-medium cursor-pointer hover:text-blue-300 transition-colors"
-                      onClick={() => handleComplaintClick(complaint._id)}
-                    >
-                      {complaint.text}
-                    </p>
-                    <p className="text-xs text-gray-400">{complaint.createdAt}</p>
-                    <p className={`text-xs mt-1 font-semibold ${statusColors[complaint.status]}`}>
-                      {complaint.status}
-                    </p>
-                    <p className={`text-xs mt-1 font-semibold ${urgencyColors[complaint.urgency]}`}>
-                      Priority: {complaint.urgency}
-                    </p>
-                    <p className="text-xs text-gray-400">Sub Category: {complaint.subCategory}</p>
-                  </div>
-
-                  {/* Right side: Assign button */}
-                  {!isEscalated && (
-                    <button
-                      disabled={isAssigned || isLoading}
-                      onClick={() => handleAssign(complaint._id)}
-                      className={`h-fit px-3 py-1 text-sm rounded-md font-semibold transition-colors min-w-[100px] flex items-center justify-center
-                        ${isAssigned || isLoading
-                          ? 'bg-gray-500 text-white cursor-not-allowed'
-                          : 'bg-red-600 hover:bg-red-700 text-white'}
-                      `}
-                    >
-                      {isLoading ? (
-                        <svg
-                          className="animate-spin h-4 w-4 text-white"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                        >
-                          <circle
-                            className="opacity-25"
-                            cx="12"
-                            cy="12"
-                            r="10"
-                            stroke="currentColor"
-                            strokeWidth="4"
-                          ></circle>
-                          <path
-                            className="opacity-75"
-                            fill="currentColor"
-                            d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
-                          ></path>
-                        </svg>
-                      ) : (
-                        isAssigned ? 'Assigned' : 'Assign'
-                      )}
-                    </button>
-                  )}
-                </div>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
+        
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-700">
+            <thead className="bg-gray-800">
+              <tr>
+                {['Title', 'Category', 'Priority', 'Status', 'Actions'].map((head) => (
+                  <th key={head} className="px-6 py-3 text-left text-xs font-medium text-blue-300 uppercase tracking-wider">
+                    {head}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="bg-gray-800 divide-y divide-gray-700">
+              {loading
+                ? Array.from({ length: 5 }).map((_, i) => <ComplaintSkeletonRow key={i} />)
+                : complaints.map((complaint) => (
+                    <tr key={complaint.id} className="hover:bg-gray-750 transition-colors">
+                      <td className="px-6 py-4">
+                        <div className="text-sm font-medium text-white">
+                          {complaint.title}
+                        </div>
+                        <div className="text-xs text-gray-400 mt-1 max-w-xs truncate">
+                          {complaint.description}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 text-sm text-blue-100">
+                        {complaint.category || 'General'}
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getPriorityColor(complaint.priority)}`}>
+                          {complaint.priority || 'Medium'}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(complaint.status)}`}>
+                          {mapStatus(complaint.status)}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 text-sm text-blue-100">
+                        {formatDate(complaint.createdAt)}
+                      </td>
+                      <td className="px-6 py-4 text-sm">
+                        <div className="flex space-x-2">
+                          {complaint.status !== 'resolved' && complaint.status !== 'COMPLETED' && (
+                            <select
+                              className="bg-gray-700 text-white px-2 py-1 rounded text-xs border border-gray-600"
+                              value={complaint.status}
+                              onChange={(e) => handleUpdateComplaintStatus(complaint.id, e.target.value)}
+                            >
+                              <option value="pending">Pending</option>
+                              <option value="in_progress">In Progress</option>
+                              <option value="resolved">Resolved</option>
+                              <option value="rejected">Rejected</option>
+                            </select>
+                          )}
+                          <button 
+                            className="text-blue-400 hover:text-blue-300 text-xs"
+                            onClick={() => handleComplaintClick(complaint.id)}
+                          >
+                            View Details
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+              }
+            </tbody>
+          </table>
+          
+          {!loading && complaints.length === 0 && (
+            <div className="text-center py-8 text-gray-400">
+              <p>No complaints assigned to you yet.</p>
+            </div>
+          )}
+        </div>
+      </motion.section>
 
       {/* Modal */}
       <AnimatePresence>
@@ -554,7 +518,7 @@ export default function DashboardTab() {
                       <p className="text-sm text-gray-400">ID: {selectedComplaint.seq}</p>
                     </div>
                     <div className="flex items-center gap-3">
-                      {/* Escalate Button - left side */}
+                      {/* Escalate Button */}
                       <button
                         onClick={handleEscalate}
                         disabled={isUpdating}
@@ -617,7 +581,7 @@ export default function DashboardTab() {
                     </div>
                   </div>
 
-                  {/* Content Grid - Same as before */}
+                  {/* Content Grid */}
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     {/* Left Column */}
                     <div className="space-y-4">
