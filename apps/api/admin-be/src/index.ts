@@ -22,7 +22,6 @@ app.use(
     origin: [
       'http://localhost:3000',
       'http://localhost:3003',
-      'https://admin.swarajdesk.co.in'
     ],
     credentials: true,
   })
@@ -35,29 +34,5 @@ app.use('/api/municipal-admin', municipalAdminRoutes);
 app.use('/api/agent', agentRoutes);
 
 // Start server
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  console.error(err.stack);
-  res.status(500).json({ error: 'Something went wrong!' });
-});
-
-
-const PORT = process.env.ADMIN_BE_PORT
-
-// Initialize WebSocket after server creation but before listening
-
-app.listen(PORT, () => {
-  console.log(`HTTP server listening on http://localhost:${PORT}`);
-});
-
-// Graceful shutdown
-process.on('SIGTERM', async () => {
-  console.log('Shutting down gracefully...');
-  await prisma.$disconnect();
-  process.exit(0);
-});
-
-process.on('SIGINT', async () => {
-  console.log('Shutting down gracefully...');
-  await prisma.$disconnect();
-  process.exit(0);
-});
+const PORT = process.env.ADMIN_BE_PORT;
+app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));

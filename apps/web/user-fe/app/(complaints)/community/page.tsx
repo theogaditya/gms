@@ -3,12 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { Search, Clock, Flame, Sparkles } from 'lucide-react';
 import ComplaintCard from './ComplaintCard';
 import { Complaint } from '@/lib/types';
-import {
-  Announcement,
-  AnnouncementTag,
-  AnnouncementTitle,
-} from '@/components/ui/announcement';
-import { ArrowUpRightIcon } from 'lucide-react';
 const API_URL = process.env.NEXT_PUBLIC_API_URL; 
 
 type TabKey = 'forYou' | 'trending' | 'recent';

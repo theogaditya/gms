@@ -3,7 +3,6 @@ import Demo from "@/components/home";
 import { useEffect } from "react";
 import { useState, useRef } from "react";
 import {AnimatedTestimonialsBasic} from "@/components/testimony";
-import { Footer7 } from "@/components/ui/footer-7";
 import { Users, Shield, Globe, Zap } from 'lucide-react';
 import { Cta } from "@/components/ui/cta";
 

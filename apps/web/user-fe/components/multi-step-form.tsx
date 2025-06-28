@@ -315,24 +315,40 @@ const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
               <h2 className="text-lg font-semibold">Category & Type</h2>
               <div className="grid gap-4">
                 <div>
-                  <Label htmlFor="categoryId" className="text-sm">
-                    Complaint Category *
-                  </Label>
-                  <Select
-                    value={formData.categoryId}
-                    onValueChange={handleCategoryChange}
-                  >
-                    <SelectTrigger id="categoryId" aria-describedby={errors.categoryId ? "categoryId-error" : undefined}>
-                      <SelectValue placeholder="Select a category" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {categories.map((category) => (
-                        <SelectItem key={category.id} value={category.id}>
-                          {category.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  {/* New Category Selection */}
+                  <div className="mb-6 bg-gradient-to-r from-green-50 to-blue-50 dark:from-gray-800 dark:to-gray-800 p-4 rounded-xl border border-green-200 dark:border-gray-700">
+                    <div className="flex items-start">
+                      <div className="bg-gradient-to-r from-green-400 to-blue-500 rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0">
+                        <Sparkles className="h-6 w-6 text-white" />
+                      </div>
+                      <div className="ml-4 flex-1">
+                        <div className="flex items-center gap-2 mb-1">
+                          <h3 className="font-semibold text-gray-900 dark:text-white">Select a Category</h3>
+                          <span className="text-xs text-gray-500 dark:text-gray-400 font-normal">
+                            Powered by Swaraj AI
+                          </span>
+                        </div>
+                        <br />
+                        <div className="flex flex-wrap gap-2">
+                          {categories.map((category) => (
+                            <button
+                              key={category.id}
+                              type="button"
+                              onClick={() => handleCategoryChange(category.id)}
+                              className={`px-3 py-1 rounded-md text-sm border 
+                                ${
+                                  formData.categoryId === category.id
+                                    ? 'bg-green-500 text-white border-green-600'
+                                    : 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 border-transparent hover:bg-green-200 dark:hover:bg-green-800'
+                                }`}
+                            >
+                              {category.name}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                   {errors.categoryId && (
                     <p id="categoryId-error" className="text-sm text-red-600 mt-1">
                       {errors.categoryId}

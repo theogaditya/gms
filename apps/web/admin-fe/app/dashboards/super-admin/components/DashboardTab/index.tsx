@@ -358,9 +358,9 @@ export default function DashboardTab() {
               Create New Admin
             </motion.button>
           </Link>
-          <Link href="https://insight.batoi.com/management/44/32e98cab-a41c-48f0-8804-d3f1b4ec1363">
+          <Link href="https://insight.batoi.com/management/21/32e98cab-a41c-48f0-8804-d3f1b4ec1363">
             <button className="w-full bg-gray-700 text-white py-2 px-4 rounded-lg text-sm font-medium hover:bg-gray-600 transition">
-              View Reports
+              Batoi Insights
             </button>
           </Link>
           <button
