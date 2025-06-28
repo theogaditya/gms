@@ -4,15 +4,19 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Sidebar from './components/Sidebar';
 import DashboardTab from './components/DashboardTab';
+import ComplaintsTab from './components/ComplaintTab';
 import Header from './components/Header';
 import Footer from './components/Footer';
 
-export default function SuperAdminDashboard() {
+export default function AgentDashboard() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'admins' | 'settings'>('dashboard');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'complaints' | 'settings'>('dashboard');
 
   function handleLogout() {
-    localStorage.removeItem('authToken');
+    // Clear agent authentication token
+    localStorage.removeItem('agentAuthToken');
+    // You might also want to clear other agent-specific data
+    localStorage.removeItem('agentData');
     router.push('/');
   }
 
@@ -24,7 +28,7 @@ export default function SuperAdminDashboard() {
         <Header activeTab={activeTab} />
 
         {activeTab === 'dashboard' && <DashboardTab />}
-
+        {activeTab === 'complaints' && <ComplaintsTab />}
         <Footer />
       </main>
     </div>
