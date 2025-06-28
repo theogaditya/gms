@@ -22,7 +22,7 @@ app.use(
     origin: [
       'http://localhost:3000',
       'http://localhost:3003',
-      'https://admin-swarajdesk.adityahota.online'
+      'https://admin.swarajdesk.co.in'
     ],
     credentials: true,
   })
