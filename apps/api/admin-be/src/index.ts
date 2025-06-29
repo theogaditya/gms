@@ -22,6 +22,7 @@ app.use(
     origin: [
       'http://localhost:3000',
       'http://localhost:3003',
+      'https://admin.swarajdesk.co.in'
     ],
     credentials: true,
   })
@@ -33,13 +34,10 @@ app.use('/api/state-admin', stateAdminRoutes);
 app.use('/api/municipal-admin', municipalAdminRoutes);
 app.use('/api/agent', agentRoutes);
 
-// Start server
-const PORT = process.env.ADMIN_BE_PORT;
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
-<<<<<<< HEAD
-=======
-
 app.get('/health', (req, res) => {
   res.status(200).send('OK');
 });
->>>>>>> origin/main
+
+// Start server
+const PORT = process.env.ADMIN_BE_PORT;
+app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
