@@ -9,12 +9,12 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo check-types"
   },
-   "prisma": {
+  "prisma": {
     "seed": "node ./prisma/seed.js"
-   },
+  },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
-    "@types/cookie-parser": "^1.4.8",
+    "@types/cookie-parser": "^1.4.9",
     "@types/cors": "^2.8.18",
     "@types/express": "^5.0.2",
     "@types/jsonwebtoken": "^9.0.9",
@@ -40,16 +40,19 @@
     "packages/*"
   ],
   "dependencies": {
+    "@knaus94/prisma-extension-cache-manager": "^2.0.3",
     "@prisma/client": "^6.8.2",
     "@radix-ui/react-checkbox": "^1.3.2",
     "@radix-ui/react-dropdown-menu": "^2.1.15",
     "@radix-ui/react-radio-group": "^1.3.7",
     "bcrypt": "^6.0.0",
+    "cache-manager": "^7.0.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "framer-motion": "^12.16.0",
     "jsonwebtoken": "^9.0.2",
+    "lucide-react": "^0.523.0",
     "next": "^15.3.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",

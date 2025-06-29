@@ -1,20 +1,13 @@
 <h1 align="center">Grievance Management System</h1>
 
-<!-- <p align="center">
-  Full-stack blogging platform with real-time features, cloud-native architecture, and rich content support.
-</p> -->
-
-<!-- <p align="center">
-  <a href="https://inkwell.adityahota.online/">Website</a> |
-  <a href="https://github.com/Bytewise-Consulting-Product/inkwell/issues">Issues</a> |
-  <a href="https://inkwell-backend.adityahota.online/documentation/">API Docs</a> 
-</p> -->
-
-
 A web platform enabling citizens to submit, track, and resolve complaints across various sectors, including infrastructure, environment, and public services.
 
 📘 **Documentation**: [CMS Docs](https://aditya-12.gitbook.io/cms-docs)
 
-**Deployed user backend**: [swaraj.userbe.adityahota.online ](https://swaraj.userbe.adityahota.online)
+**user site**: [swarajdesk.co.in](https://www.swarajdesk.co.in/)
 
-**Deployed user frontend**: [swarajnew.adityahota.online](https://swarajnew.adityahota.online)
+**admin site**: [admin.be.swarajdesk.co.in](https://admin.be.swarajdesk.co.in/)
+
+**admin backend**: [admin.swarajdesk.co.in](https://admin.swarajdesk.co.in)
+
+**user backend**: [user.be.swarajdesk.co.in](https://user.be.swarajdesk.co.in/)

@@ -1,6 +1,5 @@
 
 import { Router, Request, Response } from 'express';import { PrismaClient } from "@prisma/client";import bcrypt from 'bcrypt';
-
 import jwt from 'jsonwebtoken';
 import { signupSchema, signinSchema } from '../schemas/authSchema';
 import { z } from 'zod';
@@ -83,7 +82,6 @@ router.post('/signup', async (req, res: any) => {
     // Set cookie
     res.cookie('token', token, {
       httpOnly: true,
-      sameSite: 'none', 
       secure: process.env.NODE_ENV === 'production',
       maxAge: 7 * 24 * 60 * 60 * 1000, 
     });
@@ -131,7 +129,6 @@ router.post('/signin', async (req, res:any) => {
 
     res.cookie('token', token, {
       httpOnly: true,
-      sameSite: 'none', 
       secure: process.env.NODE_ENV === 'production',
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
