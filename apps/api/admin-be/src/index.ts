@@ -36,3 +36,10 @@ app.use('/api/agent', agentRoutes);
 // Start server
 const PORT = process.env.ADMIN_BE_PORT;
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+<<<<<<< HEAD
+=======
+
+app.get('/health', (req, res) => {
+  res.status(200).send('OK');
+});
+>>>>>>> origin/main

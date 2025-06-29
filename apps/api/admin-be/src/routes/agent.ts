@@ -346,7 +346,7 @@ router.put('/complaints/:id/status', authenticateAgent, async (req: any, res: an
   }
 });
 
-// ----- 6. Update Complaint Status -----
+// ----- 6. Escalate Complaint Status -----
 router.put('/complaints/:id/escalate', authenticateAgent, async (req: any, res: any) => {
   try {
     const { id } = req.params;
@@ -381,78 +381,62 @@ router.put('/complaints/:id/escalate', authenticateAgent, async (req: any, res: 
   }
 });
 
-// Assigning Complaint
-router.post('/complaints/:complaintId/assign', async (req, res:any) => {
-  const { complaintId } = req.params;
-
-  if (!complaintId) {
-    return res.status(400).json({ message: 'Complaint ID is required' });
-  }
+// -------- Assign Complaint to Agent --------
+router.post('/complaints/:id/assign', authenticateAgent, async (req: any, res:any) => {
+  const complaintId = req.params.id;
+  const agentId = req.agent.id;
 
   try {
-    // 1. Find the complaint
-    const complaint = await prisma.complaint.findUnique({
-      where: { id: complaintId },
+    const agent = await prisma.agent.findUnique({
+      where: { id: agentId },
+      include: { assignedComplaints: true },
     });
 
-    if (!complaint) {
-      return res.status(404).json({ message: 'Complaint not found' });
+    if (!agent) return res.status(404).json({ message: 'Agent not found' });
+
+    if (agent.currentWorkload >= agent.workloadLimit) {
+      return res.status(400).json({ message: 'Workload limit reached' });
     }
+
+    const complaint = await prisma.complaint.findUnique({ where: { id: complaintId } });
+    if (!complaint) return res.status(404).json({ message: 'Complaint not found' });
 
     if (complaint.assignedAgentId) {
-      return res.status(400).json({ message: 'Complaint is already assigned to an agent' });
+      return res.status(400).json({ message: 'Complaint already assigned' });
     }
 
-    // 2. Find most recently active agent who can take more work
-    const agent = await prisma.agent.findFirst({
-      where: {
-        status: 'ACTIVE',
-        currentWorkload: { lt: 10 },
-        availabilityStatus: 'At Work',
-      },
-      orderBy: {
-        lastLogin: 'desc', 
-      },
-    });
+    await prisma.$transaction([
+      prisma.complaint.update({
+        where: { id: complaintId },
+        data: { assignedAgentId: agentId },
+      }),
+      prisma.agent.update({
+        where: { id: agentId },
+        data: { currentWorkload: { increment: 1 } },
+      }),
+    ]);
 
-    if (!agent) {
-      return res.status(404).json({ message: 'No available agent found' });
-    }
-
-    // 3. Assign agent to complaint
-    const updatedComplaint = await prisma.complaint.update({
-      where: { id: complaintId },
-      data: {
-        assignedAgentId: agent.id,
-      },
-      include: {
-        assignedAgent: true,
-      },
-    });
-
-    // 4. Update agent's workload
-    await prisma.agent.update({
-      where: { id: agent.id },
-      data: {
-        currentWorkload: { increment: 1 },
-      },
-    });
-
-    return res.status(200).json({
-      success: true,
-      message: 'Complaint successfully assigned to agent',
-      complaint: updatedComplaint,
-    });
-
-  } catch (error: any) {
+    res.status(200).json({ message: 'Complaint assigned successfully' });
+  } catch (error) {
     console.error('Assignment error:', error);
-    return res.status(500).json({
-      success: false,
-      message: 'Failed to assign complaint',
-      error: process.env.NODE_ENV === 'development' ? error.message : undefined,
-    });
+    res.status(500).json({ message: 'Internal server error' });
   }
 });
 
+// ---------- Fetch assigned complaints  ---------- 
+router.get('/me/complaints', authenticateAgent, async (req: any, res) => {
+  const agentId = req.agent.id;
+
+  try {
+    const complaints = await prisma.complaint.findMany({
+      where: { assignedAgentId: agentId }
+    });
+
+    res.status(200).json(complaints);
+  } catch (error) {
+    console.error('Error fetching complaints:', error);
+    res.status(500).json({ message: 'Failed to fetch complaints' });
+  }
+});
 
 export default router;
