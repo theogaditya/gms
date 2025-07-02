@@ -6,8 +6,8 @@ A web platform enabling citizens to submit, track, and resolve complaints across
 
 **user site**: [swarajdesk.co.in](https://www.swarajdesk.co.in/)
 
-**admin site**: [admin.be.swarajdesk.co.in](https://admin.be.swarajdesk.co.in/)
+**admin site**: [admin.swarajdesk.co.in](https://admin.swarajdesk.co.in/)
 
-**admin backend**: [admin.swarajdesk.co.in](https://admin.swarajdesk.co.in)
+**admin backend**: [admin.be.swarajdesk.co.in](https://admin.be.swarajdesk.co.in)
 
 **user backend**: [user.be.swarajdesk.co.in](https://user.be.swarajdesk.co.in/)
