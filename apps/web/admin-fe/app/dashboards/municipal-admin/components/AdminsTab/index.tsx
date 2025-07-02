@@ -17,7 +17,7 @@ interface Agent {
 export default function AgentsTab() {
   const [agents, setAgents] = useState<Agent[]>([]);
   const [loading, setLoading] = useState(false);
-  const API_BASE = "http://localhost:3002/api/municipal-admin"; // Updated endpoint
+  const API_BASE = process.env.NEXT_PUBLIC_URL_ADMIN; ; // Updated endpoint
 
   const handleToggleAgentStatus = async (id: string) => {
     const agent = agents.find((a) => a.id === id);
@@ -26,7 +26,7 @@ export default function AgentsTab() {
     const newStatus = agent.status === 'Active' ? 'INACTIVE' : 'ACTIVE';
 
     try {
-      const res = await fetch(`${API_BASE}/${id}/status`, {
+      const res = await fetch(`${API_BASE}/api/municipal-admin/${id}/status`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: newStatus }),
@@ -51,7 +51,7 @@ useEffect(() => {
   const fetchAgents = async () => {
     try {
       setLoading(true);
-      const res = await fetch(`${API_BASE}/all`, {
+      const res = await fetch(`${API_BASE}/api/municipal-admin/all`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
